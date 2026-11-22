@@ -15,7 +15,7 @@
 <meta property="og:title" content="多益考前複習">
 <meta property="og:description" content="Part 2 應答、Part 5–7 閱讀、高頻單字卡和錯題本，每題附中文解析，手機就能練。自編練習題，非官方試題。">
 <meta property="og:url" content="https://kungmengchien.uk/toeic-review/">
-<meta property="og:image" content="https://kungmengchien.uk/toeic-review/og.png?v=20261122b">
+<meta property="og:image" content="https://kungmengchien.uk/toeic-review/og.png?v=20261122c">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -174,8 +174,8 @@ button{font:inherit;color:inherit}
 .transcript{font-family:var(--f-en);background:var(--paper);border-radius:4px;padding:10px 12px;margin:0 0 14px;font-size:16px}
 .opts{display:flex;flex-direction:column;gap:8px}
 .opt{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:12px;width:100%;text-align:left;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:10px 12px;cursor:pointer;font-family:var(--f-en);font-size:17px;line-height:1.4;min-height:54px}
-.opt:hover:not([disabled]){border-color:var(--print)}
-.opt[disabled]{cursor:default;color:var(--ink);opacity:1}
+button.opt:hover{border-color:var(--print)}
+div.opt{cursor:default}
 .opt .hid{font-family:var(--f-ui);font-size:15px;color:var(--muted)}
 .bub{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--print);display:grid;place-items:center;font:600 14px/1 var(--f-num);color:var(--print)}
 .opt.picked .bub{background:var(--lead);border-color:var(--lead);color:var(--lead-ink)}
@@ -238,9 +238,44 @@ button{font:inherit;color:inherit}
 .done-card p{margin:0}
 .done-card .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 
+/* Word lookup: every English word in a question can be tapped */
+.w,.ph{border-radius:2px;-webkit-tap-highlight-color:transparent}
+.w{cursor:pointer}
+.w.saved,.ph.saved{text-decoration:underline dotted var(--print);text-decoration-thickness:1.5px;text-underline-offset:3px}
+.w.on,.ph.on{background:var(--lead);color:var(--lead-ink);box-shadow:0 0 0 2px var(--lead);text-decoration:none}
+.qhint{margin-left:auto;font-family:var(--f-ui);font-size:12px;color:var(--muted)}
+.wpop{position:fixed;z-index:30;width:340px;max-width:calc(100vw - 24px);background:var(--sheet);color:var(--ink);border:1px solid var(--line);border-radius:6px;box-shadow:0 12px 32px rgba(0,0,0,.18);overflow:hidden}
+.wpop[hidden]{display:none}
+.wp-band{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--print);color:var(--sheet);font:600 14px/1 var(--f-form);letter-spacing:.08em;padding-left:16px;min-height:38px}
+.wp-x{width:44px;height:38px;border:0;background:none;color:inherit;font-size:16px;cursor:pointer}
+.wp-body{padding:12px 16px 14px;display:flex;flex-direction:column;gap:6px}
+.wp-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.wp-word{font:600 26px/1.2 var(--f-en);overflow-wrap:anywhere}
+.wp-say{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--sheet);display:grid;place-items:center;cursor:pointer}
+.wp-say svg{width:18px;height:18px;fill:var(--print)}
+.wp-form{font-size:13px;color:var(--muted);margin-top:-4px}
+.wp-form span{font-family:var(--f-en);color:var(--ink)}
+.wp-zh{font-size:20px;font-weight:700;line-height:1.4}
+.wp-note{margin:0;font-size:15px;line-height:1.6}
+.wp-sub{margin:2px 0 0;padding-top:8px;border-top:1px dashed var(--line);font-size:14px;color:var(--muted)}
+.wp-sub b{font-family:var(--f-en);color:var(--ink);margin-right:8px}
+.wp-act{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;flex-wrap:wrap}
+.wp-save{display:inline-flex;align-items:center;gap:8px;min-height:38px;border:1px solid var(--line);border-radius:999px;background:var(--sheet);padding:6px 14px 6px 8px;font-size:14px;cursor:pointer}
+.wp-save:hover{border-color:var(--print)}
+.wp-save i{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--print);flex:none}
+.wp-save[aria-pressed="true"] i{background:var(--lead);border-color:var(--lead)}
+.wp-save.anim i{animation:fill .32s cubic-bezier(.2,.8,.2,1)}
+.wp-more{font-size:13px;color:var(--muted)}
+@keyframes sheet-up{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+/* Phone: the explanation rises from the bottom like a sheet; larger screens get a card beside the word */
+@media (max-width:639px){
+  .wpop{left:0;right:0;bottom:0;width:auto;max-width:none;border-radius:12px 12px 0 0;border-width:1px 0 0;max-height:75vh;overflow:auto;padding-bottom:env(safe-area-inset-bottom);animation:sheet-up .22s cubic-bezier(.2,.8,.2,1)}
+}
+
 /* Keyboard hints only where there is a keyboard and mouse */
 @media (hover:hover) and (pointer:fine){
   .kbd{display:block}
+  .w:hover{text-decoration:underline dotted var(--print);text-decoration-thickness:1.5px;text-underline-offset:3px}
 }
 
 /* Tablet: wider sheet, practice modes in two columns */
@@ -251,6 +286,7 @@ button{font:inherit;color:inherit}
   .modes .mode.primary{grid-column:1 / -1}
   .modes .mode:not(.primary):nth-child(even){border-right:1px solid var(--line)}
   .modes .mode:not(.primary) .go{display:none}
+  .modes .mode:not(.primary):last-child:nth-child(even){grid-column:1 / -1;border-right:0}
   .home-side{display:grid;grid-template-columns:1fr 1fr}
   .qcard{padding:20px 24px}
   .prompt{font-size:20px}
@@ -285,6 +321,739 @@ button{font:inherit;color:inherit}
   <p>本站題目為自編練習題，非 ETS 官方試題。TOEIC 為 ETS 的註冊商標，本站與 ETS 無關。</p>
 </footer>
 
+<script>
+/* ---------------- Word lookup dictionary ----------------
+   DICT: key = dictionary form, value = [part of speech, 中文, 說明, display form (optional)].
+   FORMS: irregular forms the suffix rules cannot reach. NAMES: never tappable.
+   PHRASES: multi-word entries; PH_ALIAS maps other surface forms to a phrase key. */
+const DICT = {
+"a":["art.","一（個）","不定冠詞，接子音開頭的單數名詞。"],
+"a.m.":["abbr.","上午","放在時間後面：10:12 A.M.。","A.M."],
+"about":["prep./adv.","關於；大約","about two hours ago 大約兩小時前。表示數量時和 approximately 同義。"],
+"above":["prep.","在…上方；高於","表示位置或高於某數值，不用來表示時間長度。"],
+"account":["n.","帳戶；客戶","open an account 開戶；也可以指往來的客戶。"],
+"accounting":["n.","會計","accounting department 會計部。"],
+"add":["v.","增加、加上","add a second session 加開第二場。"],
+"additional":["adj.","額外的、追加的","Part 7 常把 two more 換句話說成 additional。"],
+"adjustable":["adj.","可調整的","adjustable armrests 可調式扶手。"],
+"admission":["n.","入場；入場費；准許加入","admission fee 入場費。"],
+"advance":["n./v.","前進；預先","常見 in advance（事先）。"],
+"advise":["v.","建議；通知","Please be advised that… 是公告開頭用語：特此通知。"],
+"afternoon":["n.","下午",""],
+"again":["adv.","再一次",""],
+"agenda":["n.","議程","會議要討論的項目清單；on the agenda 列在議程上。"],
+"agreement":["n.","協議、合約","service agreement 服務合約；reach an agreement 達成協議。"],
+"ago":["adv.","…以前","接在一段時間後面：two hours ago 兩小時前。"],
+"airport":["n.","機場",""],
+"all":["det./pron.","全部的、所有",""],
+"allow":["v.","允許；讓…能夠","allow + 人 + to V：讓某人能夠做某事。"],
+"almost":["adv.","幾乎、差不多","I'm almost done. 我快好了。"],
+"along":["prep.","沿著","表示沿著路線移動，不用來表示時間。"],
+"already":["adv.","已經","常搭配完成式：I already paid. 我已經付了。"],
+"also":["adv.","也",""],
+"alternatively":["adv.","或者、另一個選擇是","提出替代方案時放在句首。"],
+"although":["conj.","雖然、儘管","連接詞，後面接完整子句；接名詞要改用 despite。"],
+"among":["prep.","在…之中","用在三者以上；兩者之間用 between。"],
+"an":["art.","一（個）","不定冠詞，接母音開頭的單數名詞：an hour、an e-mail。"],
+"analyst":["n.","分析師","financial analyst 財務分析師。"],
+"and":["conj.","和、而且",""],
+"announce":["v.","宣布、公布","be announced 被公布。"],
+"annual":["adj.","每年的、年度的","annual revenue 年營收。"],
+"answer":["v./n.","回答；接（電話）","answer the phone 接電話。"],
+"any":["det.","任何","at any time 隨時。"],
+"anymore":["adv.","不再","用在否定句：not anymore 現在不…了。"],
+"apologize":["v.","道歉","apologize for any inconvenience 造成不便，敬請見諒。"],
+"appliance":["n.","家電用品","kitchen appliances 廚房家電。"],
+"applicant":["n.","應徵者、申請人","apply（申請）的人。"],
+"application":["n.","申請（書）；應用程式","the deadline for applications 申請截止日。"],
+"apply":["v.","申請；應用","apply for a job 應徵工作。"],
+"appreciate":["v.","感謝；重視","We appreciate your cooperation. 感謝您的配合。"],
+"approve":["v.","核准、通過","approve the budget 通過預算。"],
+"approximate":["adj.","大約的","approximate cost 大約的費用。"],
+"approximately":["adv.","大約","修飾數字，和 about 同義：approximately 20 percent 大約兩成。"],
+"approximation":["n.","近似值、估計",""],
+"april":["n.","四月","","April"],
+"armrest":["n.","扶手","椅子放手臂的地方。"],
+"around":["prep./adv.","在…周圍；大約","around the clock 全天候。"],
+"arrange":["v.","安排","arrange a meeting 安排會議。"],
+"arrive":["v.","抵達","arrive at / in + 地點。"],
+"as":["conj./prep.","如同；當作","as scheduled 按照預定；as soon as possible 盡快。"],
+"ask":["v.","問；要求","ask + 人 + to V：請某人做某事。"],
+"assistance":["n.","協助","further assistance 進一步的協助。"],
+"assistant":["n.","助理",""],
+"at":["prep.","在（時刻、地點）","時刻用 at（at 3:00），日期用 on，月份年份用 in。"],
+"attach":["v.","附上","the attached document 附件文件；attached to this e-mail 附在這封信裡。"],
+"attend":["v.","出席、參加","及物動詞，直接接活動：attend a meeting（不加 to）。"],
+"attendance":["n.","出席；出席人數","Attendance is mandatory. 一定要出席。"],
+"attendant":["n.","服務人員、管理員","parking attendant 停車場管理員。和 attendee（出席者）不同。"],
+"attendee":["n.","出席者","attend 的人；-ee 結尾常指「接受動作的人」。"],
+"available":["adj.","有空的；可取得的","人有空、東西有貨都用 available。"],
+"back":["adv.","回來","be back 回來。"],
+"bad":["adj.","壞的、糟的","bad weather 天候不佳。"],
+"badge":["n.","名牌、識別證","name badge 名牌。"],
+"balance":["n.","餘額；平衡","outstanding balance 未付餘額。"],
+"bank":["n.","銀行",""],
+"basic":["adj./n.","基本的；基礎","basics（複數）指入門知識：Resume Writing Basics 履歷寫作入門。"],
+"be":["v.","是；在","be 動詞，也用來構成被動（be + 過去分詞）和進行式。"],
+"because":["conj.","因為","because 接子句；because of 接名詞。"],
+"before":["prep./conj.","在…之前","後面可以接名詞、V-ing 或子句。"],
+"beginner":["n.","初學者","for beginners 給初學者。"],
+"behalf":["n.","代表","只用在 on behalf of（代表…）。"],
+"best":["adj.","最好的","Best regards 敬上（信件結尾）。"],
+"big":["adj.","大的",""],
+"block":["n.","街區","two blocks from here 離這裡兩條街。"],
+"board":["n.","董事會；板子","the board（of directors）董事會。"],
+"book":["v./n.","預訂；書","book a hotel 訂飯店。Part 2 常用 book 一字多義設陷阱。"],
+"both":["det.","兩者都","both parties 雙方。"],
+"box":["n.","箱子",""],
+"branch":["n.","分公司、分行","branch office 分公司。"],
+"breakfast":["n.","早餐","complimentary breakfast 免費早餐。"],
+"bring":["v.","帶來","bring a laptop 帶筆電來。"],
+"brochure":["n.","宣傳手冊","介紹產品或活動的小冊子。"],
+"budget":["n.","預算","approve the budget 通過預算。"],
+"build":["v.","建造","過去式、過去分詞是 built。"],
+"building":["n.","建築物、大樓",""],
+"business":["n.","商業；公司","business trip 出差。"],
+"but":["conj.","但是",""],
+"buy":["v.","買",""],
+"by":["prep.","在…之前（期限）；被；藉由","by Friday 最晚週五；by plane 搭飛機；被動句的動作者也用 by。"],
+"cafeteria":["n.","員工餐廳、自助餐廳",""],
+"call":["v./n.","打電話；稱呼","call + 人 / 號碼：打電話給…。"],
+"can":["aux.","可以、能夠",""],
+"cancel":["v.","取消","cancel a subscription 取消訂閱。"],
+"candidate":["n.","應徵者、候選人","求職時的應徵者。"],
+"card":["n.","卡片",""],
+"cardholder":["n.","持卡人","library cardholders 有借書證的人。"],
+"carefully":["adv.","仔細地",""],
+"center":["n.","中心","convention center 會議中心。"],
+"central":["adj.","中央的",""],
+"ceo":["n.","執行長","Chief Executive Officer 的縮寫。","CEO"],
+"chair":["n.","椅子；主席","ergonomic chair 人體工學椅。"],
+"change":["n./v.","改變、修改","minor changes 小修改。"],
+"charge":["n./v.","費用；收費；負責","free of charge 免費；in charge of 負責。"],
+"check":["v./n.","檢查；支票",""],
+"choose":["v.","選擇","過去式 chose，過去分詞 chosen。"],
+"city":["n.","城市",""],
+"client":["n.","客戶","顧問、設計、律師這類專業服務的客戶多用 client。"],
+"clock":["n.","時鐘","around the clock 全天候。"],
+"close":["v./adj.","關閉；接近的","be closed 休息、不營業。"],
+"closure":["n.","關閉","parking lot closure 停車場關閉。"],
+"code":["n.","代碼","discount code 折扣碼。"],
+"coffee":["n.","咖啡",""],
+"colleague":["n.","同事","和 coworker 同義。"],
+"come":["v.","來；附帶","comes with a warranty 附有保固。"],
+"committee":["n.","委員會","hiring committee 招聘委員會。"],
+"commute":["n./v.","通勤","上下班的路程。"],
+"company":["n.","公司",""],
+"complain":["v.","抱怨、投訴","complain about… 投訴某事。"],
+"complete":["v./adj.","完成；完整的","complete a report 完成報告。"],
+"completely":["adv.","完全地",""],
+"completion":["n.","完成",""],
+"complimentary":["adj.","免費（贈送）的","飯店、活動常用，和 free 同義。注意和 complementary（互補的）拼字很像。"],
+"comply":["v.","遵守","comply with the rules 遵守規定，一定要加 with。"],
+"computer":["n.","電腦",""],
+"concert":["n.","音樂會",""],
+"conference":["n.","會議、研討會","conference room 會議室。"],
+"confidential":["adj.","機密的","strictly confidential 極機密。"],
+"confirm":["v.","確認","confirm an order 確認訂單。"],
+"construct":["v.","建造",""],
+"construction":["n.","建造、施工","under construction 施工中。"],
+"constructive":["adj.","建設性的","constructive feedback 有建設性的意見。"],
+"consulting":["n.","顧問業","consulting firm 顧問公司。"],
+"contact":["v./n.","聯絡","當動詞時直接接受詞：contact the HR department（不加 to 或 with）。"],
+"contract":["n.","合約","sign a contract 簽約。"],
+"contractor":["n.","承包商、包商","接案施工的廠商。"],
+"convenience":["n.","方便","at your convenience 在您方便時。"],
+"convenient":["adj.","方便的","if that is more convenient 如果那樣比較方便。"],
+"conveniently":["adv.","便利地","conveniently located 地點便利。"],
+"convention":["n.","大會、會議","convention center 會議中心。"],
+"cooperate":["v.","合作、配合",""],
+"cooperation":["n.","合作、配合","Thank you for your cooperation. 感謝您的配合。"],
+"cooperative":["adj.","合作的",""],
+"cooperatively":["adv.","合作地",""],
+"copy":["n./v.","一份、副本；影印","a copy of the agreement 一份合約；copy machine 影印機。"],
+"cost":["n.","成本、費用","energy costs 能源成本。"],
+"could":["aux.","可以（客氣的請求）；可能","Could you…? 比 Can you…? 更客氣。"],
+"currently":["adv.","目前",""],
+"customer":["n.","顧客","customer service 客服。"],
+"daily":["adj.","每天的","daily commute 每天的通勤。"],
+"date":["n.","日期",""],
+"day":["n.","天",""],
+"deadline":["n.","截止期限","meet the deadline 趕上期限。"],
+"dear":["adj.","親愛的（書信稱呼）","Dear Mr. Tanaka 書信開頭的稱呼。"],
+"december":["n.","十二月","","December"],
+"delay":["v./n.","延誤","be delayed 被延誤。"],
+"delivery":["n.","遞送、配送","delivery services 配送服務。"],
+"department":["n.","部門",""],
+"design":["n./v.","設計",""],
+"desk":["n.","桌子；櫃台","front desk 櫃台。"],
+"despite":["prep.","儘管","介系詞，後面接名詞或 V-ing；接子句要改用 although。"],
+"detail":["n.","細節","in more detail 更詳細地。"],
+"discount":["n.","折扣",""],
+"discuss":["v.","討論","及物動詞，直接接受詞：discuss the plan（不加 about）。"],
+"do":["v./aux.","做；（助動詞）",""],
+"document":["n.","文件",""],
+"door":["n.","門",""],
+"due":["adj.","到期的；預定的","It's due next month. 下個月到期。due to 由於。"],
+"during":["prep.","在…期間","介系詞，後面接名詞（during the meeting），不接子句。"],
+"e-mail":["n./v.","電子郵件；寄電子郵件",""],
+"each":["det.","每一個","each + 單數名詞。"],
+"earlier":["adv.","稍早",""],
+"early":["adj./adv.","早的；提早","Arrive early 提早到。"],
+"employee":["n.","員工",""],
+"encourage":["v.","鼓勵","be encouraged to V：被鼓勵（建議）做某事。"],
+"end":["n./v.","結束；末尾","the end of the month 月底。"],
+"energy":["n.","能源",""],
+"enjoy":["v.","享受、喜歡","enjoy + V-ing。"],
+"enter":["v.","進入","enter the room（不加 into）。"],
+"entrance":["n.","入口",""],
+"ergonomic":["adj.","符合人體工學的","ergonomic chair 人體工學椅。"],
+"estimate":["n./v.","估價；估計","給客戶的報價也叫 estimate。"],
+"exceed":["v.","超過","exceed expectations 超出預期。"],
+"expand":["v.","擴展","expand into… 拓展到某個市場。"],
+"expect":["v.","預期","be expected to V：預計會…。"],
+"expectation":["n.","預期","exceed expectations 超出預期。"],
+"expense":["n.","費用、開銷","travel expenses 差旅費。"],
+"experience":["n.","經驗",""],
+"expire":["v.","到期、失效","會員、合約、優惠券到期都用 expire。"],
+"explain":["v.","解釋",""],
+"expo":["n.","博覽會、展覽","exposition 的簡稱。Part 7 常換句話說成 trade show。"],
+"expose":["v.","暴露",""],
+"extend":["v.","延長；擴大","extend the deadline 延長期限。"],
+"extension":["n.","延長；分機","電話分機也叫 extension。"],
+"extensive":["adj.","廣泛的、豐富的","extensive experience 豐富的經驗。"],
+"extensively":["adv.","廣泛地",""],
+"facility":["n.","設施；場所","Facilities Management 總務（設施管理）部門。"],
+"factory":["n.","工廠",""],
+"fast":["adj./adv.","快的；快速地",""],
+"feature":["n./v.","特色；以…為特色","This model features… 這款的特色是…。"],
+"fee":["n.","費用","registration fee 報名費。"],
+"few":["det.","很少的","a few 幾個（肯定意味）；few 是幾乎沒有。"],
+"figure":["n.","數字；人物","sales figures 銷售數字。"],
+"fill":["v.","填滿","fill up 停滿、坐滿。"],
+"finish":["v.","完成",""],
+"firm":["n.","公司","law firm 律師事務所。"],
+"first":["adj.","第一的",""],
+"fiscal":["adj.","財政的、會計的","fiscal year 會計年度。"],
+"five":["num.","五",""],
+"flight":["n.","班機",""],
+"floor":["n.","樓層；地板","the 12th floor 12 樓。"],
+"for":["prep.","為了；（持續）多久","for + 一段時間（for five years）；since + 時間點。"],
+"form":["n.","表格","fill out a form 填表。"],
+"free":["adj.","免費的；空閒的","free of charge 免費。"],
+"friday":["n.","星期五","","Friday"],
+"from":["prep.","從",""],
+"front":["n./adj.","前面","front desk 櫃台。"],
+"full":["adj.","全部的、滿的","full refund 全額退款。"],
+"further":["adj.","進一步的","further assistance 進一步的協助。"],
+"garage":["n.","車庫；停車場","public garage 公有停車場（室內或立體）。"],
+"gate":["n.","登機門；大門","gate twelve 12 號登機門。"],
+"get":["v.","拿；得到",""],
+"give":["v.","給","過去式 gave。"],
+"go":["v.","去；放到（某處）","Where do they go? 要放到哪裡？"],
+"guest":["n.","客人、房客",""],
+"handle":["v.","處理","handle urgent repairs 處理緊急維修。"],
+"happy":["adj.","高興的","be happy to V：很樂意做…。"],
+"harbor":["n.","港口",""],
+"hard":["adj.","困難的","hard to meet 很難達成。"],
+"have":["v.","有；（完成式助動詞）",""],
+"he":["pron.","他",""],
+"heavy":["adj.","重的；大量的","heavy rain 大雨。"],
+"help":["v./n.","幫忙",""],
+"her":["pron.","她的；她",""],
+"here":["adv.","這裡",""],
+"hesitate":["v.","猶豫","Please do not hesitate to call us. 有需要請隨時來電。"],
+"hi":["int.","嗨",""],
+"high":["adj.","高的","higher 是比較級。"],
+"him":["pron.","他（受格）",""],
+"hire":["v.","雇用","hiring committee 招聘委員會。"],
+"his":["pron.","他的",""],
+"hmm":["int.","嗯（思考時的聲音）",""],
+"hold":["v.","容納；舉行","can hold up to 300 people 最多容納 300 人。"],
+"holiday":["n.","假日","national holiday 國定假日。"],
+"hotel":["n.","飯店",""],
+"hour":["n.","小時","at this hour 在這個時段。"],
+"how":["adv.","如何","How often 多久一次；How long 多久。"],
+"however":["adv.","然而","副詞，不能直接連接兩個子句。"],
+"human":["adj.","人的","human resources 人力資源。"],
+"i":["pron.","我","","I"],
+"i'd":["","I would 或 I had 的縮寫","I'd like to… 我想要…。","I'd"],
+"i'll":["","I will 的縮寫","","I'll"],
+"i'm":["","I am 的縮寫","","I'm"],
+"id":["n.","身分證明、識別證","employee ID card 員工識別證。","ID"],
+"if":["conj.","如果","if possible 可能的話。"],
+"implement":["v.","實施、執行","implement a policy 實施政策。"],
+"improve":["v.","改善、提升",""],
+"in":["prep.","在…裡面；在（月份、年份）","月份年份用 in，日期用 on，時刻用 at。"],
+"inconvenience":["n.","不便","apologize for any inconvenience 造成不便，敬請見諒。"],
+"increase":["v./n.","增加","increase by 12 percent 增加了 12%。"],
+"indicate":["v.","顯示、指出","Part 7 題型 What is indicated about…? 問「關於…何者正確」。"],
+"information":["n.","資訊","不可數名詞，不加 s。"],
+"initiative":["n.","新計畫、新方案","公司推動的新措施。"],
+"inspiring":["adj.","激勵人心的","inspiring 是讓人受激勵；inspired 是人受到激勵。"],
+"interested":["adj.","有興趣的","be interested in…：對…有興趣。"],
+"interview":["n./v.","面試","job interview 工作面試。"],
+"into":["prep.","進入","expand into Southeast Asia 擴展到東南亞。"],
+"introduction":["n.","介紹；入門","Introduction to Spreadsheets 試算表入門。"],
+"inventory":["n.","庫存、存貨清單",""],
+"invoice":["n.","發票、請款單","向客戶請款的單據。"],
+"isn't":["","is not 的縮寫",""],
+"haven't":["","have not 的縮寫",""],
+"shouldn't":["","should not 的縮寫",""],
+"it":["pron.","它",""],
+"it's":["","it is 或 it has 的縮寫","和所有格 its 常被拿來考。"],
+"item":["n.","品項、項目",""],
+"itinerary":["n.","行程表","旅行或出差的詳細行程。"],
+"its":["det.","它的","所有格，後面接名詞；it's 是 it is 的縮寫。"],
+"itself":["pron.","它自己","反身代名詞。"],
+"job":["n.","工作",""],
+"june":["n.","六月","","June"],
+"just":["adv.","剛剛；只是","just ended 剛結束。"],
+"kitchen":["n.","廚房",""],
+"know":["v.","知道","let + 人 + know：告訴某人。"],
+"lab":["n.","實驗室；電腦教室","laboratory 的簡稱；Computer Lab 電腦教室。"],
+"laboratory":["n.","實驗室",""],
+"lamp":["n.","燈","desk lamp 檯燈。"],
+"laptop":["n.","筆記型電腦",""],
+"large":["adj.","大的","larger 是比較級。"],
+"last":["adj.","上一個；最後的","last week 上週。"],
+"late":["adj.","晚的；遲到的","later 稍後；no later than 不晚於、最遲在。"],
+"launch":["n./v.","推出、發表","product launch 產品發表會。"],
+"lead":["v.","帶領、領導","lead a project 主導專案。"],
+"leave":["v.","離開","leave the office 離開辦公室。"],
+"legal":["adj.","法律的","legal team 法務團隊。"],
+"let":["v.","讓","Please let us know 請告訴我們。"],
+"library":["n.","圖書館",""],
+"like":["v./prep.","喜歡；像","would like to V：想要（客氣說法）。"],
+"likely":["adj./adv.","可能的；可能","most likely 最有可能。"],
+"limited":["adj.","有限的","Space is limited. 名額有限。"],
+"list":["n.","清單",""],
+"lobby":["n.","大廳",""],
+"locate":["v.","位於","be located near… 位在…附近。"],
+"logistics":["n.","物流","貨物運輸和倉儲的管理。"],
+"logo":["n.","商標、標誌",""],
+"lot":["n.","一塊地","parking lot 停車場；a lot 很多。"],
+"low":["adj.","低的","lower 是比較級。"],
+"lumbar":["adj.","腰部的","lumbar support 腰部支撐。"],
+"machine":["n.","機器","copy machine 影印機。"],
+"main":["adj.","主要的","main purpose 主要目的。"],
+"make":["v.","做、製造","be made of wood 木頭做的。"],
+"mall":["n.","購物中心","shopping mall 購物中心。"],
+"management":["n.","管理；管理階層",""],
+"manager":["n.","經理",""],
+"mandatory":["adj.","強制的、必須的","和 required 同義。"],
+"many":["det.","許多",""],
+"march":["n.","三月","","March"],
+"marketing":["n.","行銷",""],
+"material":["n.","材料","a shortage of materials 材料短缺。"],
+"may":["aux.","可以；可能","may register 可以報名。首字大寫的 May 是五月。"],
+"me":["pron.","我（受格）",""],
+"mean":["v.","意思是","What does he mean…? 問說話者的意圖。"],
+"meet":["v.","見面；達到","meet a deadline 趕上期限。"],
+"meeting":["n.","會議",""],
+"membership":["n.","會員資格",""],
+"menu":["n.","菜單",""],
+"merger":["n.","合併","兩家公司合併成一家。"],
+"message":["n.","訊息",""],
+"minor":["adj.","小的、次要的","minor changes 小修改。"],
+"minute":["n.","分鐘",""],
+"model":["n.","型號；模特兒","a similar model 類似的型號。"],
+"monday":["n.","星期一","","Monday"],
+"month":["n.","月",""],
+"more":["adv./det.","更多；更","more quickly 更快地。"],
+"most":["adv./det.","最；大多數","most likely 最有可能；most customers 大多數顧客。"],
+"move":["v.","搬動；搬家",""],
+"mr":["abbr.","先生","Mr. + 姓氏，男性稱謂。","Mr."],
+"ms":["abbr.","女士","Ms. + 姓氏，不論婚姻狀態都能用，商業場合最常見。","Ms."],
+"must":["aux.","必須","must + 原形動詞。"],
+"mutual":["adj.","共同的","a mutual colleague 雙方都認識的同事。"],
+"my":["pron.","我的",""],
+"name":["n.","名字","name badge 名牌。"],
+"national":["adj.","國家的","national holiday 國定假日。"],
+"near":["prep./adj.","在…附近；近的","nearest 最近的。"],
+"need":["v./n.","需要",""],
+"negotiate":["v.","協商、談判","negotiate a contract 洽談合約。"],
+"neither":["det./conj.","兩者都不","neither A nor B：A 和 B 都不。"],
+"new":["adj.","新的",""],
+"newspaper":["n.","報紙",""],
+"next":["adj.","下一個","next Thursday 下週四。"],
+"night":["n.","晚上","three nights 三晚。"],
+"no":["det./adv.","不；沒有",""],
+"noon":["n.","中午","by noon 中午前。"],
+"nor":["conj.","也不","搭配 neither：neither A nor B。"],
+"north":["n./adj.","北方；北邊的",""],
+"not":["adv.","不",""],
+"note":["v./n.","注意；筆記","Please note that… 請注意…。"],
+"november":["n.","十一月","","November"],
+"number":["n.","數量；號碼","a limited number of… 數量有限的…。"],
+"o'clock":["adv.","…點鐘","at three o'clock 三點整。"],
+"occasion":["n.","場合",""],
+"of":["prep.","…的",""],
+"off":["adv.","關掉；離開","turn off 關掉。"],
+"offer":["v./n.","提供","offer free shuttle service 提供免費接駁。"],
+"office":["n.","辦公室",""],
+"often":["adv.","常常","How often…? 多久一次？"],
+"on":["prep.","在（日期、星期）；在…上面","日期、星期用 on：on Friday、on Sundays。"],
+"once":["adv.","一次","once a month 一個月一次。"],
+"one":["num./pron.","一；（指前面提過的）那一個","the one next to… 旁邊的那一個。"],
+"online":["adj./adv.","線上的",""],
+"only":["adv./adj.","只；唯一的",""],
+"open":["v./adj.","打開；營業中","open an account 開戶；Registration opens on… 從…開始報名。"],
+"operation":["n.","營運；業務","expand its operations 擴展業務。"],
+"option":["n.","選擇、方案",""],
+"or":["conj.","或","either A or B：A 或 B 其中一個。"],
+"order":["n./v.","訂單；訂購",""],
+"organizer":["n.","主辦單位",""],
+"originally":["adv.","原本、最初",""],
+"otherwise":["adv.","否則",""],
+"our":["pron.","我們的",""],
+"out":["adv.","出去；用完","out of 用完；out of stock 缺貨。"],
+"outdoor":["adj.","戶外的",""],
+"outstanding":["adj.","傑出的；未付清的","outstanding balance 未付餘額。"],
+"over":["prep.","超過；在…之上",""],
+"own":["adj.","自己的",""],
+"p.m.":["abbr.","下午","放在時間後面：6:00 P.M.。","P.M."],
+"paper":["n.","紙",""],
+"park":["v.","停車",""],
+"parking":["n.","停車","parking lot 停車場。"],
+"participant":["n.","參加者",""],
+"party":["n.","一方、當事人；派對","both parties 雙方（合約的雙方）。"],
+"pay":["v.","付款","過去式 paid。"],
+"payment":["n.","付款",""],
+"people":["n.","人們",""],
+"percent":["n.","百分之…","20 percent 百分之二十。"],
+"period":["n.","期間","the repair period 維修期間。"],
+"phone":["n.","電話","answer the phone 接電話。"],
+"place":["n./v.","地方；放置",""],
+"plan":["n./v.","計畫","plan to V：計劃做…。"],
+"plane":["n.","飛機","by plane 搭飛機。"],
+"please":["adv.","請",""],
+"policy":["n.","政策、規定",""],
+"popular":["adj.","受歡迎的",""],
+"position":["n.","職位；位置","apply for the position 應徵這個職位。"],
+"possible":["adj.","可能的","if possible 可能的話。"],
+"post":["n./v.","郵政；寄出；張貼","post office 郵局。"],
+"postpone":["v.","延期","postpone until… 延到…。"],
+"predict":["v.","預測",""],
+"prefer":["v.","比較喜歡、偏好","prefer A to B：比起 B 比較喜歡 A。"],
+"preference":["n.","偏好",""],
+"prepare":["v.","準備",""],
+"present":["v.","提出、報告","present a proposal 提出企劃案。"],
+"presentation":["n.","簡報","presentation skills 簡報技巧。"],
+"price":["n.","價格",""],
+"pricing":["n.","定價",""],
+"print":["v.","印",""],
+"printer":["n.","印表機",""],
+"prior":["adj.","在前的","prior to 在…之前（和 before 同義，比較正式）。"],
+"problem":["n.","問題",""],
+"proceed":["v.","繼續進行","proceed as scheduled 照原定計畫進行。"],
+"product":["n.","產品",""],
+"project":["n.","專案",""],
+"promote":["v.","升遷；推廣","be promoted to… 升為…。"],
+"proposal":["n.","提案、企劃案",""],
+"public":["adj.","公共的","public garage 公有停車場。"],
+"purchase":["n./v.","購買（的東西）",""],
+"purchasing":["n.","採購","Purchasing Manager 採購經理。"],
+"purpose":["n.","目的","目的題的答案通常在文章開頭。"],
+"qualification":["n.","資格、條件",""],
+"quarter":["n.","一季","last quarter 上一季。"],
+"quarterly":["adj.","每季的",""],
+"question":["n.","問題",""],
+"quick":["adj.","快的","quicker 是比較級。"],
+"quickly":["adv.","快速地",""],
+"quickness":["n.","快速",""],
+"rain":["n.","雨",""],
+"re":["prep.","關於（信件主旨）","和 regarding 同義。","Re"],
+"read":["v.","讀",""],
+"receive":["v.","收到",""],
+"recent":["adj.","最近的",""],
+"reduce":["v.","減少","reduce costs 降低成本。"],
+"refer":["v.","提到；參考","不及物動詞，要加 to：refer to the manual。"],
+"refund":["n./v.","退款","full refund 全額退款。"],
+"regarding":["prep.","關於","和 about 同義，比較正式。"],
+"regards":["n.","問候","Best regards 敬上（信件結尾）。"],
+"regional":["adj.","區域的","regional manager 區域經理。"],
+"register":["v.","登記、報名","register for a workshop 報名工作坊。"],
+"registration":["n.","登記、報名",""],
+"reimburse":["v.","報銷、補償（費用）","reimburse + 人 + for 費用。"],
+"release":["v.","發布",""],
+"relocate":["v.","搬遷、調派",""],
+"remain":["v.","保持；留下","不及物動詞，後面不直接接受詞。"],
+"remind":["v.","提醒","be reminded to V：被提醒要…。"],
+"renovation":["n.","整修","closed for renovation 整修中暫停開放。"],
+"repair":["n./v.","維修",""],
+"repave":["v.","重新鋪路面","re-（再）+ pave（鋪路）。"],
+"reply":["v./n.","回覆","reply to an e-mail 回信。"],
+"report":["n./v.","報告",""],
+"reporter":["n.","記者","Part 2 常用 reporter 和 report 發音相近設陷阱。"],
+"representative":["n.","代表；業務員","sales representative 業務代表。"],
+"request":["v./n.","要求","request that + 主詞 + 原形動詞。"],
+"require":["v.","需要；要求","be required 是必須的。"],
+"resource":["n.","資源","human resources 人資（部門）。"],
+"responsible":["adj.","負責的","be responsible for… 負責…。"],
+"result":["n.","結果",""],
+"resume":["n.","履歷","也寫作 résumé。"],
+"résumé":["n.","履歷","也寫作 resume。"],
+"return":["v.","退回；回來",""],
+"revenue":["n.","營收",""],
+"review":["v./n.","審閱；評論",""],
+"right":["adj.","對的",""],
+"room":["n.","房間",""],
+"rule":["n.","規定",""],
+"safety":["n.","安全",""],
+"sales":["n.","銷售（額）","sales figures 銷售數字。"],
+"same":["adj.","相同的","at the same price 同樣的價格。"],
+"sample":["n.","樣品",""],
+"satisfied":["adj.","滿意的","be satisfied with… 對…滿意。"],
+"saturday":["n.","星期六","","Saturday"],
+"schedule":["v./n.","安排；時間表","as scheduled 按照預定。"],
+"second":["adj.","第二的",""],
+"see":["v.","看",""],
+"select":["v.","挑選",""],
+"sell":["v.","賣",""],
+"seminar":["n.","研討會",""],
+"send":["v.","寄送","過去式、過去分詞是 sent。"],
+"series":["n.","系列","單複數同形。"],
+"service":["n.","服務",""],
+"session":["n.","場次、一節","a second session 第二場。"],
+"she":["pron.","她",""],
+"shipment":["n.","一批貨；運送",""],
+"shopping":["n.","購物",""],
+"shortage":["n.","短缺","a shortage of… …短缺。"],
+"should":["aux.","應該","Should you need… 是 If you should need… 的倒裝。"],
+"show":["v.","出示","show your ID 出示證件。"],
+"shuttle":["n.","接駁車","shuttle service 接駁服務。"],
+"sign":["v.","簽名",""],
+"significance":["n.","重要性",""],
+"significant":["adj.","顯著的",""],
+"significantly":["adv.","顯著地",""],
+"signify":["v.","表示",""],
+"similar":["adj.","類似的",""],
+"similarly":["adv.","同樣地",""],
+"simply":["adv.","只要","Simply show… 只要出示…就好。"],
+"since":["prep./conj.","自從；因為","since + 時間點，常搭配現在完成式。"],
+"sincerely":["adv.","敬上（信件結尾）","Sincerely, 是信件結尾的敬語。"],
+"site":["n.","網站；地點","Web site 網站。"],
+"skill":["n.","技巧",""],
+"smartphone":["n.","智慧型手機",""],
+"so":["adv./conj.","如此；所以","so + 形容詞 + that…：如此…以致於。"],
+"software":["n.","軟體","不可數名詞。"],
+"some":["det.","一些",""],
+"south":["n./adj.","南方；南邊的",""],
+"southeast":["n./adj.","東南",""],
+"space":["n.","空間；名額","Space is limited. 名額有限。"],
+"speak":["v.","說話","speak with + 人：和某人談話。"],
+"speaking":["n.","演說","public speaking 公開演說。"],
+"speech":["n.","演講",""],
+"spreadsheet":["n.","試算表","像 Excel 那種表格軟體。"],
+"staff":["n.","員工（全體）","集合名詞，指整體員工。"],
+"standard":["adj.","標準的",""],
+"start":["v.","開始",""],
+"station":["n.","車站",""],
+"still":["adv.","還、仍然",""],
+"stock":["n.","庫存","out of stock 缺貨；in stock 有貨。"],
+"store":["n.","商店",""],
+"street":["n.","街",""],
+"strictly":["adv.","嚴格地","strictly confidential 極機密。"],
+"subject":["n.","主旨","Subject: 信件主旨。"],
+"submit":["v.","繳交、提交",""],
+"subscription":["n.","訂閱",""],
+"subsidiary":["n.","子公司",""],
+"subway":["n.","地鐵",""],
+"such":["det.","如此的","such + (a) 形容詞 + 名詞 + that…。"],
+"sunday":["n.","星期日","","Sunday"],
+"supervisor":["n.","主管",""],
+"supplier":["n.","供應商",""],
+"supply":["n./v.","用品；供應","office supplies 辦公用品；supply room 備品室。"],
+"support":["n./v.","支撐；支援","lumbar support 腰部支撐。"],
+"sure":["adj.","當然；確定的","Sure. 當然好。"],
+"survey":["n.","調查",""],
+"take":["v.","拿；搭乘；花費（時間）","take a taxi 搭計程車；takes about an hour 大約花一小時。"],
+"tax":["n.","稅","Part 2 用 taxes 和 taxi 發音相近設陷阱。"],
+"taxi":["n.","計程車",""],
+"team":["n.","團隊",""],
+"tech":["n.","科技","technology 的簡稱。"],
+"technician":["n.","技術人員",""],
+"tell":["v.","告訴","過去式 told。"],
+"ten":["num.","十",""],
+"tentative":["adj.","暫定的",""],
+"textbook":["n.","教科書",""],
+"than":["conj.","比","比較級 + than；no later than 不晚於。小心和 then 的拼字。"],
+"thank":["v.","感謝","Thank you for + V-ing：感謝您…。"],
+"thanks":["n.","謝謝",""],
+"that":["pron./conj.","那個；（引導子句）",""],
+"the":["art.","（定冠詞）","指特定的人事物。"],
+"their":["det.","他們的","所有格，後面接名詞。"],
+"theirs":["pron.","他們的（東西）","所有格代名詞，後面不能再接名詞。"],
+"them":["pron.","他們（受格）",""],
+"then":["adv.","那時；然後","小心和 than 的拼字。"],
+"therefore":["adv.","因此",""],
+"these":["det.","這些",""],
+"they":["pron.","他們",""],
+"they're":["","they are 的縮寫","和 their、there 發音一樣。"],
+"thirty":["num.","三十","ten thirty 十點半。"],
+"this":["det.","這個",""],
+"three":["num.","三",""],
+"through":["prep.","通過；透過",""],
+"thursday":["n.","星期四","","Thursday"],
+"ticket":["n.","票",""],
+"time":["n.","時間；次","by the time… 等到…的時候。"],
+"to":["prep.","到；（不定詞）","Part 5 陷阱：contact 不加 to，refer 要加 to。"],
+"today":["n.","今天",""],
+"too":["adv.","也；太","too + 形容詞 + to V：太…而不能。"],
+"trade":["n.","貿易","trade show 商展。"],
+"train":["n.","火車","train station 火車站。"],
+"training":["n.","訓練",""],
+"travel":["n./v.","旅行；出差","travel expenses 差旅費。"],
+"trip":["n.","旅行","business trip 出差。"],
+"tuesday":["n.","星期二","","Tuesday"],
+"turn":["v.","轉","turn off 關掉。"],
+"twelve":["num.","十二",""],
+"two":["num.","二",""],
+"two-year":["adj.","兩年的","two-year warranty 兩年保固。數字加名詞當形容詞時，名詞不加 s。"],
+"unfortunately":["adv.","遺憾的是","帶出壞消息。"],
+"unless":["conj.","除非","和 if … not 同義。"],
+"until":["prep./conj.","直到","持續到某時間點：on vacation until Wednesday 休假到週三。"],
+"up":["adv.","向上","up to 最多；fill up 填滿。"],
+"urgent":["adj.","緊急的",""],
+"us":["pron.","我們（受格）",""],
+"use":["v.","使用",""],
+"usually":["adv.","通常",""],
+"vacation":["n.","休假","on vacation 休假中。"],
+"venue":["n.","場地","舉辦活動的地點。"],
+"very":["adv.","非常","very 只修飾原級，不能接 that 子句（要用 so … that）。"],
+"visit":["v./n.","拜訪",""],
+"visitor":["n.","訪客",""],
+"volunteer":["v.","自願","volunteer for… 自願參加…。"],
+"want":["v.","想要",""],
+"warranty":["n.","保固",""],
+"we":["pron.","我們",""],
+"weather":["n.","天氣",""],
+"web":["n.","網路","Web site 網站。"],
+"wednesday":["n.","星期三","","Wednesday"],
+"week":["n.","週",""],
+"what":["pron.","什麼",""],
+"when":["adv.","何時",""],
+"where":["adv.","哪裡",""],
+"whether":["conj.","是否","whether A or B：不論 A 或 B。"],
+"which":["pron.","哪一個；（指物的關係代名詞）","先行詞是物用 which，是人用 who。"],
+"while":["conj.","當…時；然而","連接詞，後面接子句。"],
+"who":["pron.","誰；（指人的關係代名詞，當主詞）",""],
+"who's":["","who is 的縮寫","和 whose 發音一樣。"],
+"whom":["pron.","（指人的關係代名詞，當受詞）",""],
+"whose":["pron.","…的（所有格關係代名詞）","後面直接接名詞：applicants whose résumés…。"],
+"why":["adv.","為什麼",""],
+"will":["aux.","將會",""],
+"winter":["n.","冬天",""],
+"with":["prep.","和；帶有","with a few minor changes 做了幾處小修改。"],
+"within":["prep.","在…之內","within two weeks 兩週內。"],
+"wood":["n.","木頭","be made of wood 木頭做的。"],
+"work":["v./n.","工作",""],
+"workshop":["n.","工作坊、研習",""],
+"would":["aux.","會（客氣用語）","Would you like…? 要不要…？"],
+"write":["v.","寫",""],
+"year":["n.","年",""],
+"yes":["adv.","是",""],
+"yesterday":["n.","昨天",""],
+"yet":["adv.","還（沒）；已經","否定句的 not yet 是還沒；疑問句的 yet 是已經。"],
+"you":["pron.","你",""],
+"your":["pron.","你的",""]
+};
+const FORMS = {"am":"be","is":"be","are":"be","was":"be","were":"be","been":"be","has":"have","had":"have","did":"do","done":"do","gave":"give","made":"make","paid":"pay","sent":"send","told":"tell","built":"build","chosen":"choose","using":"use","later":"late"};
+const NAMES = new Set(["asia","brightpath","chen","dana","elm","garcia","greenleaf","hiroshi","ito","kevin","kim","larkin","lee","lim","lisa","mei","morgan","novatech","okafor","patel","proseat","raj","rivera","samuel","sandra","singapore","taiwan","tanaka","tokyo","whitfield","wu","xinyi"]);
+const PHRASES = {
+"no later than":["phr.","不晚於、最遲在","期限用語：no later than Friday 最晚週五。"],
+"around the clock":["phr.","全天候、24 小時",""],
+"out of stock":["phr.","缺貨","相反是 in stock（有貨）。"],
+"out of":["phr.","用完、缺少","out of paper 沒紙了。"],
+"in charge of":["phr.","負責","和 be responsible for 同義。"],
+"on behalf of":["phr.","代表","I am writing on behalf of… 我代表…寫信。"],
+"prior to":["prep.","在…之前","和 before 同義，比較正式。"],
+"due to":["prep.","由於","後面接名詞，和 because of 同義。"],
+"free of charge":["phr.","免費","和 free、complimentary 同義。"],
+"as scheduled":["phr.","按照預定","proceed as scheduled 照原定計畫進行。"],
+"responsible for":["phr.","負責","be responsible for + 名詞或 V-ing。"],
+"comply with":["phr.","遵守","comply 一定要加 with。"],
+"fiscal year":["n.","會計年度","公司的財務年度，不一定從一月開始。"],
+"parking lot":["n.","停車場","露天停車場；室內的多叫 garage。"],
+"sales figures":["n.","銷售數字",""],
+"human resources":["n.","人力資源（部）","常縮寫成 HR。"],
+"branch office":["n.","分公司、分處",""],
+"service agreement":["n.","服務合約",""],
+"front desk":["n.","櫃台","飯店、公司入口的服務台。"],
+"information desk":["n.","服務台、詢問處",""],
+"supply room":["n.","備品室","放辦公用品的房間。"],
+"office supplies":["n.","辦公用品",""],
+"by the time":["conj.","等到…的時候","By the time + 現在式，主要子句常用未來完成式。"],
+"in advance":["phr.","事先、提前",""],
+"up to":["phr.","最多、高達","up to two workshops 最多兩個工作坊。"],
+"be advised":["phr.","特此通知","Please be advised that… 是公告開頭用語。"],
+"do not hesitate to":["phr.","有需要請隨時…","Please do not hesitate to call us. 有需要請隨時來電。"],
+"in more detail":["phr.","更詳細地","in detail 是詳細地。"],
+"how often":["phr.","多常、多久一次","問頻率，回答像 once a month。"],
+"turn off":["phr.","關掉（電源）","相反是 turn on。"],
+"trade show":["n.","商展","Expo 常被換句話說成 trade show。"],
+"business trip":["n.","出差",""],
+"outstanding balance":["n.","未付餘額","outstanding 在這裡是「未付清的」。"],
+"lumbar support":["n.","腰部支撐",""],
+"on vacation":["phr.","休假中",""],
+"public speaking":["n.","公開演說",""],
+"purchasing manager":["n.","採購經理",""],
+"best regards":["phr.","敬上","信件結尾的客套語。"],
+"customer service":["n.","客服（部）",""],
+"facilities management":["n.","總務、設施管理部門",""],
+"copy machine":["n.","影印機","和 photocopier 同義。"],
+"convention center":["n.","會議中心、會展中心",""],
+"post office":["n.","郵局",""],
+"most likely":["phr.","最有可能","Part 7 推論題常見：What … most likely …?"],
+"expense report":["n.","費用報告、報帳單","travel expense report 差旅費報告。"],
+"would like":["phr.","想要","would like to V，比 want 客氣。"],
+"a few":["det.","幾個","肯定意味；few 是幾乎沒有。"],
+"fill up":["phr.","停滿、坐滿、填滿",""],
+"take the time":["phr.","撥出時間","Thank you for taking the time to… 謝謝您撥空…。"],
+"at any time":["phr.","隨時",""],
+"made of":["phr.","由…製成","看得出原料時用 of。"],
+"let us know":["phr.","告訴我們","let + 人 + know：通知某人。"],
+"be happy to":["phr.","很樂意","客氣地表示願意幫忙。"],
+"interested in":["phr.","對…有興趣","後面接名詞或 V-ing。"],
+"if possible":["phr.","可能的話",""]
+};
+const PH_ALIAS = {"don't hesitate to":"do not hesitate to","in detail":"in more detail","turns off":"turn off","turned off":"turn off","fills up":"fill up","filled up":"fill up","taking the time":"take the time","took the time":"take the time"};
+
+/* ---------------- Word lookup: find the dictionary entry for a word in the text ---------------- */
+const WORD_RE = /[0-9]+[A-Za-z]+|[AaPp]\.[Mm]\.|[A-Za-zÀ-ÿ]+(?:['’-][A-Za-zÀ-ÿ]+)*/g;
+function lemmaCands(w){
+  const out = [], add = x => { if (x.length > 1 && !out.includes(x)) out.push(x); };
+  if (/'s$/.test(w)){ w = w.slice(0,-2); add(w); }
+  if (/ies$/.test(w)) add(w.slice(0,-3) + "y");
+  if (/s$/.test(w) && !/ss$/.test(w)) add(w.slice(0,-1));
+  if (/(?:ch|sh|x|ss|z|o)es$/.test(w)) add(w.slice(0,-2));
+  if (/ied$/.test(w)) add(w.slice(0,-3) + "y");
+  if (/ed$/.test(w)){ add(w.slice(0,-1)); add(w.slice(0,-2)); if (/([^aeiou])\1ed$/.test(w)) add(w.slice(0,-3)); }
+  if (/ing$/.test(w)){ add(w.slice(0,-3)); add(w.slice(0,-3) + "e"); if (/([^aeiou])\1ing$/.test(w)) add(w.slice(0,-4)); }
+  if (/er$/.test(w)){ add(w.slice(0,-1)); add(w.slice(0,-2)); }
+  if (/est$/.test(w)){ add(w.slice(0,-2)); add(w.slice(0,-3)); }
+  return out;
+}
+/* null = never tappable (names, numbers); "" = tappable but not in the dictionary yet */
+function lookupKey(tok){
+  if (/^[0-9]/.test(tok)) return null;
+  const w = tok.toLowerCase().replace(/’/g, "'");
+  if (NAMES.has(w.replace(/'s$/, "")) || (w.length === 1 && !DICT[w])) return null;
+  if (DICT[w]) return w;
+  if (FORMS[w]) return FORMS[w];
+  for (const c of lemmaCands(w)){ if (DICT[c]) return c; if (FORMS[c]) return FORMS[c]; }
+  return "";
+}
+const PH_RE = new RegExp("\\b(?:" + [...Object.keys(PHRASES), ...Object.keys(PH_ALIAS)]
+  .sort((a,b) => b.length - a.length)
+  .map(k => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/'/g, "['’]").replace(/ /g, "\\s+"))
+  .join("|") + ")\\b", "gi");
+function phraseKey(s){
+  const k = s.toLowerCase().replace(/’/g, "'").replace(/\s+/g, " ");
+  return PHRASES[k] ? k : (PH_ALIAS[k] || "");
+}
+</script>
 <script>
 /* ---------------- Question bank (original TOEIC-style items) ---------------- */
 const P5 = [
@@ -462,7 +1231,7 @@ P7.forEach(p => p.qs.forEach((q,k) => P7I.push({...q, id:`${p.id}-${k+1}`, part:
 const KEY = "toeic-review-v1";
 function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){} }
-const store = Object.assign({wrong:[], answered:0, correct:0, checks:{}, timed:false}, load());
+const store = Object.assign({wrong:[], answered:0, correct:0, checks:{}, timed:false, mywords:{}}, load());
 
 /* ---------------- Helpers ---------------- */
 const $app = document.getElementById("app");
@@ -514,6 +1283,183 @@ function playItem(it){
   it.o.forEach((o,i) => { parts.push({text:L[i], voice:v2, gap:250}); parts.push({text:o, voice:v2, gap:800}); });
   speakSeq(parts);
 }
+
+/* ---------------- Word lookup: wrap words, show the explanation ---------------- */
+const POS_ZH = {"n.":"名詞","v.":"動詞","adj.":"形容詞","adv.":"副詞","prep.":"介系詞","conj.":"連接詞","pron.":"代名詞","det.":"限定詞","aux.":"助動詞","art.":"冠詞","num.":"數詞","int.":"感嘆詞","phr.":"片語","abbr.":"縮寫"};
+function posLabel(p){ return p ? p.split("/").map(x => POS_ZH[x] || x).join("／") + "　" + p : "縮寫"; }
+function entryOf(k){ return (k && (PHRASES[k] || DICT[k])) || null; }
+function shownWord(k){ const e = DICT[k]; return (e && e[3]) || k; }
+function isSaved(k){ return !!k && Object.prototype.hasOwnProperty.call(store.mywords, k); }
+const dictURL = q => "https://tw.dictionary.search.yahoo.com/search?p=" + encodeURIComponent(q);
+
+function wrapWords(parent, text){
+  const re = new RegExp(WORD_RE.source, "g");
+  let pos = 0, m;
+  while ((m = re.exec(text))){
+    const key = lookupKey(m[0]);
+    if (key === null) continue;
+    if (m.index > pos) parent.appendChild(document.createTextNode(text.slice(pos, m.index)));
+    const s = document.createElement("span");
+    s.className = "w" + (isSaved(key) ? " saved" : "");
+    s.dataset.k = key;
+    s.textContent = m[0];
+    parent.appendChild(s);
+    pos = m.index + m[0].length;
+  }
+  if (pos < text.length) parent.appendChild(document.createTextNode(text.slice(pos)));
+}
+/* Turn the English text inside these elements into tappable words; phrases become one unit */
+function wordify(roots){
+  roots.forEach(root => {
+    const nodes = [];
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    while (walker.nextNode()){
+      const n = walker.currentNode;
+      if (/[A-Za-z]/.test(n.nodeValue) && !n.parentElement.closest(".who, .w, .ph")) nodes.push(n);
+    }
+    nodes.forEach(node => {
+      const text = node.nodeValue, frag = document.createDocumentFragment();
+      const re = new RegExp(PH_RE.source, "gi");
+      let pos = 0, m;
+      while ((m = re.exec(text))){
+        const key = phraseKey(m[0]);
+        if (!key) continue;
+        wrapWords(frag, text.slice(pos, m.index));
+        const ph = document.createElement("span");
+        ph.className = "ph" + (isSaved(key) ? " saved" : "");
+        ph.dataset.k = key;
+        wrapWords(ph, m[0]);
+        frag.appendChild(ph);
+        pos = m.index + m[0].length;
+      }
+      wrapWords(frag, text.slice(pos));
+      node.parentNode.replaceChild(frag, node);
+    });
+  });
+}
+/* The sentence a word was found in, kept with the word in the 生字本 */
+function contextOf(el){
+  const block = el.closest(".prompt, .otext, .transcript, .fex, p, li, h4");
+  if (!block) return "";
+  let txt = "", at = -1;
+  (function walk(n){
+    for (const c of n.childNodes){
+      if (c === el) at = txt.length;
+      if (c.nodeType === 3) txt += c.nodeValue.replace(/ +/g, "____");
+      else if (c.nodeName === "BR") txt += " ";
+      else if (c.nodeType === 1) walk(c);
+    }
+  })(block);
+  if (at < 0) at = 0;
+  const isEnd = k => /[.?!]/.test(txt[k]) && (k + 1 >= txt.length || /\s/.test(txt[k+1])) && !/(?:\b(?:Mr|Ms|Mrs|Dr|St)|[AP]\.M)\.$/.test(txt.slice(Math.max(0, k-4), k+1));
+  let a = 0, b = txt.length;
+  for (let k = at - 1; k >= 0; k--) if (isEnd(k)){ a = k + 1; break; }
+  for (let k = at; k < txt.length; k++) if (isEnd(k)){ b = k + 1; break; }
+  return txt.slice(a, b).replace(/\s+/g, " ").trim().slice(0, 240);
+}
+
+let pop = null, cur = null;
+const wideMQ = window.matchMedia ? window.matchMedia("(min-width:640px)") : {matches:true};
+function sayWord(text){
+  if (!tts.ok) return;
+  stopSpeech(); setSpeaking(false);
+  try {
+    const u = new SpeechSynthesisUtterance(text), v = voicePair()[0];
+    u.lang = v ? v.lang : "en-US";
+    if (v) u.voice = v;
+    u.rate = 0.85;
+    speechSynthesis.speak(u);
+  } catch(e){}
+}
+function openWord(el){
+  const ph = el.closest(".ph");
+  const word = el.classList.contains("w") ? el : null;
+  const key = (ph || el).dataset.k;
+  const e = entryOf(key);
+  const surface = (ph || el).textContent.replace(/\s+/g, " ");
+  const head = e ? shownWord(key) : surface;
+  const norm = s => s.toLowerCase().replace(/[^a-zà-ÿ]/g, "");
+  const sub = ph && word && word.dataset.k && word.dataset.k !== key ? entryOf(word.dataset.k) : null;
+  const saved = isSaved(key);
+  if (!pop){
+    pop = document.createElement("div");
+    pop.className = "wpop";
+    pop.setAttribute("role", "dialog");
+    pop.setAttribute("aria-label", "單字說明");
+    document.body.appendChild(pop);
+    pop.addEventListener("click", onPopClick);
+  }
+  pop.innerHTML = `<div class="wp-band"><span>${e ? esc(posLabel(e[0])) : "查單字"}</span><button class="wp-x" data-wp="close" aria-label="關閉">✕</button></div>
+    <div class="wp-body">
+      <div class="wp-head"><b class="wp-word" lang="en">${esc(head)}</b>${tts.ok ? `<button class="wp-say" data-wp="say" aria-label="唸出 ${esc(head)}">${ICON_SPEAK}</button>` : ""}</div>
+      ${e && norm(surface) !== norm(head) ? `<div class="wp-form">文中是 <span lang="en">${esc(surface)}</span></div>` : ""}
+      ${e ? `<div class="wp-zh">${esc(e[1])}</div>${e[2] ? `<p class="wp-note">${esc(e[2])}</p>` : ""}` : `<p class="wp-note">這個字還沒收進詞庫，可以到 Yahoo 字典查。</p>`}
+      ${sub ? `<p class="wp-sub"><b lang="en">${esc(shownWord(word.dataset.k))}</b>${esc(sub[1])}</p>` : ""}
+      <div class="wp-act">
+        ${e ? `<button class="wp-save" data-wp="save" aria-pressed="${saved}"><i aria-hidden="true"></i><span>${saved ? "已在生字本" : "加入生字本"}</span></button>` : ""}
+        <a class="wp-more" href="${dictURL(head)}" target="_blank" rel="noopener">Yahoo 字典查更多</a>
+      </div>
+    </div>`;
+  document.querySelectorAll(".w.on, .ph.on").forEach(x => x.classList.remove("on"));
+  (ph || el).classList.add("on");
+  cur = {key, head, el, mark: ph || el};
+  pop.hidden = false;
+  placeWord();
+  if (!wideMQ.matches){
+    // Keep the tapped word visible above the sheet
+    document.body.style.paddingBottom = pop.offsetHeight + "px";
+    const r = el.getBoundingClientRect(), limit = window.innerHeight - pop.offsetHeight - 16;
+    if (r.bottom > limit) window.scrollBy({top: r.bottom - limit + 8, behavior: reduceMotion ? "auto" : "smooth"});
+  }
+}
+function placeWord(){
+  if (!pop || pop.hidden || !cur) return;
+  if (!cur.el.isConnected) return closeWord();
+  if (!wideMQ.matches){ pop.style.left = pop.style.top = ""; return; }
+  document.body.style.paddingBottom = "";
+  const r = cur.el.getBoundingClientRect();
+  if (r.bottom < 0 || r.top > window.innerHeight) return closeWord();
+  const pw = pop.offsetWidth, ph = pop.offsetHeight, vw = document.documentElement.clientWidth;
+  const left = Math.min(Math.max(12, r.left + r.width/2 - pw/2), vw - pw - 12);
+  let top = r.bottom + 10;
+  if (top + ph > window.innerHeight - 12 && r.top - 10 - ph >= 12) top = r.top - 10 - ph;
+  pop.style.left = left + "px";
+  pop.style.top = top + "px";
+}
+function closeWord(){
+  if (!pop || pop.hidden) return;
+  pop.hidden = true;
+  document.body.style.paddingBottom = "";
+  document.querySelectorAll(".w.on, .ph.on").forEach(x => x.classList.remove("on"));
+  cur = null;
+}
+function onPopClick(ev){
+  const b = ev.target.closest("[data-wp]");
+  if (!b || !cur) return;
+  if (b.dataset.wp === "close") closeWord();
+  else if (b.dataset.wp === "say") sayWord(cur.head);
+  else if (b.dataset.wp === "save"){
+    const k = cur.key;
+    if (isSaved(k)) delete store.mywords[k];
+    else store.mywords[k] = contextOf(cur.el);
+    save();
+    const on = isSaved(k);
+    b.setAttribute("aria-pressed", on);
+    b.classList.toggle("anim", on);
+    b.querySelector("span").textContent = on ? "已在生字本" : "加入生字本";
+    $app.querySelectorAll(".w, .ph").forEach(x => { if (x.dataset.k === k) x.classList.toggle("saved", on); });
+  }
+}
+/* For whoever adds questions: lists words in the bank that have no dictionary entry yet */
+window.dictMissing = function(){
+  const t = [];
+  P5.forEach(x => t.push(x.q, ...x.o)); P2.forEach(x => t.push(x.q, ...x.o));
+  [...P6, ...P7].forEach(p => { t.push(p.head, p.body); p.qs.forEach(q => t.push(q.q || "", ...q.o)); });
+  VOCAB.forEach(v => t.push(v[3]));
+  const miss = new Set();
+  t.forEach(s => (String(s).replace(/<[^>]+>/g, " ").match(new RegExp(WORD_RE.source, "g")) || []).forEach(w => { if (lookupKey(w) === "") miss.add(w); }));
+  return [...miss].sort();
+};
 
 /* ---------------- State ---------------- */
 let view = "home";
@@ -608,6 +1554,8 @@ function goHome(){ stopTimer(); stopSpeech(); view = "home"; renderHome(); windo
 function renderHome(){
   const acc = store.answered ? Math.round(store.correct/store.answered*100) + "%" : "—";
   const nW = store.wrong.length;
+  const nS = savedKeys().length;
+  closeWord();
   const rows = [
     {act:"start", mode:"mock", tag:"MINI", sub:"模考", t:"迷你模考", d:"聽力加閱讀混合 17 題，每個 Part 都練到", primary:true},
     {act:"start", mode:"p2", tag:"PART 2", sub:"聽力", t:"應答問題", d:"語音朗讀題目與 3 個回應 · 每回 10 題"},
@@ -615,7 +1563,8 @@ function renderHome(){
     {act:"start", mode:"p6", tag:"PART 6", sub:"閱讀", t:"段落填空", d:`${P6.length} 篇 ${P6I.length} 題，含句子插入題`},
     {act:"start", mode:"p7", tag:"PART 7", sub:"閱讀", t:"閱讀理解", d:`簡訊、公告、Email · ${P7.length} 篇 ${P7I.length} 題`},
     {act:"cards", tag:"VOCAB", sub:"單字", t:"高頻單字卡", d:`${VOCAB.length} 個商務常見字${tts.ok ? "，可以聽發音" : ""}`},
-    {act:"start", mode:"wrong", tag:"REVIEW", sub:"複習", t:"錯題本", d: nW ? `${nW} 題待複習，答對就會移出` : "目前沒有錯題，做錯的題目會自動收進來", off: !nW}
+    {act:"start", mode:"wrong", tag:"REVIEW", sub:"複習", t:"錯題本", d: nW ? `${nW} 題待複習，答對就會移出` : "目前沒有錯題，做錯的題目會自動收進來", off: !nW},
+    {act:"mywords", tag:"WORDS", sub:"收藏", t:"生字本", d: nS ? `${nS} 個字，卡片按「記住了」就會移出` : "練習時點不會的單字，按「加入生字本」收進來", off: !nS}
   ];
   const checks = [
     ["id","證件正本（以應試通知的規定為準）"],
@@ -633,7 +1582,7 @@ function renderHome(){
     <div class="mast-body">
       <div class="deco" aria-hidden="true"><i>A</i><i>B</i><i class="on">C</i><i>D</i></div>
       <h1>多益考前複習</h1>
-      <p>聽力 Part 2、閱讀 Part 5–7 和高頻單字，每題都有中文解析。</p>
+      <p>聽力 Part 2、閱讀 Part 5–7 和高頻單字。每題都有中文解析，題目裡不會的單字點一下就看得到中文。</p>
     </div>
     <div class="stats">
       <div class="stat"><span>已作答</span><b>${store.answered}</b></div>
@@ -729,6 +1678,7 @@ function renderQuiz(anim){
   const rev = !!ans;
   const secs = timedFor(it);
   const showText = it.part !== 2 || rev || quiz.showScript;
+  closeWord();
   $app.dataset.view = it.passage ? "quiz-p" : "quiz";
   let h =`<div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">${esc(quiz.title)}</span><span class="qcount"><span class="tl" id="tleft"></span>${quiz.idx+1}/${quiz.items.length}</span></div>`;
   h += `<div class="strip" role="list" aria-label="作答進度">` + quiz.items.map((x,i) => {
@@ -740,7 +1690,7 @@ function renderQuiz(anim){
   if (secs && !rev) h += `<div class="timer" aria-hidden="true"><i id="tbar"></i></div>`;
   h += `<article class="sheet qcard${it.passage ? " has-p" : ""}">`;
   if (it.part === 6 || it.part === 7) h += passageHTML(it);
-  h += `<div class="qbody"><div class="qnum"><span>No. ${quiz.idx+1}</span><span class="ptag">PART ${it.part}</span></div>`;
+  h += `<div class="qbody"><div class="qnum"><span>No. ${quiz.idx+1}</span><span class="ptag">PART ${it.part}</span>${showText ? `<span class="qhint">點英文單字看中文</span>` : ""}</div>`;
   if (it.part === 2) h += audioHTML(it, rev);
   h += `<p class="prompt">${promptHTML(it, rev)}</p>`;
   h += `<div class="opts">` + it.o.map((o,i) => {
@@ -750,7 +1700,9 @@ function renderQuiz(anim){
     const cls = ["opt", picked ? "picked" : "", picked && anim ? "anim" : "", right ? "right" : "", wrong ? "wrong" : ""].filter(Boolean).join(" ");
     const text = showText ? esc(o) : `<span class="hid">選項 ${L[i]}</span>`;
     const mk = right ? "✓ 正解" : wrong ? "✗ 你的答案" : "";
-    return `<button class="${cls}" data-act="pick" data-i="${i}"${rev ? " disabled" : ""} aria-label="選項 ${L[i]}${showText ? "：" + esc(o) : ""}${mk ? "，" + mk : ""}"><span class="bub" aria-hidden="true">${L[i]}</span><span class="otext">${text}</span><span class="mk">${mk}</span></button>`;
+    // After answering, options become plain text so their words can be looked up
+    if (rev) return `<div class="${cls}"><span class="bub">${L[i]}</span><span class="otext">${text}</span><span class="mk">${mk}</span></div>`;
+    return `<button class="${cls}" data-act="pick" data-i="${i}" aria-label="選項 ${L[i]}${showText ? "：" + esc(o) : ""}"><span class="bub" aria-hidden="true">${L[i]}</span><span class="otext">${text}</span><span class="mk"></span></button>`;
   }).join("") + `</div>`;
   if (rev) h += explainHTML(it, ans);
   h += `</div></article>`;
@@ -761,6 +1713,7 @@ function renderQuiz(anim){
     ? `按 <kbd>Enter</kbd> 或 <kbd>→</kbd> 到下一題`
     : `按 <kbd>A</kbd>–<kbd>${L[it.o.length-1]}</kbd> 或 <kbd>1</kbd>–<kbd>${it.o.length}</kbd> 作答`}</p>`;
   $app.innerHTML = h;
+  wordify($app.querySelectorAll(".prompt, .ptext, .transcript, div.opt .otext"));
   if (secs && !rev) runTimer(secs);
 }
 
@@ -772,6 +1725,7 @@ function snippet(it){
 }
 function isRight(x){ return !!(quiz.answers[x.id] && quiz.answers[x.id].ok); }
 function renderResult(){
+  closeWord();
   $app.dataset.view = "result";
   const items = quiz.items, n = items.length;
   const c = items.filter(isRight).length;
@@ -803,43 +1757,55 @@ function renderResult(){
 }
 
 /* ---------------- Render: flashcards ---------------- */
-function startCards(order){
+/* A card is [word, part of speech, 中文, example sentence, dictionary key (生字本 only)] */
+function savedKeys(){ return Object.keys(store.mywords).filter(k => entryOf(k)); }
+function myCards(){ return shuffle(savedKeys().map(k => { const e = entryOf(k); return [shownWord(k), e[0], e[1], store.mywords[k] || e[2], k]; })); }
+function startCards(cards, mine){
   stopTimer(); stopSpeech();
-  deck = {order: order || shuffle(VOCAB.map((_,i) => i)), i:0, flipped:false, known:0, again:[]};
+  deck = {cards: cards || shuffle(VOCAB), mine: !!mine, i:0, flipped:false, known:0, again:[]};
   view = "cards";
   renderCards();
   window.scrollTo(0,0);
 }
 function advanceCard(){ deck.i++; deck.flipped = false; renderCards(); }
+function knowCard(){
+  deck.known++;
+  if (deck.mine){ delete store.mywords[deck.cards[deck.i][4]]; save(); }
+  advanceCard();
+}
 function renderCards(){
+  closeWord();
   $app.dataset.view = "cards";
-  const total = deck.order.length;
+  const total = deck.cards.length;
+  const title = deck.mine ? "生字本" : "高頻單字卡";
   if (deck.i >= total){
+    const left = deck.mine ? savedKeys().length : 0;
     $app.innerHTML = `
-    <div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">高頻單字卡</span></div>
+    <div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">${title}</span></div>
     <section class="sheet done-card">
       <div class="big">${deck.known}<small>/${total}</small></div>
-      <p>記住 ${deck.known} 個，還不熟 ${deck.again.length} 個。</p>
+      <p>記住 ${deck.known} 個${deck.mine && deck.known ? "，已移出生字本" : ""}；還不熟 ${deck.again.length} 個。</p>
       <div class="row">
         ${deck.again.length ? `<button class="btn" data-act="cards-again">複習不熟的 ${deck.again.length} 個</button>` : ""}
-        <button class="btn alt" data-act="cards-all">整副重來</button>
+        ${deck.mine ? (left > deck.again.length ? `<button class="btn alt" data-act="mywords">生字本全部 ${left} 個</button>` : "") : `<button class="btn alt" data-act="cards-all">整副重來</button>`}
         <button class="btn alt" data-act="home">回首頁</button>
       </div>
     </section>`;
     return;
   }
-  const [w, pos, zh, ex] = VOCAB[deck.order[deck.i]];
+  const [w, pos, zh, ex] = deck.cards[deck.i];
   $app.innerHTML = `
-  <div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">高頻單字卡</span><span class="qcount">${deck.i+1}/${total}</span></div>
+  <div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">${title}</span><span class="qcount">${deck.i+1}/${total}</span></div>
   <div class="bar" aria-hidden="true"><i style="width:${deck.i/total*100}%"></i></div>
   <div class="sheet fcard" data-act="flip" role="button" tabindex="0" aria-label="${deck.flipped ? "翻回正面" : "翻面看中文"}">
     ${tts.ok ? `<button class="say" data-act="say" aria-label="唸出 ${esc(w)}">${ICON_SPEAK}</button>` : ""}
-    <span class="fpos">${pos}</span>
+    <span class="fpos">${esc(pos)}</span>
     <div class="fword">${esc(w)}</div>
-    ${deck.flipped ? `<div class="fzh">${zh}</div><div class="fex">${esc(ex)}</div>` : `<div class="hint">點卡片看中文和例句</div>`}
+    ${deck.flipped ? `<div class="fzh">${esc(zh)}</div>${ex ? `<div class="fex">${esc(ex)}</div>` : ""}` : `<div class="hint">${deck.mine ? "點卡片看中文和你遇到它的句子" : "點卡片看中文和例句"}</div>`}
   </div>
   <div class="cbtns"><button class="btn alt" data-act="again">還不熟</button><button class="btn" data-act="know">記住了</button></div>
   <p class="kbd kbd-c">按 <kbd>Space</kbd> 翻面，<kbd>←</kbd> 還不熟，<kbd>→</kbd> 記住了</p>`;
+  if (deck.flipped) wordify($app.querySelectorAll(".fex"));
 }
 
 /* ---------------- Events ---------------- */
@@ -849,6 +1815,7 @@ $app.addEventListener("click", e => {
   switch (t.dataset.act){
     case "start": startQuiz(t.dataset.mode); break;
     case "cards": startCards(); break;
+    case "mywords": if (savedKeys().length) startCards(myCards(), true); else goHome(); break;
     case "home": goHome(); break;
     case "pick": select(+t.dataset.i, "pick"); break;
     case "skip": select(null, "skip"); break;
@@ -858,14 +1825,10 @@ $app.addEventListener("click", e => {
     case "again-quiz": startQuiz(quiz.mode); break;
     case "retry": startQuiz("retry", quiz.items.filter(x => !isRight(x))); break;
     case "flip": deck.flipped = !deck.flipped; renderCards(); break;
-    case "say": {
-      const w = VOCAB[deck.order[deck.i]][0];
-      speakSeq([{text:w, voice:voicePair()[0], rate:0.85}]);
-      break;
-    }
-    case "know": deck.known++; advanceCard(); break;
-    case "again": deck.again.push(deck.order[deck.i]); advanceCard(); break;
-    case "cards-again": startCards(shuffle(deck.again)); break;
+    case "say": sayWord(deck.cards[deck.i][0]); break;
+    case "know": knowCard(); break;
+    case "again": deck.again.push(deck.cards[deck.i]); advanceCard(); break;
+    case "cards-again": startCards(shuffle(deck.again), deck.mine); break;
     case "cards-all": startCards(); break;
   }
 });
@@ -874,7 +1837,22 @@ $app.addEventListener("change", e => {
   if (el.id === "timed"){ store.timed = el.checked; save(); }
   else if (el.dataset && el.dataset.check){ store.checks[el.dataset.check] = el.checked; save(); }
 });
+/* Word taps are handled before anything else, so a word in a flashcard sentence does not flip the card.
+   While the explanation is open, a tap elsewhere only closes it. */
+document.addEventListener("click", e => {
+  const t = e.target.closest ? e.target.closest(".w, .ph") : null;
+  if (t && $app.contains(t)){
+    e.preventDefault(); e.stopPropagation();
+    if (cur && cur.el === t) closeWord(); else openWord(t);
+    return;
+  }
+  if (cur && pop && !pop.contains(e.target)){ e.preventDefault(); e.stopPropagation(); closeWord(); }
+}, true);
+window.addEventListener("scroll", () => { if (cur && wideMQ.matches) placeWord(); }, {capture:true, passive:true});
+window.addEventListener("resize", () => { if (cur) placeWord(); });
+
 document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && cur){ closeWord(); return; }
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   const ae = document.activeElement;
   if (view === "quiz" && quiz){
@@ -886,14 +1864,14 @@ document.addEventListener("keydown", e => {
       if (ae && ae.tagName === "SUMMARY") return;
       e.preventDefault(); next();
     }
-  } else if (view === "cards" && deck && deck.i < deck.order.length){
+  } else if (view === "cards" && deck && deck.i < deck.cards.length){
     if (e.key === " " || e.key === "Enter"){
       if (ae && ae.tagName === "BUTTON") return;
       e.preventDefault(); deck.flipped = !deck.flipped; renderCards();
       const fc = document.querySelector(".fcard"); if (fc) fc.focus();
     }
-    else if (e.key === "ArrowRight"){ deck.known++; advanceCard(); }
-    else if (e.key === "ArrowLeft"){ deck.again.push(deck.order[deck.i]); advanceCard(); }
+    else if (e.key === "ArrowRight") knowCard();
+    else if (e.key === "ArrowLeft"){ deck.again.push(deck.cards[deck.i]); advanceCard(); }
   }
 });
 
