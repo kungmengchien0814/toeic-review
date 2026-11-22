@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>多益考前複習</title>
+<meta name="description" content="多益 TOEIC L&R 考前練習：Part 2 應答、Part 5–7 閱讀、高頻單字卡和錯題本，每題附中文解析。自編練習題，非 ETS 官方試題。">
+<meta name="theme-color" content="#f2f3f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131518" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://kungmengchien.uk/toeic-review/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="多益考前複習">
+<meta property="og:description" content="Part 2 應答、Part 5–7 閱讀、高頻單字卡和錯題本，每題附中文解析，手機就能練。自編練習題，非官方試題。">
+<meta property="og:url" content="https://kungmengchien.uk/toeic-review/">
+<meta property="og:image" content="https://kungmengchien.uk/toeic-review/og.png?v=20261122a">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Direction: an OMR answer sheet. Pink drop-out print on cool paper, graphite pencil fills, single-column form rows. */
+  --paper:#f2f3f1;
+  --sheet:#ffffff;
+  --ink:#1f2226;
+  --muted:#5f646a;
+  --print:#c9475e;
+  --print-soft:#f8e3e7;
+  --line:#e8cbd1;
+  --lead:#27292d;
+  --lead-ink:#ffffff;
+  --good:#1d6e44;
+  --good-soft:#e1f1e7;
+  --bad:#b02a20;
+  --bad-soft:#fbe6e3;
+  --f-form:"Barlow Condensed","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+  --f-en:"Source Serif 4",Georgia,"PingFang TC","Noto Sans TC","Microsoft JhengHei",serif;
+  --f-ui:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei","Segoe UI",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#131518;--sheet:#1b1e22;--ink:#ebe9e4;--muted:#a3a8ae;
+    --print:#f08a9b;--print-soft:#3a2329;--line:#4b3137;
+    --lead:#ebe9e4;--lead-ink:#131518;
+    --good:#72d09b;--good-soft:#17342a;--bad:#ff9086;--bad-soft:#3d1d1a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131518;--sheet:#1b1e22;--ink:#ebe9e4;--muted:#a3a8ae;
+  --print:#f08a9b;--print-soft:#3a2329;--line:#4b3137;
+  --lead:#ebe9e4;--lead-ink:#131518;
+  --good:#72d09b;--good-soft:#17342a;--bad:#ff9086;--bad-soft:#3d1d1a;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 var(--f-ui)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--print);outline-offset:2px}
+.wrap{max-width:680px;margin:0 auto;padding:20px 16px 24px;display:flex;flex-direction:column;gap:16px}
+.foot{max-width:680px;margin:0 auto;padding:8px 16px 48px;color:var(--muted);font-size:13px;line-height:1.6;text-align:center}
+.foot p{margin:0}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.sec-head{font-family:var(--f-form);font-weight:600;letter-spacing:.08em;font-size:15px;color:var(--print);padding:10px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:12px;text-transform:uppercase}
+.sec-head small{font-family:var(--f-ui);font-weight:400;letter-spacing:0;color:var(--muted);font-size:13px;text-transform:none}
+
+/* Masthead */
+.mast-band{display:flex;justify-content:space-between;gap:12px;background:var(--print);color:var(--sheet);font-family:var(--f-form);font-weight:600;letter-spacing:.1em;font-size:14px;padding:6px 16px}
+.mast-body{padding:18px 16px 16px}
+.deco{display:flex;gap:6px;margin-bottom:12px}
+.deco i{width:24px;height:24px;border:1.5px solid var(--print);border-radius:50%;display:grid;place-items:center;font:600 11px/1 var(--f-num);font-style:normal;color:var(--print)}
+.deco i.on{animation:pencil .5s .35s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pencil{from{background:transparent;color:var(--print);border-color:var(--print);transform:scale(.8)}60%{transform:scale(1.12)}to{background:var(--lead);color:var(--lead-ink);border-color:var(--lead);transform:scale(1)}}
+.mast h1{margin:0;font-size:clamp(28px,7.5vw,38px);line-height:1.15;letter-spacing:.02em;text-wrap:balance}
+.mast p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.stat{padding:10px 16px;border-right:1px solid var(--line);min-width:0}
+.stat:last-child{border-right:0}
+.stat span{display:block;font-size:12px;color:var(--print);letter-spacing:.04em}
+.stat b{font-family:var(--f-num);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* Mode rows */
+.mode{display:grid;grid-template-columns:70px 1fr auto;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:14px 16px;cursor:pointer}
+.mode:hover:not([disabled]){background:var(--print-soft)}
+.mode.primary{background:var(--print-soft)}
+.mode .tag{font-family:var(--f-form);font-weight:700;font-size:16px;letter-spacing:.05em;color:var(--print);line-height:1.1}
+.mode .tag small{display:block;font-family:var(--f-ui);font-weight:400;font-size:12px;color:var(--muted);letter-spacing:0;margin-top:3px}
+.mode b{display:block;font-size:17px;line-height:1.35}
+.mode .desc{display:block;color:var(--muted);font-size:14px;line-height:1.45;margin-top:2px}
+.mode .go{font-family:var(--f-form);font-weight:600;color:var(--print);font-size:16px;white-space:nowrap}
+.mode[disabled]{cursor:default}
+.mode[disabled] .tag,.mode[disabled] b,.mode[disabled] .go{opacity:.45}
+.opt-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 16px}
+.opt-row p{margin:0;font-size:14px;color:var(--muted);line-height:1.45}
+.opt-row strong{display:block;color:var(--ink);font-size:16px}
+.switch{position:relative;display:inline-flex;cursor:pointer;flex:none}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.switch .track{width:46px;height:28px;border-radius:14px;background:var(--line);position:relative;transition:background .2s}
+.switch .track::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--sheet);box-shadow:0 1px 2px rgba(0,0,0,.3);transition:transform .2s}
+.switch input:checked + .track{background:var(--print)}
+.switch input:checked + .track::after{transform:translateX(18px)}
+.switch input:focus-visible + .track{outline:2px solid var(--print);outline-offset:2px}
+
+/* Checklist + tips */
+.check{list-style:none;margin:0;padding:6px 0}
+.check label{display:flex;align-items:center;gap:12px;padding:8px 16px;cursor:pointer}
+.check input{appearance:none;-webkit-appearance:none;width:22px;height:22px;border:1.5px solid var(--print);border-radius:50%;margin:0;flex:none;background:var(--sheet);cursor:pointer;transition:background .15s}
+.check input:checked{background:var(--lead);border-color:var(--lead)}
+.check input:checked + span{color:var(--muted);text-decoration:line-through}
+.tips{margin:0;padding:12px 16px 14px 40px;display:flex;flex-direction:column;gap:8px}
+.tips li{padding-left:4px}
+.tips li::marker{font-family:var(--f-num);color:var(--print);font-weight:600}
+.tips b{color:var(--ink)}
+
+/* Quiz */
+.qtop{display:flex;align-items:center;gap:12px}
+.btn-ghost{background:var(--sheet);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;cursor:pointer;white-space:nowrap}
+.btn-ghost:hover{border-color:var(--print)}
+.qtitle{font-family:var(--f-form);font-weight:600;letter-spacing:.06em;color:var(--print);flex:1;min-width:0;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qcount{font-family:var(--f-num);font-variant-numeric:tabular-nums;font-size:15px;white-space:nowrap}
+.qcount .tl{color:var(--print);margin-right:8px}
+.strip{display:flex;flex-wrap:wrap;gap:6px}
+.strip i{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font:600 11px/1 var(--f-num);font-style:normal;color:var(--muted);background:var(--sheet)}
+.strip i.cur{border-color:var(--print);color:var(--print);box-shadow:0 0 0 3px var(--print-soft)}
+.strip i.ok{background:var(--good);border-color:var(--good);color:var(--sheet)}
+.strip i.ng{background:var(--bad);border-color:var(--bad);color:var(--sheet)}
+.timer{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.timer i{display:block;height:100%;width:100%;background:var(--print);transition:width .25s linear}
+.timer i.low{background:var(--bad)}
+.qcard{padding:16px}
+.passage{border:1px solid var(--line);border-radius:4px;margin-bottom:18px;background:var(--paper)}
+.passage summary{font-family:var(--f-form);font-weight:600;letter-spacing:.05em;color:var(--print);padding:8px 12px;cursor:pointer;font-size:15px}
+.ptext{padding:2px 14px 14px;font-family:var(--f-en);font-size:16px;line-height:1.7}
+.ptext p{margin:0 0 10px}
+.ptext p:last-child{margin-bottom:0}
+.phead{font-family:var(--f-num);font-size:13px;color:var(--muted);border-bottom:1px dashed var(--line);padding-bottom:8px;margin-bottom:10px;line-height:1.6}
+.pb{display:inline-block;min-width:3.2em;padding:0 6px;border-bottom:2px solid var(--muted);font:600 13px/1.5 var(--f-num);color:var(--muted);text-align:center}
+.pb.cur{background:var(--print-soft);border-color:var(--print);color:var(--print)}
+.pb.done{min-width:0;font:600 1em/1.5 var(--f-en);color:var(--good);border-color:var(--good);text-align:left}
+.pb.ins{display:inline;border-bottom-style:dashed}
+.chat{display:flex;flex-direction:column;gap:8px;padding-top:6px}
+.msg{max-width:88%;background:var(--sheet);border:1px solid var(--line);border-radius:10px 10px 10px 2px;padding:6px 10px}
+.msg.me{align-self:flex-end;border-radius:10px 10px 2px 10px;background:var(--print-soft)}
+.msg p{margin:2px 0 0}
+.who{font:600 12px/1.4 var(--f-ui);color:var(--muted)}
+.who span{font-weight:500;font-family:var(--f-num);margin-left:6px}
+.notice h4{font-size:18px;margin:6px 0 8px;line-height:1.35;text-align:center}
+.notice ul{margin:0 0 10px;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.qnum{font-family:var(--f-num);font-size:13px;color:var(--muted);margin-bottom:6px;display:flex;gap:10px;align-items:center}
+.qnum .ptag{color:var(--print)}
+.prompt{font-family:var(--f-en);font-size:19px;line-height:1.55;margin:0 0 16px;text-wrap:pretty}
+.prompt .inst{font-family:var(--f-ui);font-size:16px;color:var(--muted)}
+.blank{display:inline-block;min-width:4.5em;border-bottom:2px solid var(--ink);text-align:center;padding:0 4px;line-height:1.25}
+.blank.done{color:var(--good);border-color:var(--good);font-weight:600}
+.audio{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.play{display:inline-flex;align-items:center;gap:8px;background:var(--print);color:var(--sheet);border:0;border-radius:999px;padding:10px 18px;font-weight:600;cursor:pointer}
+.play svg{width:16px;height:16px;fill:currentColor}
+.play.on{opacity:.7}
+.note{font-size:14px;color:var(--muted);margin:0 0 12px}
+.transcript{font-family:var(--f-en);background:var(--paper);border-radius:4px;padding:10px 12px;margin:0 0 14px;font-size:16px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:12px;width:100%;text-align:left;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:10px 12px;cursor:pointer;font-family:var(--f-en);font-size:17px;line-height:1.4;min-height:54px}
+.opt:hover:not([disabled]){border-color:var(--print)}
+.opt[disabled]{cursor:default;color:var(--ink);opacity:1}
+.opt .hid{font-family:var(--f-ui);font-size:15px;color:var(--muted)}
+.bub{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--print);display:grid;place-items:center;font:600 14px/1 var(--f-num);color:var(--print)}
+.opt.picked .bub{background:var(--lead);border-color:var(--lead);color:var(--lead-ink)}
+.opt.picked.anim .bub{animation:fill .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes fill{0%{transform:scale(.7);background:transparent;color:var(--print)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt .mk{font:600 13px/1.2 var(--f-ui);white-space:nowrap}
+.opt.right .mk{color:var(--good)}
+.opt.wrong .mk{color:var(--bad)}
+.explain{margin-top:16px;border-top:1px dashed var(--line);padding-top:14px}
+.verdict{font-weight:700;font-size:17px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.verdict.ok{color:var(--good)}
+.verdict.ng{color:var(--bad)}
+.verdict .ans{font:500 14px/1 var(--f-num);color:var(--muted)}
+.explain p{margin:8px 0 0}
+.explain .zh{color:var(--muted);font-size:15px}
+.qnav{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.btn{appearance:none;border:1px solid var(--ink);border-radius:999px;padding:12px 22px;font-weight:600;font-size:16px;cursor:pointer;background:var(--ink);color:var(--sheet)}
+.btn.alt{background:var(--sheet);color:var(--ink);border-color:var(--line)}
+.btn.alt:hover{border-color:var(--print)}
+
+/* Results */
+.score{padding:20px 16px;display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.big{font:600 56px/1 var(--f-num);font-variant-numeric:tabular-nums}
+.big small{font-size:24px;color:var(--muted)}
+.score .msg2{flex:1;min-width:180px}
+.score .msg2 b{display:block;font-size:18px}
+.score .msg2 span{color:var(--muted);font-size:14px}
+.parts{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.parts span{font:500 13px/1 var(--f-num);border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-variant-numeric:tabular-nums}
+.rlist details{border-bottom:1px solid var(--line)}
+.rlist details:last-child{border-bottom:0}
+.rlist summary{display:grid;grid-template-columns:24px 1fr auto;gap:10px;align-items:center;padding:10px 16px;cursor:pointer;list-style:none}
+.rlist summary::-webkit-details-marker{display:none}
+.rlist .g{font-weight:700}
+.rlist .g.ok{color:var(--good)}
+.rlist .g.ng{color:var(--bad)}
+.rlist .s{font-family:var(--f-en);font-size:15px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rlist .s em{font-style:normal;font-family:var(--f-num);font-size:12px;color:var(--print);margin-right:6px}
+.rlist .r{font:500 12px/1.3 var(--f-num);color:var(--muted);text-align:right;white-space:nowrap}
+.rx{padding:0 16px 14px 50px;font-size:15px}
+.rx p{margin:4px 0 0}
+.rx .zh{color:var(--muted)}
+
+/* Flashcards */
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--print)}
+.fcard{min-height:300px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:36px 20px 28px;cursor:pointer;position:relative;gap:10px;background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--print-soft) 31px 32px)}
+.fpos{font-family:var(--f-num);color:var(--print);font-size:14px}
+.fword{font-family:var(--f-en);font-weight:600;font-size:clamp(30px,9vw,46px);line-height:1.15;overflow-wrap:anywhere}
+.fzh{font-size:24px;font-weight:700}
+.fex{font-family:var(--f-en);font-size:17px;color:var(--muted);max-width:34ch}
+.hint{font-size:14px;color:var(--muted)}
+.say{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--sheet);display:grid;place-items:center;cursor:pointer}
+.say svg{width:18px;height:18px;fill:var(--print)}
+.cbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cbtns .btn{width:100%}
+.done-card{padding:28px 16px;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+.done-card p{margin:0}
+.done-card .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+@media (max-width:400px){
+  .mode{grid-template-columns:60px 1fr}
+  .mode .go{display:none}
+  .stat{padding:10px 12px}
+  .prompt{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<main class="wrap" id="app"></main>
+<footer class="foot">
+  <p>本站題目為自編練習題，非 ETS 官方試題。TOEIC 為 ETS 的註冊商標，本站與 ETS 無關。</p>
+</footer>
+
+<script>
+/* ---------------- Question bank (original TOEIC-style items) ---------------- */
+const P5 = [
+  {id:"p5-01",q:"The new software will allow employees to complete their reports more ------- than before.",o:["quick","quicker","quickly","quickness"],a:2,ex:"空格前有 more，用來修飾動詞 complete，要用副詞 quickly（more quickly 是副詞比較級）。",zh:"新軟體將讓員工比以前更快完成報告。"},
+  {id:"p5-02",q:"All visitors must ------- at the front desk before entering the laboratory.",o:["register","registers","registered","registering"],a:0,ex:"助動詞 must 後面接原形動詞 register。",zh:"所有訪客進入實驗室前都必須在櫃台登記。"},
+  {id:"p5-03",q:"Ms. Chen has worked at Larkin Consulting ------- 2019.",o:["for","since","during","until"],a:1,ex:"現在完成式 has worked 搭配「從某個時間點起」用 since；for 後面要接一段時間（for five years）。",zh:"陳小姐從 2019 年起就在 Larkin 顧問公司工作。"},
+  {id:"p5-04",q:"The marketing team will present ------- proposal to the board on Friday.",o:["they","them","their","theirs"],a:2,ex:"名詞 proposal 前面要用所有格 their。theirs 是所有格代名詞，後面不能再接名詞。",zh:"行銷團隊將在週五向董事會提出他們的企劃案。"},
+  {id:"p5-05",q:"------- the heavy rain, the outdoor concert proceeded as scheduled.",o:["Although","Despite","Because","However"],a:1,ex:"空格後是名詞片語 the heavy rain（沒有動詞），要用介系詞 Despite（儘管）。Although、Because 是連接詞，後面要接完整子句；However 是副詞。",zh:"儘管下大雨，戶外音樂會仍照原定計畫舉行。"},
+  {id:"p5-06",q:"Applicants ------- résumés are selected will be contacted by e-mail within two weeks.",o:["who","whose","which","whom"],a:1,ex:"空格後直接接名詞 résumés，意思是「應徵者的履歷」，要用所有格關係代名詞 whose。",zh:"履歷獲選的應徵者將在兩週內收到電子郵件通知。"},
+  {id:"p5-07",q:"The quarterly sales figures were ------- higher than analysts had predicted.",o:["significant","significance","significantly","signify"],a:2,ex:"修飾形容詞比較級 higher 要用副詞 significantly（顯著地）。",zh:"季度銷售數字明顯高於分析師的預測。"},
+  {id:"p5-08",q:"Please submit your travel expense report no later ------- Friday.",o:["than","then","to","by"],a:0,ex:"no later than 是固定用法，意思是「不晚於、最遲在」。小心 than 和 then 的拼字陷阱。",zh:"請最晚在週五前繳交差旅費報告。"},
+  {id:"p5-09",q:"The contract ------- by both parties before the end of the month.",o:["signed","will sign","will be signed","has signed"],a:2,ex:"合約是「被」簽署，要用被動語態；before the end of the month 指未來，所以選 will be signed。",zh:"合約將在月底前由雙方簽署。"},
+  {id:"p5-10",q:"Ms. Patel was chosen to lead the project because of her ------- experience in logistics.",o:["extend","extensive","extensively","extension"],a:1,ex:"所有格 her 和名詞 experience 之間要放形容詞 extensive（豐富的、廣泛的）。",zh:"Patel 小姐因為在物流方面經驗豐富而被選為專案負責人。"},
+  {id:"p5-11",q:"If you have any questions about the new policy, please ------- the human resources department.",o:["contact","contact to","contact with","contacting"],a:0,ex:"contact 當動詞時是及物動詞，後面直接接受詞，不加 to 或 with。這是多益常見陷阱。",zh:"如果你對新政策有任何疑問，請聯絡人資部門。"},
+  {id:"p5-12",q:"The seminar was so popular that the organizers had to add a second -------.",o:["session","position","occasion","admission"],a:0,ex:"session 指活動或會議的「一場、一節」，加開第二場就是 add a second session。",zh:"研討會非常熱門，主辦單位只好加開第二場。"},
+  {id:"p5-13",q:"Neither the manager ------- her assistant was available to answer the phone.",o:["or","nor","and","but"],a:1,ex:"neither A nor B（A 和 B 都不）是固定搭配；either 才搭配 or。",zh:"經理和她的助理都沒空接電話。"},
+  {id:"p5-14",q:"By the time the CEO arrives, the staff ------- the conference room.",o:["prepare","will have prepared","has prepared","prepared"],a:1,ex:"By the time + 現在式（arrives）指未來的某個時間點，主要子句用未來完成式 will have prepared，表示「到那時已經完成」。",zh:"等執行長抵達時，員工已經會把會議室準備好。"},
+  {id:"p5-15",q:"The factory has reduced its energy costs by ------- 20 percent this year.",o:["approximate","approximately","approximation","approximating"],a:1,ex:"修飾數字（20 percent）要用副詞 approximately（大約）。",zh:"工廠今年的能源成本降低了大約 20%。"},
+  {id:"p5-16",q:"Customers who are not ------- satisfied with their purchase may return it within 30 days.",o:["complete","completely","completion","completes"],a:1,ex:"修飾形容詞 satisfied 要用副詞 completely。",zh:"對所購商品不完全滿意的顧客，可以在 30 天內退貨。"},
+  {id:"p5-17",q:"The new branch office is ------- located near the central train station.",o:["convenience","convenient","conveniently","convenienced"],a:2,ex:"be 動詞和過去分詞 located 之間放副詞 conveniently。conveniently located（地點便利）是多益超常見搭配。",zh:"新分公司地點便利，就在中央火車站附近。"},
+  {id:"p5-18",q:"Mr. Lee requested that the report ------- to him by noon.",o:["send","is sent","be sent","was sent"],a:2,ex:"request、ask、suggest、require 這類表示要求的動詞，後面 that 子句用原形動詞（省略 should）。報告是「被寄送」，所以是 be sent。",zh:"李先生要求在中午前把報告寄給他。"},
+  {id:"p5-19",q:"------- you need further assistance, please do not hesitate to call us.",o:["Should","Would","Unless","Whether"],a:0,ex:"Should you need… 是 If you should need… 的倒裝句，商業書信很常見。Unless（除非）語意相反。",zh:"如果您需要進一步協助，請隨時來電。"},
+  {id:"p5-20",q:"The board approved the budget ------- a few minor changes.",o:["with","by","at","of"],a:0,ex:"with 表示「附帶、帶有」，approved the budget with a few minor changes 就是「做了些小修改後通過」。",zh:"董事會在做了幾處小修改後通過了預算。"},
+  {id:"p5-21",q:"Employees are reminded to turn off their computers ------- leaving the office.",o:["before","until","since","during"],a:0,ex:"「離開辦公室之前」關電腦，用 before + V-ing。during 後面接名詞（during the meeting），不接 V-ing。",zh:"提醒員工在離開辦公室前關閉電腦。"},
+  {id:"p5-22",q:"The ------- of the new shopping mall has been delayed due to a shortage of materials.",o:["construct","constructive","construction","constructed"],a:2,ex:"the ___ of 的結構中間要放名詞 construction（興建工程）。",zh:"新購物中心的興建工程因材料短缺而延誤。"},
+  {id:"p5-23",q:"Our technicians are available ------- the clock to handle urgent repairs.",o:["around","over","through","along"],a:0,ex:"around the clock 是慣用語，意思是「24 小時、全天候」。",zh:"我們的技術人員全天候待命處理緊急維修。"},
+  {id:"p5-24",q:"The workshop is designed for employees ------- want to improve their presentation skills.",o:["which","who","whose","whom"],a:1,ex:"先行詞 employees 是人，而且在子句中當主詞（___ want），要用 who。",zh:"這個工作坊是為想提升簡報技巧的員工設計的。"},
+  {id:"p5-25",q:"Sales of the new smartphone have exceeded the company's -------.",o:["expectations","expects","expected","expecting"],a:0,ex:"所有格 company's 後面要接名詞；exceed expectations（超出預期）是常見搭配。",zh:"新款智慧型手機的銷量超出公司預期。"},
+  {id:"p5-26",q:"Ms. Rivera is responsible ------- training all new sales representatives.",o:["to","for","of","with"],a:1,ex:"be responsible for（負責）是固定搭配，for 後面接名詞或 V-ing。",zh:"Rivera 小姐負責訓練所有新進業務代表。"},
+  {id:"p5-27",q:"The hotel offers free shuttle service to and from the airport for ------- guests.",o:["its","it's","it","itself"],a:0,ex:"名詞 guests 前面要用所有格 its。it's 是 it is 的縮寫。",zh:"飯店為房客提供免費機場接駁服務。"},
+  {id:"p5-28",q:"The CEO's speech was ------- inspiring that many employees volunteered for the new initiative.",o:["such","so","very","too"],a:1,ex:"so + 形容詞 + that…（如此…以致於）。such 後面要接名詞（such an inspiring speech that…）。",zh:"執行長的演講非常激勵人心，許多員工自願加入新計畫。"},
+  {id:"p5-29",q:"Due to the holiday, the office will be closed ------- Friday, December 25.",o:["in","at","on","for"],a:2,ex:"特定日期、星期幾前面用 on。in 用在月份或年份，at 用在時刻。",zh:"由於假日，辦公室將於 12 月 25 日（週五）休息。"},
+  {id:"p5-30",q:"The survey results ------- that most customers prefer shopping online.",o:["indicate","indicates","indicating","to indicate"],a:0,ex:"主詞是複數 results，動詞用 indicate（不加 s）。句子需要一個主要動詞，所以不能選 V-ing 或 to V。",zh:"調查結果顯示大多數顧客偏好網路購物。"},
+  {id:"p5-31",q:"Please ------- the attached document carefully before signing it.",o:["review","remind","remain","refer"],a:0,ex:"review（審閱）文件。refer 要加 to；remind 是「提醒某人」；remain 是不及物動詞。",zh:"簽名前請仔細審閱附件文件。"},
+  {id:"p5-32",q:"The company plans to ------- its operations into Southeast Asia next year.",o:["expand","expire","expose","explain"],a:0,ex:"expand … into …（把…擴展到…）。expire 是到期，expose 是暴露，explain 是解釋。",zh:"公司計劃明年將業務擴展到東南亞。"}
+];
+
+const P2 = [
+  {id:"p2-01",q:"Where is the nearest post office?",o:["It's two blocks from here.","At three o'clock.","Yes, I posted it yesterday."],a:0,ex:"Where 問地點，(A) 直接回答位置。(B) 回答時間；(C) 用 posted 呼應 post office 製造發音陷阱，而且 Wh- 問句不能用 Yes 回答。",zh:"最近的郵局在哪裡？——離這裡兩條街。"},
+  {id:"p2-02",q:"When does the meeting start?",o:["In the conference room.","At ten thirty.","Mr. Kim will lead it."],a:1,ex:"When 問時間，(B) 回答幾點。(A) 回答地點，(C) 回答人物。",zh:"會議幾點開始？——十點半。"},
+  {id:"p2-03",q:"Who's in charge of the new project?",o:["Ms. Garcia is.","It's due next month.","Yes, it's a big project."],a:0,ex:"Who 問人，(A) 直接說出人名。(C) 重複 project，又用 Yes 回答 Wh- 問句，是典型錯誤選項。",zh:"誰負責新專案？——Garcia 小姐。"},
+  {id:"p2-04",q:"Would you like some coffee?",o:["No, thanks. I just had some.","It's in the kitchen.","I like this copy machine."],a:0,ex:"Would you like…? 是提議，(A) 禮貌婉拒並說明原因。(C) 用 copy 和 coffee 發音相近設陷阱。",zh:"要不要來點咖啡？——不用了，謝謝，我剛喝過。"},
+  {id:"p2-05",q:"Why was the flight delayed?",o:["From gate twelve.","Because of the bad weather.","About two hours ago."],a:1,ex:"Why 問原因，(B) 用 Because of 說明。(A) 是地點，(C) 是時間。",zh:"班機為什麼延誤？——因為天候不佳。"},
+  {id:"p2-06",q:"Haven't you finished the report yet?",o:["I'm almost done.","The reporter called earlier.","Yes, she did."],a:0,ex:"否定問句當一般問句處理就好：「報告寫完了嗎？」(A) 說快好了，最自然。(B) 用 reporter 呼應 report；(C) 主詞 she 對不上 you。",zh:"你報告還沒寫完嗎？——快好了。"},
+  {id:"p2-07",q:"Should we take a taxi or the subway?",o:["The subway is faster at this hour.","Yes, we should.","I already paid the taxes."],a:0,ex:"選擇疑問句（A or B）不能用 Yes/No 回答，要選其中一個。(A) 選地鐵並說明理由。(C) taxes 和 taxi 是發音陷阱。",zh:"我們要搭計程車還是地鐵？——這個時段搭地鐵比較快。"},
+  {id:"p2-08",q:"How often do you visit the Tokyo office?",o:["By plane.","About once a month.","For three days."],a:1,ex:"How often 問頻率，(B) once a month 是頻率。(A) 回答方式（How），(C) 回答期間（How long）。",zh:"你多久去一次東京辦公室？——大約一個月一次。"},
+  {id:"p2-09",q:"Can you help me move these boxes?",o:["Sure, where do they go?","They're made of wood.","I moved here last year."],a:0,ex:"請對方幫忙，(A) 答應並追問要搬去哪裡，很自然。(C) 重複 move 這個字，是陷阱。",zh:"你可以幫我搬這些箱子嗎？——當然，要搬去哪裡？"},
+  {id:"p2-10",q:"The printer is out of paper again.",o:["I'll get some from the supply room.","He printed the tickets.","It's today's newspaper."],a:0,ex:"直述句通常要找「回應或解決辦法」，(A) 主動去拿紙。(B)(C) 用 printed、newspaper 這類相近字設陷阱。",zh:"印表機又沒紙了。——我去備品室拿一些。"},
+  {id:"p2-11",q:"Isn't the store open on Sundays?",o:["Not anymore.","Please close the door.","I'd like to open an account."],a:0,ex:"「那家店週日不是有開嗎？」(A)「現在沒有了」是間接但合理的回答。(B)(C) 用 close、open 這些相關字設陷阱。",zh:"那家店週日不是有營業嗎？——現在沒有了。"},
+  {id:"p2-12",q:"Which hotel did you book for the conference?",o:["The one next to the convention center.","I enjoyed reading that book.","For three nights."],a:0,ex:"Which 問「哪一個」，(A) 用 the one… 指出是哪間飯店。(B) 是 book 一字多義的陷阱；(C) 回答住幾晚。",zh:"你參加研討會訂了哪間飯店？——會議中心旁邊那間。"}
+];
+
+const P6 = [
+  {id:"p6-1",title:"E-mail · 停車場關閉通知",
+   head:"To: All Staff<br>From: Facilities Management<br>Date: November 27<br>Subject: North parking lot closure",
+   body:"<p>Please be advised that the north parking lot will be closed from Monday, December 7, to Friday, December 11. During this time, the lot will be {1}. Employees may park in the south lot or in the public garage on Elm Street. {2} Garage parking will be free of charge for staff {3} the repair period. Simply show your employee ID card to the attendant when you leave.</p><p>We appreciate your {4} and apologize for any inconvenience.</p><p>Facilities Management</p>",
+   qs:[
+     {o:["repaved","repaving","repave","repaves"],a:0,ex:"will be 後面接過去分詞形成被動語態：停車場「被」重新鋪路面。"},
+     {insert:true,o:["Please note that the south lot usually fills up before 9:00 A.M.","The new cafeteria menu will be announced next week.","Our sales figures improved significantly last quarter.","The north lot was originally built ten years ago."],a:0,ex:"前一句說可以停南側停車場或公有停車場，(A) 補充南側 9 點前就會停滿，下一句接著說公有停車場免費，前後連貫。其他選項跟停車安排無關。"},
+     {o:["during","while","unless","among"],a:0,ex:"空格後是名詞片語 the repair period，用介系詞 during（在…期間）。while 是連接詞要接子句；unless 是「除非」；among 是「在…之中」。"},
+     {o:["cooperate","cooperative","cooperation","cooperatively"],a:2,ex:"所有格 your 後面接名詞 cooperation。We appreciate your cooperation（感謝您的配合）是公告結尾的常見句。"}
+   ]},
+  {id:"p6-2",title:"Letter · 缺貨通知",
+   head:"To: Samuel Okafor<br>From: Greenleaf Office Supplies<br>Re: Order #88210",
+   body:"<p>Dear Mr. Okafor,</p><p>Thank you for your recent order from Greenleaf Office Supplies. Unfortunately, the ergonomic chair you selected (item #4471) is currently out of stock. We expect to receive a new shipment {1} two weeks.</p><p>{2}, we would be happy to send you a similar model, the ProSeat 300, at the same price. {3} Please let us know which option you {4} by replying to this e-mail.</p><p>Sincerely,<br>Dana Whitfield<br>Customer Service</p>",
+   qs:[
+     {o:["within","since","along","above"],a:0,ex:"within two weeks＝兩週內。since 要接時間點；along、above 不用來表示時間。"},
+     {o:["Therefore","Alternatively","Similarly","Otherwise"],a:1,ex:"前面說缺貨、兩週內補貨；這句提出另一個方案（改送類似款），用 Alternatively（或者、另一個選擇是）。Therefore 是因果，Similarly 是類比，Otherwise 是「否則」。"},
+     {insert:true,o:["This model also features adjustable armrests and lumbar support.","Our store is closed on all national holidays.","We have received your payment for the desk lamp.","Thank you for attending our product launch last month."],a:0,ex:"前一句推薦替代款 ProSeat 300，(A) 接著介紹這款的特色，最連貫。"},
+     {o:["prefer","preferring","preference","to prefer"],a:0,ex:"which option you ___ 是名詞子句，主詞 you 後面需要一個動詞，所以用 prefer。"}
+   ]}
+];
+
+const P7 = [
+  {id:"p7-1",title:"簡訊對話",head:"",
+   body:`<div class="chat">
+<div class="msg"><div class="who">Kevin Wu<span>10:12 A.M.</span></div><p>Hi Lisa, are you still at the client's office?</p></div>
+<div class="msg me"><div class="who">Lisa Morgan<span>10:14 A.M.</span></div><p>Yes, the meeting just ended. They want to see two more design options for the logo.</p></div>
+<div class="msg"><div class="who">Kevin Wu<span>10:15 A.M.</span></div><p>By when?</p></div>
+<div class="msg me"><div class="who">Lisa Morgan<span>10:16 A.M.</span></div><p>Next Thursday. I told them that shouldn't be a problem.</p></div>
+<div class="msg"><div class="who">Kevin Wu<span>10:18 A.M.</span></div><p>Hmm, Raj is on vacation until Wednesday.</p></div>
+<div class="msg me"><div class="who">Lisa Morgan<span>10:19 A.M.</span></div><p>Right. I'll ask Mei if she can help. I'll be back at the office by noon.</p></div>
+</div>`,
+   qs:[
+     {q:"Where most likely is Ms. Morgan when she sends her first message?",o:["At a client's office","At an airport","At her own office","On vacation"],a:0,ex:"Kevin 問「你還在客戶的辦公室嗎？」Lisa 回答 Yes, the meeting just ended，所以她在客戶那裡。"},
+     {q:"What does the client want?",o:["A lower price","Additional logo designs","An earlier meeting","A new contract"],a:1,ex:"10:14 Lisa 說 They want to see two more design options for the logo，換句話說就是 Additional logo designs。多益很愛把原文換句話說。"},
+     {q:"At 10:18 A.M., what does Mr. Wu most likely mean when he writes, \"Raj is on vacation until Wednesday\"?",o:["The deadline may be hard to meet.","Raj should attend the next meeting.","He would like to take a vacation too.","The client prefers Raj's work."],a:0,ex:"期限是下週四，Raj 週三才回來，Kevin 暗示時間很趕。Lisa 接著說要找 Mei 幫忙，也證實這是人手問題。意圖題要看前後文判斷。"}
+   ]},
+  {id:"p7-2",title:"公告 · 圖書館工作坊",head:"",
+   body:`<div class="notice"><h4>Harbor City Public Library<br>Winter Workshop Series</h4>
+<p>All workshops are free, but space is limited. Registration is required and opens on November 30 on our Web site or at the information desk.</p>
+<ul>
+<li><b>Resume Writing Basics</b><br>Tuesday, December 8, 6:00–7:30 P.M., Room 2A</li>
+<li><b>Introduction to Spreadsheets</b><br>Saturday, December 12, 10:00 A.M.–12:00 P.M., Computer Lab<br><i>Participants should bring a laptop if possible. A limited number of library laptops are available.</i></li>
+<li><b>Public Speaking for Beginners</b><br>Thursday, December 17, 6:30–8:00 P.M., Room 2A</li>
+</ul>
+<p>Library cardholders may register for up to two workshops. For more information, call 555-0182.</p></div>`,
+   qs:[
+     {q:"What is indicated about the workshops?",o:["They require a fee.","They take place online.","Participants must register in advance.","They are only for library staff."],a:2,ex:"公告寫 Registration is required，也就是要事先報名。All workshops are free 排除了 (A)。"},
+     {q:"What are participants in the spreadsheet workshop encouraged to do?",o:["Arrive early","Bring a laptop","Buy a textbook","Print their résumé"],a:1,ex:"Introduction to Spreadsheets 那一項寫 Participants should bring a laptop if possible。"},
+     {q:"How many workshops may a cardholder register for?",o:["One","Two","Three","As many as they like"],a:1,ex:"最後一段寫 Library cardholders may register for up to two workshops。"}
+   ]},
+  {id:"p7-3",title:"E-mail · 安排會議",
+   head:"From: Sandra Lim<br>To: Hiroshi Tanaka<br>Date: November 18<br>Subject: Meeting next week",
+   body:`<p>Dear Mr. Tanaka,</p>
+<p>Thank you for taking the time to speak with me at the Asia Tech Expo last week. As we discussed, NovaTech is interested in using BrightPath's delivery services for our online store in Taiwan.</p>
+<p>I would like to schedule a meeting to discuss pricing and delivery times in more detail. I am available next Tuesday or Wednesday afternoon. Our office is on the 12th floor of the Xinyi Trade Building, but I would also be happy to visit your office if that is more convenient.</p>
+<p>Before we meet, could you please send me a copy of your standard service agreement? Our legal team would like to review it in advance.</p>
+<p>Best regards,<br>Sandra Lim<br>Purchasing Manager, NovaTech</p>`,
+   qs:[
+     {q:"Where did Ms. Lim meet Mr. Tanaka?",o:["At a trade show","Through a mutual colleague","On a business trip","At a job interview"],a:0,ex:"信中說他們在 Asia Tech Expo 聊過。Expo（博覽會）換句話說就是 trade show（商展）。"},
+     {q:"What is the main purpose of the e-mail?",o:["To arrange a meeting","To complain about a late delivery","To confirm an order","To apply for a job"],a:0,ex:"第二段 I would like to schedule a meeting… 就是寫信目的。目的題的答案通常在前兩段。"},
+     {q:"What does Ms. Lim ask Mr. Tanaka to send?",o:["A product sample","A discount code","A service agreement","A list of clients"],a:2,ex:"倒數第二段請對方寄 standard service agreement（標準服務合約）給她。"}
+   ]}
+];
+
+const VOCAB = [
+  ["invoice","n.","發票、請款單","Please send the invoice to our accounting department."],
+  ["reimburse","v.","報銷、補償（費用）","The company will reimburse you for travel expenses."],
+  ["itinerary","n.","行程表","Your flight itinerary is attached to this e-mail."],
+  ["postpone","v.","延期","The meeting has been postponed until next Monday."],
+  ["deadline","n.","截止期限","The deadline for applications is June 30."],
+  ["attendee","n.","出席者","Each attendee will receive a name badge."],
+  ["inventory","n.","庫存、存貨清單","We check our inventory at the end of each month."],
+  ["warranty","n.","保固","The printer comes with a two-year warranty."],
+  ["refund","n./v.","退款","You can request a full refund within 30 days."],
+  ["estimate","n.","估價","The contractor gave us an estimate for the repairs."],
+  ["merger","n.","合併","The merger of the two banks was announced today."],
+  ["subsidiary","n.","子公司","The firm opened a subsidiary in Singapore."],
+  ["revenue","n.","營收","Annual revenue increased by 12 percent."],
+  ["shipment","n.","一批貨、運送","The shipment is expected to arrive on Friday."],
+  ["out of stock","phr.","缺貨","That model is currently out of stock."],
+  ["in charge of","phr.","負責","Mr. Ito is in charge of the sales team."],
+  ["comply with","phr.","遵守","All staff must comply with the safety rules."],
+  ["renovation","n.","整修","The lobby is closed for renovation."],
+  ["relocate","v.","搬遷、調派","The office will relocate to a larger building."],
+  ["candidate","n.","應徵者、候選人","We interviewed five candidates for the position."],
+  ["qualification","n.","資格、條件","Please list your qualifications on the form."],
+  ["promote","v.","升遷；推廣","She was promoted to regional manager."],
+  ["confidential","adj.","機密的","This information is strictly confidential."],
+  ["mandatory","adj.","強制的、必須的","Attendance at the training is mandatory."],
+  ["tentative","adj.","暫定的","Here is a tentative schedule for the conference."],
+  ["complimentary","adj.","免費（贈送）的","Guests receive a complimentary breakfast."],
+  ["venue","n.","場地","The venue can hold up to 300 people."],
+  ["agenda","n.","議程","Please review the agenda before the meeting."],
+  ["implement","v.","實施、執行","The new policy will be implemented in May."],
+  ["expire","v.","到期、失效","Your membership expires at the end of the year."],
+  ["subscription","n.","訂閱","You can cancel your subscription at any time."],
+  ["supervisor","n.","主管","Report any problems to your supervisor."],
+  ["colleague","n.","同事","I discussed the plan with my colleagues."],
+  ["brochure","n.","宣傳手冊","Please take a brochure at the entrance."],
+  ["commute","n./v.","通勤","Her daily commute takes about an hour."],
+  ["fiscal year","phr.","會計年度","The fiscal year ends on March 31."],
+  ["on behalf of","phr.","代表","I am writing on behalf of the hiring committee."],
+  ["prior to","prep.","在…之前","Please arrive 15 minutes prior to the interview."],
+  ["regarding","prep.","關於","I am calling regarding your recent order."],
+  ["appliance","n.","家電用品","The store sells kitchen appliances."],
+  ["outstanding","adj.","傑出的；未付清的","Please pay the outstanding balance by Friday."],
+  ["launch","n./v.","推出、發表","The product launch is scheduled for April."],
+  ["quarterly","adj.","每季的","The quarterly report will be released next week."],
+  ["negotiate","v.","協商、談判","We are negotiating a new contract with the supplier."]
+];
+
+/* ---------------- Items ---------------- */
+const L = "ABCD";
+const ITEMS = {};
+const P2I = P2.map(x => ({...x, part:2}));
+const P5I = P5.map(x => ({...x, part:5}));
+const P6I = [], P7I = [];
+P6.forEach(p => p.qs.forEach((q,k) => P6I.push({...q, id:`${p.id}-${k+1}`, part:6, passage:p, blank:k+1})));
+P7.forEach(p => p.qs.forEach((q,k) => P7I.push({...q, id:`${p.id}-${k+1}`, part:7, passage:p, qi:k+1})));
+[...P2I, ...P5I, ...P6I, ...P7I].forEach(it => ITEMS[it.id] = it);
+
+/* ---------------- Storage (this browser only, optional) ---------------- */
+const KEY = "toeic-review-v1";
+function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){} }
+const store = Object.assign({wrong:[], answered:0, correct:0, checks:{}, timed:false}, load());
+
+/* ---------------- Helpers ---------------- */
+const $app = document.getElementById("app");
+const reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function shuffle(a){ a = a.slice(); for (let i = a.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+function pickOne(a){ return a[Math.floor(Math.random()*a.length)]; }
+const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
+const ICON_SPEAK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+
+/* ---------------- Speech (Part 2 + vocab) ---------------- */
+const tts = { ok: ("speechSynthesis" in window) && ("SpeechSynthesisUtterance" in window), voices: [] };
+function loadVoices(){ try { tts.voices = speechSynthesis.getVoices().filter(v => /^en[-_]/i.test(v.lang)); } catch(e){} }
+if (tts.ok){ loadVoices(); try { speechSynthesis.addEventListener("voiceschanged", loadVoices); } catch(e){ speechSynthesis.onvoiceschanged = loadVoices; } }
+function voicePair(){
+  const us = tts.voices.filter(v => /en[-_]US/i.test(v.lang));
+  const pool = us.length ? us : tts.voices;
+  const other = tts.voices.filter(v => !/en[-_]US/i.test(v.lang));
+  return [pool[0] || null, other[0] || pool[1] || pool[0] || null];
+}
+let speakToken = 0;
+function setSpeaking(on){ const b = document.getElementById("playbtn"); if (b){ b.classList.toggle("on", on); b.innerHTML = ICON_PLAY + (on ? " 播放中…點我重播" : " 播放題目"); } }
+function speakSeq(parts){
+  if (!tts.ok) return;
+  try { speechSynthesis.cancel(); } catch(e){}
+  const token = ++speakToken;
+  let i = 0;
+  const step = () => {
+    if (token !== speakToken) return;
+    if (i >= parts.length){ setSpeaking(false); return; }
+    const p = parts[i++];
+    try {
+      const u = new SpeechSynthesisUtterance(p.text);
+      u.lang = p.voice ? p.voice.lang : "en-US";
+      if (p.voice) u.voice = p.voice;
+      u.rate = p.rate || 0.92;
+      u.onend = () => setTimeout(step, p.gap || 300);
+      u.onerror = () => { if (token === speakToken) setTimeout(step, 100); };
+      speechSynthesis.speak(u);
+    } catch(e){ setSpeaking(false); }
+  };
+  setSpeaking(true);
+  step();
+}
+function stopSpeech(){ speakToken++; if (tts.ok){ try { speechSynthesis.cancel(); } catch(e){} } }
+function playItem(it){
+  const [v1, v2] = voicePair();
+  const parts = [{text:it.q, voice:v1, gap:1000}];
+  it.o.forEach((o,i) => { parts.push({text:L[i], voice:v2, gap:250}); parts.push({text:o, voice:v2, gap:800}); });
+  speakSeq(parts);
+}
+
+/* ---------------- State ---------------- */
+let view = "home";
+let quiz = null;
+let deck = null;
+let tick = null;
+
+const TITLES = {mock:"迷你模考", p2:"PART 2 應答問題", p5:"PART 5 句子填空", p6:"PART 6 段落填空", p7:"PART 7 閱讀理解", wrong:"錯題本", retry:"重練錯題"};
+
+function build(mode){
+  switch(mode){
+    case "p2": return shuffle(P2I).slice(0,10);
+    case "p5": return shuffle(P5I).slice(0,10);
+    case "p6": return shuffle(P6).flatMap(p => P6I.filter(i => i.passage === p));
+    case "p7": return shuffle(P7).flatMap(p => P7I.filter(i => i.passage === p));
+    case "mock": {
+      const p6 = pickOne(P6), p7 = pickOne(P7);
+      return [...shuffle(P2I).slice(0,4), ...shuffle(P5I).slice(0,6), ...P6I.filter(i => i.passage === p6), ...P7I.filter(i => i.passage === p7)];
+    }
+    case "wrong": return store.wrong.map(id => ITEMS[id]).filter(Boolean).sort((a,b) => a.part - b.part || a.id.localeCompare(b.id));
+  }
+  return [];
+}
+
+function startQuiz(mode, items){
+  items = items || build(mode);
+  if (!items.length) return;
+  stopTimer(); stopSpeech();
+  quiz = {mode, title:TITLES[mode] || "練習", items, idx:0, answers:{}, showScript:!tts.ok, deadline:0};
+  view = "quiz";
+  renderQuiz(false);
+  window.scrollTo(0,0);
+  const it = quiz.items[0];
+  if (it.part === 2 && tts.ok) playItem(it);
+}
+
+function timedFor(it){ return store.timed ? ({5:30, 6:40, 7:60}[it.part] || 0) : 0; }
+function stopTimer(){ if (tick){ clearInterval(tick); tick = null; } }
+function runTimer(sec){
+  stopTimer();
+  if (!quiz.deadline) quiz.deadline = performance.now() + sec*1000;
+  const upd = () => {
+    if (!quiz || view !== "quiz") return stopTimer();
+    const left = (quiz.deadline - performance.now())/1000;
+    const bar = document.getElementById("tbar"), lab = document.getElementById("tleft");
+    if (bar){ bar.style.width = Math.max(0, left/sec*100) + "%"; bar.classList.toggle("low", left <= sec*0.25); }
+    if (lab) lab.textContent = Math.max(0, Math.ceil(left)) + "s";
+    if (left <= 0){ stopTimer(); select(null, "time"); }
+  };
+  upd();
+  tick = setInterval(upd, 250);
+}
+
+function select(i, why){
+  if (!quiz) return;
+  const it = quiz.items[quiz.idx];
+  if (quiz.answers[it.id]) return;
+  stopTimer();
+  const pick = (i === null || i < 0) ? null : i;
+  const ok = pick === it.a;
+  quiz.answers[it.id] = {pick, ok, why};
+  store.answered++;
+  if (ok){ store.correct++; store.wrong = store.wrong.filter(x => x !== it.id); }
+  else if (!store.wrong.includes(it.id)) store.wrong.push(it.id);
+  save();
+  if (it.part === 2) quiz.showScript = true;
+  renderQuiz(true);
+  const ex = document.getElementById("explain");
+  if (ex) ex.scrollIntoView({block:"nearest", behavior: reduceMotion ? "auto" : "smooth"});
+}
+
+function next(){
+  if (!quiz) return;
+  stopSpeech(); stopTimer();
+  const prev = quiz.items[quiz.idx];
+  quiz.idx++;
+  quiz.deadline = 0;
+  quiz.showScript = !tts.ok;
+  if (quiz.idx >= quiz.items.length){ view = "result"; renderResult(); window.scrollTo(0,0); return; }
+  renderQuiz(false);
+  const it = quiz.items[quiz.idx];
+  if (it.passage && prev.passage === it.passage){
+    const q = document.querySelector(".qnum");
+    if (q){ q.scrollIntoView({block:"start"}); window.scrollBy(0, -16); }
+  } else window.scrollTo(0,0);
+  if (it.part === 2 && tts.ok) playItem(it);
+}
+
+function goHome(){ stopTimer(); stopSpeech(); view = "home"; renderHome(); window.scrollTo(0,0); }
+
+/* ---------------- Render: home ---------------- */
+function renderHome(){
+  const acc = store.answered ? Math.round(store.correct/store.answered*100) + "%" : "—";
+  const nW = store.wrong.length;
+  const rows = [
+    {act:"start", mode:"mock", tag:"MINI", sub:"模考", t:"迷你模考", d:"聽力加閱讀混合 17 題，每個 Part 都練到", primary:true},
+    {act:"start", mode:"p2", tag:"PART 2", sub:"聽力", t:"應答問題", d:"語音朗讀題目與 3 個回應 · 每回 10 題"},
+    {act:"start", mode:"p5", tag:"PART 5", sub:"閱讀", t:"句子填空", d:`文法與字彙 · 每回 10 題（題庫 ${P5.length} 題）`},
+    {act:"start", mode:"p6", tag:"PART 6", sub:"閱讀", t:"段落填空", d:`${P6.length} 篇 ${P6I.length} 題，含句子插入題`},
+    {act:"start", mode:"p7", tag:"PART 7", sub:"閱讀", t:"閱讀理解", d:`簡訊、公告、Email · ${P7.length} 篇 ${P7I.length} 題`},
+    {act:"cards", tag:"VOCAB", sub:"單字", t:"高頻單字卡", d:`${VOCAB.length} 個商務常見字${tts.ok ? "，可以聽發音" : ""}`},
+    {act:"start", mode:"wrong", tag:"REVIEW", sub:"複習", t:"錯題本", d: nW ? `${nW} 題待複習，答對就會移出` : "目前沒有錯題，做錯的題目會自動收進來", off: !nW}
+  ];
+  const checks = [
+    ["id","證件正本（以應試通知的規定為準）"],
+    ["pencil","2B 鉛筆，多帶一支"],
+    ["eraser","橡皮擦"],
+    ["place","再看一次考場地址和報到時間"],
+    ["alarm","設好兩個鬧鐘"],
+    ["sleep","早點睡"]
+  ];
+  $app.innerHTML = `
+  <header class="sheet mast">
+    <div class="mast-band"><span>TOEIC L&amp;R</span><span>自編練習題</span></div>
+    <div class="mast-body">
+      <div class="deco" aria-hidden="true"><i>A</i><i>B</i><i class="on">C</i><i>D</i></div>
+      <h1>多益考前複習</h1>
+      <p>聽力 Part 2、閱讀 Part 5–7 和高頻單字，每題都有中文解析。</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><span>已作答</span><b>${store.answered}</b></div>
+      <div class="stat"><span>正確率</span><b>${acc}</b></div>
+      <div class="stat"><span>錯題本</span><b>${nW}</b></div>
+    </div>
+  </header>
+
+  <section class="sheet" aria-labelledby="h-modes">
+    <div class="sec-head" id="h-modes">選擇練習<small>點一列就開始</small></div>
+    ${rows.map(r => `<button class="mode${r.primary ? " primary" : ""}" data-act="${r.act}"${r.mode ? ` data-mode="${r.mode}"` : ""}${r.off ? " disabled" : ""}>
+      <span class="tag">${r.tag}<small>${r.sub}</small></span>
+      <span><b>${r.t}</b><span class="desc">${r.d}</span></span>
+      <span class="go">開始 →</span>
+    </button>`).join("")}
+    <div class="opt-row">
+      <p><strong>限時模式</strong>Part 5 每題 30 秒、Part 6 40 秒、Part 7 60 秒，模擬正式考試節奏</p>
+      <label class="switch"><input type="checkbox" id="timed" ${store.timed ? "checked" : ""} aria-label="限時模式"><span class="track"></span></label>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="h-check">
+    <div class="sec-head" id="h-check">出門前檢查<small>勾選會記在這台裝置</small></div>
+    <ul class="check">
+      ${checks.map(([k,t]) => `<li><label><input type="checkbox" id="chk-${k}" data-check="${k}" ${store.checks[k] ? "checked" : ""}><span>${t}</span></label></li>`).join("")}
+    </ul>
+  </section>
+
+  <section class="sheet" aria-labelledby="h-tips">
+    <div class="sec-head" id="h-tips">作答策略</div>
+    <ol class="tips">
+      <li><b>Part 2</b> 題目和選項都不會印出來。沒把握就先猜一個，馬上準備聽下一題。</li>
+      <li><b>Part 3、4</b> 趁播放說明的空檔先讀題目和選項，聽的時候就知道要抓什麼。</li>
+      <li><b>閱讀 75 分鐘</b>參考分配：Part 5 約 10 分鐘、Part 6 約 8 分鐘，Part 7 留 55 分鐘以上。</li>
+      <li><b>Part 7</b> 先看題目再回文章找關鍵字，正解常常是原文的換句話說。</li>
+      <li><b>答錯不倒扣</b>，時間快到時每題都要畫到，不要留空。</li>
+    </ol>
+  </section>`;
+}
+
+/* ---------------- Render: quiz ---------------- */
+function promptHTML(it, rev){
+  if (it.part === 2) return `<span class="inst">聽題目和三個回應，選出最適當的回答。</span>`;
+  if (it.part === 5){
+    const fill = rev ? `<span class="blank done">${esc(it.o[it.a])}</span>` : `<span class="blank" aria-label="空格">&nbsp;</span>`;
+    return esc(it.q).replace(/-{3,}/, fill);
+  }
+  if (it.part === 6) return it.insert ? `哪一個句子最適合放進 [${it.blank}]？` : `[${it.blank}] 應該填入哪一個？`;
+  return esc(it.q);
+}
+
+function passageHTML(it){
+  const p = it.passage;
+  let body = p.body;
+  if (it.part === 6){
+    body = body.replace(/\{(\d)\}/g, (m, k) => {
+      k = +k;
+      const q = p.qs[k-1];
+      const a = quiz.answers[`${p.id}-${k}`];
+      if (a) return `<span class="pb done${q.insert ? " ins" : ""}">${esc(q.o[q.a])}</span>`;
+      return `<span class="pb${it.blank === k ? " cur" : ""}">[${k}]</span>`;
+    });
+  }
+  const extra = it.part === 7 ? ` · 第 ${it.qi}/${p.qs.length} 題` : "";
+  return `<details class="passage" open><summary>${esc(p.title)}${extra}</summary><div class="ptext">${p.head ? `<div class="phead">${p.head}</div>` : ""}${body}</div></details>`;
+}
+
+function audioHTML(it, rev){
+  let h = `<div class="audio">`;
+  if (tts.ok) h += `<button class="play" data-act="play" id="playbtn">${ICON_PLAY} 播放題目</button>`;
+  if (!rev) h += `<button class="btn-ghost" data-act="script">${quiz.showScript ? "隱藏文字稿" : "看文字稿"}</button>`;
+  h += `</div>`;
+  if (!tts.ok) h += `<p class="note">這個瀏覽器不支援語音朗讀，先用文字稿練習題型。</p>`;
+  if (quiz.showScript || rev) h += `<div class="transcript"><b>Q:</b> ${esc(it.q)}</div>`;
+  return h;
+}
+
+function explainHTML(it, ans){
+  const verdict = ans.why === "time" ? "時間到" : ans.why === "skip" ? "已略過" : ans.ok ? "✓ 答對了" : "✗ 答錯了";
+  return `<div class="explain" id="explain">
+    <div class="verdict ${ans.ok ? "ok" : "ng"}">${verdict}<span class="ans">正解 (${L[it.a]})</span></div>
+    <p>${it.ex}</p>
+    ${it.zh ? `<p class="zh">中譯：${it.zh}</p>` : ""}
+  </div>`;
+}
+
+function renderQuiz(anim){
+  const it = quiz.items[quiz.idx];
+  const ans = quiz.answers[it.id];
+  const rev = !!ans;
+  const secs = timedFor(it);
+  const showText = it.part !== 2 || rev || quiz.showScript;
+  let h = `<div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">${esc(quiz.title)}</span><span class="qcount"><span class="tl" id="tleft"></span>${quiz.idx+1}/${quiz.items.length}</span></div>`;
+  h += `<div class="strip" role="list" aria-label="作答進度">` + quiz.items.map((x,i) => {
+    const a = quiz.answers[x.id];
+    const cls = a ? (a.ok ? "ok" : "ng") : (i === quiz.idx ? "cur" : "");
+    const lab = `第 ${i+1} 題` + (a ? (a.ok ? "，答對" : "，答錯") : (i === quiz.idx ? "，作答中" : ""));
+    return `<i role="listitem" class="${cls}" aria-label="${lab}">${a ? (a.ok ? "✓" : "✗") : i+1}</i>`;
+  }).join("") + `</div>`;
+  if (secs && !rev) h += `<div class="timer" aria-hidden="true"><i id="tbar"></i></div>`;
+  h += `<article class="sheet qcard">`;
+  if (it.part === 6 || it.part === 7) h += passageHTML(it);
+  h += `<div class="qnum"><span>No. ${quiz.idx+1}</span><span class="ptag">PART ${it.part}</span></div>`;
+  if (it.part === 2) h += audioHTML(it, rev);
+  h += `<p class="prompt">${promptHTML(it, rev)}</p>`;
+  h += `<div class="opts">` + it.o.map((o,i) => {
+    const picked = rev && ans.pick === i;
+    const right = rev && i === it.a;
+    const wrong = picked && !right;
+    const cls = ["opt", picked ? "picked" : "", picked && anim ? "anim" : "", right ? "right" : "", wrong ? "wrong" : ""].filter(Boolean).join(" ");
+    const text = showText ? esc(o) : `<span class="hid">選項 ${L[i]}</span>`;
+    const mk = right ? "✓ 正解" : wrong ? "✗ 你的答案" : "";
+    return `<button class="${cls}" data-act="pick" data-i="${i}"${rev ? " disabled" : ""} aria-label="選項 ${L[i]}${showText ? "：" + esc(o) : ""}${mk ? "，" + mk : ""}"><span class="bub" aria-hidden="true">${L[i]}</span><span class="otext">${text}</span><span class="mk">${mk}</span></button>`;
+  }).join("") + `</div>`;
+  if (rev) h += explainHTML(it, ans);
+  h += `</article>`;
+  h += `<div class="qnav">` + (rev
+    ? `<button class="btn" data-act="next" id="nextbtn">${quiz.idx+1 < quiz.items.length ? "下一題 →" : "看成績 →"}</button>`
+    : `<button class="btn alt" data-act="skip">不會，看解答</button>`) + `</div>`;
+  $app.innerHTML = h;
+  if (secs && !rev) runTimer(secs);
+}
+
+/* ---------------- Render: result ---------------- */
+function snippet(it){
+  if (it.part === 5) return esc(it.q.replace(/-{3,}/, "_____"));
+  if (it.part === 6) return `${esc(it.passage.title)} [${it.blank}]`;
+  return esc(it.q);
+}
+function isRight(x){ return !!(quiz.answers[x.id] && quiz.answers[x.id].ok); }
+function renderResult(){
+  const items = quiz.items, n = items.length;
+  const c = items.filter(isRight).length;
+  const pct = Math.round(c/n*100);
+  const msg = pct >= 90 ? "很穩！考試照這個節奏就好。" : pct >= 70 ? "不錯！把錯的解析看過一遍。" : pct >= 50 ? "看懂解析比多做題重要，挑錯題再練一次。" : "別緊張，先把錯題的解析看完，再練一輪。";
+  const wrongItems = items.filter(x => !isRight(x));
+  const parts = [...new Set(items.map(x => x.part))].sort();
+  const partTally = parts.map(p => { const xs = items.filter(x => x.part === p); return `<span>PART ${p} · ${xs.filter(isRight).length}/${xs.length}</span>`; }).join("");
+  const againLabel = quiz.mode === "wrong" ? (store.wrong.length ? "再練錯題本" : null) : quiz.mode === "retry" ? null : "再來一回";
+  $app.innerHTML = `
+  <div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">${esc(quiz.title)} · 成績</span></div>
+  <section class="sheet">
+    <div class="score"><div class="big">${c}<small>/${n}</small></div><div class="msg2"><b>${msg}</b><span>正確率 ${pct}%。${wrongItems.length ? "錯的題目已收進錯題本，點下面任一題看解析。" : "全部答對！"}</span></div></div>
+    ${parts.length > 1 ? `<div class="parts">${partTally}</div>` : ""}
+    <div class="rlist">
+      ${items.map((it,i) => {
+        const a = quiz.answers[it.id] || {pick:null, ok:false};
+        const yours = a.pick === null ? "—" : L[a.pick];
+        return `<details><summary><span class="g ${a.ok ? "ok" : "ng"}" aria-label="${a.ok ? "答對" : "答錯"}">${a.ok ? "✓" : "✗"}</span><span class="s"><em>${i+1} · P${it.part}</em>${snippet(it)}</span><span class="r">你 ${yours}<br>正解 ${L[it.a]}</span></summary>
+          <div class="rx"><p><b>(${L[it.a]}) ${esc(it.o[it.a])}</b></p><p>${it.ex}</p>${it.zh ? `<p class="zh">中譯：${it.zh}</p>` : ""}</div></details>`;
+      }).join("")}
+    </div>
+  </section>
+  <div class="qnav">
+    ${wrongItems.length ? `<button class="btn" data-act="retry">重練這 ${wrongItems.length} 題</button>` : ""}
+    ${againLabel ? `<button class="btn alt" data-act="again-quiz">${againLabel}</button>` : ""}
+    <button class="btn alt" data-act="home">回首頁</button>
+  </div>`;
+}
+
+/* ---------------- Render: flashcards ---------------- */
+function startCards(order){
+  stopTimer(); stopSpeech();
+  deck = {order: order || shuffle(VOCAB.map((_,i) => i)), i:0, flipped:false, known:0, again:[]};
+  view = "cards";
+  renderCards();
+  window.scrollTo(0,0);
+}
+function advanceCard(){ deck.i++; deck.flipped = false; renderCards(); }
+function renderCards(){
+  const total = deck.order.length;
+  if (deck.i >= total){
+    $app.innerHTML = `
+    <div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">高頻單字卡</span></div>
+    <section class="sheet done-card">
+      <div class="big">${deck.known}<small>/${total}</small></div>
+      <p>記住 ${deck.known} 個，還不熟 ${deck.again.length} 個。</p>
+      <div class="row">
+        ${deck.again.length ? `<button class="btn" data-act="cards-again">複習不熟的 ${deck.again.length} 個</button>` : ""}
+        <button class="btn alt" data-act="cards-all">整副重來</button>
+        <button class="btn alt" data-act="home">回首頁</button>
+      </div>
+    </section>`;
+    return;
+  }
+  const [w, pos, zh, ex] = VOCAB[deck.order[deck.i]];
+  $app.innerHTML = `
+  <div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">高頻單字卡</span><span class="qcount">${deck.i+1}/${total}</span></div>
+  <div class="bar" aria-hidden="true"><i style="width:${deck.i/total*100}%"></i></div>
+  <div class="sheet fcard" data-act="flip" role="button" tabindex="0" aria-label="${deck.flipped ? "翻回正面" : "翻面看中文"}">
+    ${tts.ok ? `<button class="say" data-act="say" aria-label="唸出 ${esc(w)}">${ICON_SPEAK}</button>` : ""}
+    <span class="fpos">${pos}</span>
+    <div class="fword">${esc(w)}</div>
+    ${deck.flipped ? `<div class="fzh">${zh}</div><div class="fex">${esc(ex)}</div>` : `<div class="hint">點卡片看中文和例句</div>`}
+  </div>
+  <div class="cbtns"><button class="btn alt" data-act="again">還不熟</button><button class="btn" data-act="know">記住了</button></div>`;
+}
+
+/* ---------------- Events ---------------- */
+$app.addEventListener("click", e => {
+  const t = e.target.closest("[data-act]");
+  if (!t || t.disabled) return;
+  switch (t.dataset.act){
+    case "start": startQuiz(t.dataset.mode); break;
+    case "cards": startCards(); break;
+    case "home": goHome(); break;
+    case "pick": select(+t.dataset.i, "pick"); break;
+    case "skip": select(null, "skip"); break;
+    case "next": next(); break;
+    case "play": if (quiz) playItem(quiz.items[quiz.idx]); break;
+    case "script": quiz.showScript = !quiz.showScript; renderQuiz(false); break;
+    case "again-quiz": startQuiz(quiz.mode); break;
+    case "retry": startQuiz("retry", quiz.items.filter(x => !isRight(x))); break;
+    case "flip": deck.flipped = !deck.flipped; renderCards(); break;
+    case "say": {
+      const w = VOCAB[deck.order[deck.i]][0];
+      speakSeq([{text:w, voice:voicePair()[0], rate:0.85}]);
+      break;
+    }
+    case "know": deck.known++; advanceCard(); break;
+    case "again": deck.again.push(deck.order[deck.i]); advanceCard(); break;
+    case "cards-again": startCards(shuffle(deck.again)); break;
+    case "cards-all": startCards(); break;
+  }
+});
+$app.addEventListener("change", e => {
+  const el = e.target;
+  if (el.id === "timed"){ store.timed = el.checked; save(); }
+  else if (el.dataset && el.dataset.check){ store.checks[el.dataset.check] = el.checked; save(); }
+});
+document.addEventListener("keydown", e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const ae = document.activeElement;
+  if (view === "quiz" && quiz){
+    const it = quiz.items[quiz.idx];
+    const k = e.key.toLowerCase();
+    const map = {a:0,b:1,c:2,d:3,"1":0,"2":1,"3":2,"4":3};
+    if (k in map && map[k] < it.o.length && !quiz.answers[it.id]){ e.preventDefault(); select(map[k], "pick"); }
+    else if ((e.key === "Enter" || e.key === "ArrowRight") && quiz.answers[it.id]){
+      if (ae && ae.tagName === "SUMMARY") return;
+      e.preventDefault(); next();
+    }
+  } else if (view === "cards" && deck && deck.i < deck.order.length){
+    if (e.key === " " || e.key === "Enter"){
+      if (ae && ae.tagName === "BUTTON") return;
+      e.preventDefault(); deck.flipped = !deck.flipped; renderCards();
+      const fc = document.querySelector(".fcard"); if (fc) fc.focus();
+    }
+    else if (e.key === "ArrowRight"){ deck.known++; advanceCard(); }
+    else if (e.key === "ArrowLeft"){ deck.again.push(deck.order[deck.i]); advanceCard(); }
+  }
+});
+
+renderHome();
+</script>
+</body>
+</html>
