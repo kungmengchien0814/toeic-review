@@ -16,7 +16,7 @@
 <meta property="og:title" content="多益考前複習">
 <meta property="og:description" content="Part 2 應答、Part 5–7 閱讀、高頻單字卡和錯題本，每題附中文解析，手機就能練。自編練習題，非官方試題。">
 <meta property="og:url" content="https://kungmengchien.uk/toeic-review/">
-<meta property="og:image" content="https://kungmengchien.uk/toeic-review/og.png?v=20261122e">
+<meta property="og:image" content="https://kungmengchien.uk/toeic-review/og.png?v=20261123a">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -228,6 +228,26 @@ div.opt{cursor:default}
 .score .msg2 span{color:var(--muted);font-size:0.875rem}
 .parts{display:flex;flex-wrap:wrap;gap:0.5rem;padding:0.75rem 1rem;border-bottom:1px solid var(--line)}
 .parts span{font:500 0.8125rem/1 var(--f-num);border:1px solid var(--line);border-radius:999px;padding:0.375rem 0.625rem;font-variant-numeric:tabular-nums}
+.parts span.slow{border-color:var(--bad);color:var(--bad)}
+.verdict .pace{font:500 0.8125rem/1.3 var(--f-num);color:var(--muted);margin-left:auto}
+.verdict .pace.slow{color:var(--bad)}
+
+/* Accuracy and pace by Part: ten answer-sheet bubbles, one pencil-filled per 10% correct */
+.pstats{list-style:none;margin:0;padding:0.25rem 0}
+.pstats li{display:grid;grid-template-columns:4rem minmax(0,1fr) auto;align-items:center;gap:0.75rem;padding:0.5rem 1rem}
+.pstats li.weak{background:var(--print-soft)}
+.pstats .pt{font:700 1rem/1.1 var(--f-form);letter-spacing:.05em;color:var(--print)}
+.pmid{display:flex;flex-direction:column;gap:0.25rem;min-width:0}
+.b10{display:flex;gap:0.25rem}
+.b10 i{width:0.875rem;height:0.875rem;border:1.5px solid var(--print);border-radius:50%;flex:none}
+.b10 i.on{background:var(--lead);border-color:var(--lead)}
+.pp{font-size:0.8125rem;color:var(--muted);line-height:1.3}
+.pp .slow{color:var(--bad);font-weight:600}
+.pn{text-align:right;font-variant-numeric:tabular-nums}
+.pn b{display:block;font:600 1.0625rem/1.1 var(--f-num)}
+.pn small{display:block;font-size:0.75rem;color:var(--muted)}
+.pnext{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;padding:0.75rem 1rem;border-top:1px solid var(--line)}
+.pnext p{margin:0;flex:1;min-width:12rem;font-size:0.9375rem;line-height:1.5}
 .rlist details{border-bottom:1px solid var(--line)}
 .rlist details:last-child{border-bottom:0}
 .rlist summary{display:grid;grid-template-columns:1.5rem 1fr auto;gap:0.625rem;align-items:center;padding:0.625rem 1rem;cursor:pointer;list-style:none}
@@ -1264,7 +1284,8 @@ P7.forEach(p => p.qs.forEach((q,k) => P7I.push({...q, id:`${p.id}-${k+1}`, part:
 const KEY = "toeic-review-v1";
 function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){} }
-const store = Object.assign({wrong:[], answered:0, correct:0, checks:{}, timed:false, mywords:{}, exam:""}, load());
+/* parts: totals per Part {n answered, c correct, ts seconds, tn answers timed}; srs: 生字本 review schedule; rate: Part 2 speech speed */
+const store = Object.assign({wrong:[], answered:0, correct:0, checks:{}, timed:false, mywords:{}, exam:"", parts:{}, srs:{}, rate:"normal"}, load());
 
 /* ---------------- Interface language and appearance ----------------
    Only the interface switches language; explanations, translations and word meanings stay in Chinese. */
@@ -1340,10 +1361,12 @@ function speakSeq(parts){
   step();
 }
 function stopSpeech(){ speakToken++; if (tts.ok){ try { speechSynthesis.cancel(); } catch(e){} } }
+const RATE = {normal:0.92, slow:0.75};
 function playItem(it){
+  const r = RATE[store.rate] || RATE.normal;
   const [v1, v2] = voicePair();
-  const parts = [{text:it.q, voice:v1, gap:1000}];
-  it.o.forEach((o,i) => { parts.push({text:L[i], voice:v2, gap:250}); parts.push({text:o, voice:v2, gap:800}); });
+  const parts = [{text:it.q, voice:v1, gap:1000, rate:r}];
+  it.o.forEach((o,i) => { parts.push({text:L[i], voice:v2, gap:250, rate:r}); parts.push({text:o, voice:v2, gap:800, rate:r}); });
   speakSeq(parts);
 }
 
@@ -1507,7 +1530,7 @@ function onPopClick(ev){
   else if (b.dataset.wp === "say") sayWord(cur.head);
   else if (b.dataset.wp === "save"){
     const k = cur.key;
-    if (isSaved(k)) delete store.mywords[k];
+    if (isSaved(k)){ delete store.mywords[k]; delete store.srs[k]; }
     else store.mywords[k] = contextOf(cur.el);
     save();
     const on = isSaved(k);
@@ -1571,7 +1594,7 @@ function startQuiz(mode, items){
   items = items || build(mode);
   if (!items.length) return;
   stopTimer(); stopSpeech();
-  quiz = {mode, items, idx:0, answers:{}, showScript:!tts.ok, deadline:0};
+  quiz = {mode, items, idx:0, answers:{}, showScript:!tts.ok, deadline:0, t0:0};
   view = "quiz";
   renderQuiz(false);
   window.scrollTo(0,0);
@@ -1580,6 +1603,21 @@ function startQuiz(mode, items){
 }
 
 function timedFor(it){ return store.timed ? ({5:30, 6:40, 7:60}[it.part] || 0) : 0; }
+/* Target seconds per question, from the 75-minute reading split in the tips:
+   Part 5 about 10 minutes for 30, Part 6 8 for 16, Part 7 55 for 54 (reading the passage included) */
+const PACE = {5:20, 6:30, 7:60};
+const MODE_OF = {2:"p2", 5:"p5", 6:"p6", 7:"p7"};
+function dur(s){
+  const m = Math.floor(s/60), r = s % 60;
+  if (!m) return tx(`${s} 秒`, `${s}s`);
+  return r ? tx(`${m} 分 ${r} 秒`, `${m}m ${r}s`) : tx(`${m} 分鐘`, `${m} min`);
+}
+/* Time spent in another tab or app does not count toward the time per question */
+let hiddenAt = 0;
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) hiddenAt = performance.now();
+  else if (hiddenAt){ if (quiz && quiz.t0) quiz.t0 += performance.now() - hiddenAt; hiddenAt = 0; }
+});
 function stopTimer(){ if (tick){ clearInterval(tick); tick = null; } }
 function runTimer(sec){
   stopTimer();
@@ -1603,8 +1641,14 @@ function select(i, why){
   stopTimer();
   const pick = (i === null || i < 0) ? null : i;
   const ok = pick === it.a;
-  quiz.answers[it.id] = {pick, ok, why};
+  const secs = quiz.t0 ? Math.round((performance.now() - quiz.t0)/1000) : null;
+  quiz.answers[it.id] = {pick, ok, why, secs};
   store.answered++;
+  const ps = store.parts[it.part] || (store.parts[it.part] = {n:0, c:0, ts:0, tn:0});
+  ps.n++;
+  if (ok) ps.c++;
+  // Skips say nothing about speed; over 5 minutes means the page was left open
+  if (PACE[it.part] && why !== "skip" && secs !== null && secs <= 300){ ps.ts += secs; ps.tn++; }
   if (ok){ store.correct++; store.wrong = store.wrong.filter(x => x !== it.id); }
   else if (!store.wrong.includes(it.id)) store.wrong.push(it.id);
   save();
@@ -1620,6 +1664,7 @@ function next(){
   const prev = quiz.items[quiz.idx];
   quiz.idx++;
   quiz.deadline = 0;
+  quiz.t0 = 0;
   quiz.showScript = !tts.ok;
   if (quiz.idx >= quiz.items.length){ view = "result"; renderResult(); window.scrollTo(0,0); return; }
   renderQuiz(false);
@@ -1677,11 +1722,47 @@ function examHTML(){
   return `<section class="sheet exam" aria-labelledby="h-exam"><div class="sec-head" id="h-exam">${tx("考試倒數", "Exam countdown")}<small>${tx("日期只存在這台裝置", "The date stays on this device")}</small></div>${body}</section>`;
 }
 
+/* ---------------- Accuracy and pace by Part ----------------
+   Ten answer-sheet bubbles per Part, one filled for every 10% correct. A Part counts once it has 3 answers;
+   the weakest of those (lowest accuracy, then slowest against its target) is the one to practice next. */
+function partsHTML(){
+  const rows = [2, 5, 6, 7].map(p => {
+    const s = store.parts[p] || {n:0, c:0, ts:0, tn:0};
+    return {p, n:s.n, c:s.c, acc: s.n ? s.c / s.n : null, avg: s.tn ? Math.round(s.ts / s.tn) : null, target: PACE[p] || 0};
+  });
+  const slowness = r => r.avg && r.target ? r.avg / r.target : 0;
+  const ready = rows.filter(r => r.n >= 3).sort((a, b) => a.acc - b.acc || slowness(b) - slowness(a));
+  const weak = ready.length && ready[0].acc < 0.9 ? ready[0] : null;
+  const li = rows.map(r => {
+    const pct = r.acc === null ? null : Math.round(r.acc * 100);
+    const fill = pct === null ? 0 : Math.round(pct / 10);
+    let pace;
+    if (r.p === 2) pace = tx("聽力，不計時", "Listening, not timed");
+    else if (r.avg !== null) pace = `<span${r.avg > r.target ? ` class="slow"` : ""}>${tx(`平均每題 ${r.avg} 秒`, `${r.avg}s per question`)}</span>${tx(`，目標 ${r.target}`, `, target ${r.target}`)}`;
+    else pace = tx(`目標每題 ${r.target} 秒`, `Target ${r.target}s per question`);
+    return `<li${weak && weak.p === r.p ? ` class="weak"` : ""}>
+      <span class="pt">PART ${r.p}</span>
+      <span class="pmid"><span class="b10" role="img" aria-label="${pct === null ? tx("還沒練", "Not practiced yet") : tx(`正確率 ${pct}%`, `${pct}% correct`)}">${Array.from({length:10}, (_, i) => `<i${i < fill ? ` class="on"` : ""}></i>`).join("")}</span><span class="pp">${pace}</span></span>
+      <span class="pn">${pct === null ? `<b>—</b><small>${tx("還沒練", "None yet")}</small>` : `<b>${pct}%</b><small>${r.c}/${r.n}</small>`}</span>
+    </li>`;
+  }).join("");
+  let next;
+  if (weak) next = `<p>${tx(`目前最弱的是 <b>PART ${weak.p}</b>，先練它。`, `<b>PART ${weak.p}</b> is your weakest part right now. Start there.`)}</p><button class="btn" data-act="start" data-mode="${MODE_OF[weak.p]}">${tx(`練 PART ${weak.p}`, `Practice PART ${weak.p}`)}</button>`;
+  else if (ready.length) next = `<p>${tx("練過的 Part 都在 90% 以上，用迷你模考維持手感。", "Every part you've practiced is at 90% or above. Keep sharp with the mini mock test.")}</p><button class="btn" data-act="start" data-mode="mock">${tx("做迷你模考", "Take the mini mock")}</button>`;
+  else next = `<p>${tx("一個 Part 答滿 3 題，這裡就會指出最該先練哪一個。", "Once a part has 3 answers, this shows which one to practice first.")}</p>`;
+  return `<section class="sheet" aria-labelledby="h-parts">
+    <div class="sec-head" id="h-parts">${tx("各 Part 表現", "By part")}<small>${tx("每次練習都算進來", "Across all your practice")}</small></div>
+    <ul class="pstats">${li}</ul>
+    <div class="pnext">${next}</div>
+  </section>`;
+}
+
 /* ---------------- Render: home ---------------- */
 function renderHome(){
   const acc = store.answered ? Math.round(store.correct/store.answered*100) + "%" : "—";
   const nW = store.wrong.length;
   const nS = savedKeys().length;
+  const nDue = dueKeys().length;
   closeWord();
   const rows = [
     {act:"start", mode:"mock", tag:"MINI", sub:tx("模考", "Mock"), t:tx("迷你模考", "Mini mock test"), d:tx("聽力加閱讀混合 17 題，每個 Part 都練到", "17 listening and reading questions covering every part"), primary:true},
@@ -1691,7 +1772,9 @@ function renderHome(){
     {act:"start", mode:"p7", tag:"PART 7", sub:tx("閱讀", "Reading"), t:tx("閱讀理解", "Reading Comprehension"), d:tx(`簡訊、公告、Email · ${P7.length} 篇 ${P7I.length} 題`, `Texts, notices and e-mails · ${P7.length} passages, ${P7I.length} questions`)},
     {act:"cards", tag:"VOCAB", sub:tx("單字", "Words"), t:tx("高頻單字卡", "Key vocabulary cards"), d:tx(`${VOCAB.length} 個商務常見字${tts.ok ? "，可以聽發音" : ""}`, `${VOCAB.length} common business words${tts.ok ? ", with audio" : ""}`)},
     {act:"start", mode:"wrong", tag:"REVIEW", sub:tx("複習", "Review"), t:tx("錯題本", "Mistakes"), d: nW ? tx(`${nW} 題待複習，答對就會移出`, `${nW} to review; answer correctly to clear one`) : tx("目前沒有錯題，做錯的題目會自動收進來", "No mistakes yet. Questions you miss are added here."), off: !nW},
-    {act:"mywords", tag:"WORDS", sub:tx("收藏", "Saved"), t:tx("生字本", "My words"), d: nS ? tx(`${nS} 個字，卡片按「記住了」就會移出`, `${nS} words; “Got it” on a card removes the word`) : tx("練習時點不會的單字，按「加入生字本」收進來", "Tap a word you don't know while practicing, then choose “Save to My words”."), off: !nS}
+    {act:"mywords", tag:"WORDS", sub:tx("收藏", "Saved"), t:tx("生字本", "My words"), d: nS ? (nDue
+      ? tx(`${nS} 個字，今天要複習 ${nDue} 個。記住了會在隔天、三天後再考，三次都記得就移出`, `${nS} words, ${nDue} due today. A word you get comes back the next day, then 3 days later, and leaves after the third time.`)
+      : tx(`${nS} 個字，今天的都複習完了；點開可以全部再看一遍`, `${nS} words, none due today. Tap to go through them all.`)) :tx("練習時點不會的單字，按「加入生字本」收進來", "Tap a word you don't know while practicing, then choose “Save to My words”."), off: !nS}
   ];
   const checks = [
     ["id", tx("證件正本（以應試通知的規定為準）", "Original photo ID (as your test notice requires)")],
@@ -1745,6 +1828,8 @@ function renderHome(){
       <label class="switch"><input type="checkbox" id="timed" ${store.timed ? "checked" : ""} aria-label="${tx("限時模式", "Timed mode")}"><span class="track"></span></label>
     </div>
   </section>
+
+  ${partsHTML()}
   </div>
 
   <aside class="home-side">
@@ -1793,7 +1878,11 @@ function passageHTML(it){
 
 function audioHTML(it, rev){
   let h = `<div class="audio">`;
-  if (tts.ok) h += `<button class="play" data-act="play" id="playbtn">${ICON_PLAY} ${tx("播放題目", "Play")}</button>`;
+  if (tts.ok){
+    h += `<button class="play" data-act="play" id="playbtn">${ICON_PLAY} ${tx("播放題目", "Play")}</button>`;
+    const r = store.rate === "slow" ? "slow" : "normal";
+    h += `<div class="seg" role="group" aria-label="${tx("語速", "Speed")}">${[["normal", tx("正常", "Normal")], ["slow", tx("慢速", "Slow")]].map(([v, lab]) => `<button type="button" data-act="rate" data-v="${v}" aria-pressed="${r === v}">${lab}</button>`).join("")}</div>`;
+  }
   if (!rev) h += `<button class="btn-ghost" data-act="script">${quiz.showScript ? tx("隱藏文字稿", "Hide script") : tx("看文字稿", "Show script")}</button>`;
   h += `</div>`;
   if (!tts.ok) h += `<p class="note">${tx("這個瀏覽器不支援語音朗讀，先用文字稿練習題型。", "This browser can't read text aloud, so practice with the script for now.")}</p>`;
@@ -1801,10 +1890,36 @@ function audioHTML(it, rev){
   return h;
 }
 
+/* Part 5: time for this question. Parts 6 and 7: time for the whole passage, shown once its last question
+   is answered, because the first question of a passage also pays for reading it. */
+function paceHTML(it){
+  const target = PACE[it.part];
+  if (!target) return "";
+  let secs = 0, n = 0;
+  if (it.part === 5){
+    const a = quiz.answers[it.id];
+    if (!a || a.secs == null || a.why === "skip") return "";
+    secs = a.secs; n = 1;
+  } else {
+    const nx = quiz.items[quiz.idx + 1];
+    if (nx && nx.passage === it.passage) return "";
+    for (const x of quiz.items.filter(x => x.passage === it.passage)){
+      const a = quiz.answers[x.id];
+      if (!a || a.secs == null) return "";
+      secs += a.secs; n++;
+    }
+  }
+  const goal = target * n;
+  const label = it.part === 5
+    ? tx(`用時 ${secs} 秒，目標 ${goal} 秒`, `${secs}s, target ${goal}s`)
+    : tx(`這篇 ${n} 題用了 ${dur(secs)}，目標 ${dur(goal)}`, `This passage: ${dur(secs)} for ${n}, target ${dur(goal)}`);
+  return `<span class="pace${secs > goal ? " slow" : ""}">${label}</span>`;
+}
+
 function explainHTML(it, ans){
   const verdict = ans.why === "time" ? tx("時間到", "Time's up") : ans.why === "skip" ? tx("已略過", "Skipped") : ans.ok ? tx("✓ 答對了", "✓ Correct") : tx("✗ 答錯了", "✗ Incorrect");
   return `<div class="explain" id="explain">
-    <div class="verdict ${ans.ok ? "ok" : "ng"}">${verdict}<span class="ans">${tx("正解", "Answer")} (${L[it.a]})</span></div>
+    <div class="verdict ${ans.ok ? "ok" : "ng"}">${verdict}<span class="ans">${tx("正解", "Answer")} (${L[it.a]})</span>${paceHTML(it)}</div>
     <p lang="zh-Hant">${it.ex}</p>
     ${it.zh ? `<p class="zh">${tx("中譯：", "Translation: ")}<span lang="zh-Hant">${it.zh}</span></p>` : ""}
   </div>`;
@@ -1816,6 +1931,7 @@ function renderQuiz(anim){
   const rev = !!ans;
   const secs = timedFor(it);
   const showText = it.part !== 2 || rev || quiz.showScript;
+  if (!rev && !quiz.t0) quiz.t0 = performance.now();
   closeWord();
   $app.dataset.view = it.passage ? "quiz-p" : "quiz";
   let h = prefsHTML() + `<div class="qtop"><button class="btn-ghost" data-act="home">${tx("← 首頁", "← Home")}</button><span class="qtitle">${esc(titleOf(quiz.mode))}</span><span class="qcount"><span class="tl" id="tleft"></span>${quiz.idx+1}/${quiz.items.length}</span></div>`;
@@ -1874,13 +1990,24 @@ function renderResult(){
     : tx("別緊張，先把錯題的解析看完，再練一輪。", "Don't worry. Read the explanations for your mistakes, then try another round.");
   const wrongItems = items.filter(x => !isRight(x));
   const parts = [...new Set(items.map(x => x.part))].sort();
-  const partTally = parts.map(p => { const xs = items.filter(x => x.part === p); return `<span>PART ${p} · ${xs.filter(isRight).length}/${xs.length}</span>`; }).join("");
+  let paced = false;
+  const partTally = parts.map(p => {
+    const xs = items.filter(x => x.part === p);
+    const ts = xs.map(x => quiz.answers[x.id]).filter(a => a && a.why !== "skip" && a.secs != null && a.secs <= 300).map(a => a.secs);
+    let pace = "", slow = false;
+    if (PACE[p] && ts.length){
+      const avg = Math.round(ts.reduce((s, v) => s + v, 0) / ts.length);
+      slow = avg > PACE[p]; paced = true;
+      pace = tx(` · 每題 ${avg} 秒（目標 ${PACE[p]}）`, ` · ${avg}s each (target ${PACE[p]})`);
+    }
+    return `<span${slow ? ` class="slow"` : ""}>PART ${p} · ${xs.filter(isRight).length}/${xs.length}${pace}</span>`;
+  }).join("");
   const againLabel = quiz.mode === "wrong" ? (store.wrong.length ? tx("再練錯題本", "Practice mistakes again") : null) : quiz.mode === "retry" ? null : tx("再來一回", "Another round");
   $app.innerHTML = `${prefsHTML()}
   <div class="qtop"><button class="btn-ghost" data-act="home">${tx("← 首頁", "← Home")}</button><span class="qtitle">${esc(titleOf(quiz.mode))} · ${tx("成績", "Results")}</span></div>
   <section class="sheet">
     <div class="score"><div class="big">${c}<small>/${n}</small></div><div class="msg2"><b>${msg}</b><span>${tx(`正確率 ${pct}%。`, `Accuracy ${pct}%. `)}${wrongItems.length ? tx("錯的題目已收進錯題本，點下面任一題看解析。", "Missed questions are saved to Mistakes. Tap any question below to see its explanation.") : tx("全部答對！", "All correct!")}</span></div></div>
-    ${parts.length > 1 ? `<div class="parts">${partTally}</div>` : ""}
+    ${parts.length > 1 || paced ? `<div class="parts">${partTally}</div>` : ""}
     <div class="rlist">
       ${items.map((it,i) => {
         const a = quiz.answers[it.id] || {pick:null, ok:false};
@@ -1900,10 +2027,17 @@ function renderResult(){
 /* ---------------- Render: flashcards ---------------- */
 /* A card is [word, part of speech, 中文, example sentence, dictionary key (生字本 only)] */
 function savedKeys(){ return Object.keys(store.mywords).filter(k => entryOf(k)); }
-function myCards(){ return shuffle(savedKeys().map(k => { const e = entryOf(k); return [shownWord(k), e[0], e[1], store.mywords[k] || e[2], k]; })); }
+function myCards(keys){ return shuffle((keys || savedKeys()).map(k => { const e = entryOf(k); return [shownWord(k), e[0], e[1], store.mywords[k] || e[2], k]; })); }
+/* 生字本 review schedule (spaced repetition): the first 「記住了」 brings a word back the next day, the second
+   three days later, and the third removes it. 「還不熟」 starts it over. store.srs[key] = {b: times remembered, d: due "YYYY-MM-DD"};
+   a saved word with no entry is due now. */
+const SRS_GAP = [1, 3];
+function dayStr(d){ return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+function inDays(n){ const d = new Date(); d.setDate(d.getDate() + n); return dayStr(d); }
+function dueKeys(){ const t = inDays(0); return savedKeys().filter(k => !store.srs[k] || !(store.srs[k].d > t)); }
 function startCards(cards, mine){
   stopTimer(); stopSpeech();
-  deck = {cards: cards || shuffle(VOCAB), mine: !!mine, i:0, flipped:false, known:0, again:[]};
+  deck = {cards: cards || shuffle(VOCAB), mine: !!mine, i:0, flipped:false, known:0, removed:0, again:[]};
   view = "cards";
   renderCards();
   window.scrollTo(0,0);
@@ -1911,7 +2045,18 @@ function startCards(cards, mine){
 function advanceCard(){ deck.i++; deck.flipped = false; renderCards(); }
 function knowCard(){
   deck.known++;
-  if (deck.mine){ delete store.mywords[deck.cards[deck.i][4]]; save(); }
+  if (deck.mine){
+    const k = deck.cards[deck.i][4], b = ((store.srs[k] || {}).b || 0) + 1;
+    if (b > SRS_GAP.length){ delete store.mywords[k]; delete store.srs[k]; deck.removed++; }
+    else store.srs[k] = {b, d: inDays(SRS_GAP[b-1])};
+    save();
+  }
+  advanceCard();
+}
+function againCard(){
+  const c = deck.cards[deck.i];
+  deck.again.push(c);
+  if (deck.mine && store.srs[c[4]]){ delete store.srs[c[4]]; save(); }
   advanceCard();
 }
 function renderCards(){
@@ -1922,15 +2067,15 @@ function renderCards(){
   const home = `<button class="btn-ghost" data-act="home">${tx("← 首頁", "← Home")}</button>`;
   if (deck.i >= total){
     const left = deck.mine ? savedKeys().length : 0;
-    const k = deck.known, a = deck.again.length;
+    const k = deck.known, a = deck.again.length, r = deck.removed;
     $app.innerHTML = `${prefsHTML()}
     <div class="qtop">${home}<span class="qtitle">${title}</span></div>
     <section class="sheet done-card">
       <div class="big">${k}<small>/${total}</small></div>
-      <p>${tx(`記住 ${k} 個${deck.mine && k ? "，已移出生字本" : ""}；還不熟 ${a} 個。`, `Got ${k}${deck.mine && k ? " (removed from My words)" : ""}; ${a} still to learn.`)}</p>
+      <p>${tx(`記住 ${k} 個，還不熟 ${a} 個。`, `Got ${k}, ${a} still to learn.`)}${deck.mine && r ? tx(`${r} 個已經記住三次，移出生字本。`, ` ${r} remembered three times and removed from My words.`) : ""}${deck.mine && k - r ? tx(`${k - r} 個會在隔天或三天後再出現。`, ` ${k - r} will come back in a day or three.`) : ""}</p>
       <div class="row">
         ${a ? `<button class="btn" data-act="cards-again">${tx(`複習不熟的 ${a} 個`, `Review the ${a} still to learn`)}</button>` : ""}
-        ${deck.mine ? (left > a ? `<button class="btn alt" data-act="mywords">${tx(`生字本全部 ${left} 個`, `All ${left} in My words`)}</button>` : "") : `<button class="btn alt" data-act="cards-all">${tx("整副重來", "Restart the deck")}</button>`}
+        ${deck.mine ? (left > a ? `<button class="btn alt" data-act="mywords-all">${tx(`生字本全部 ${left} 個`, `All ${left} in My words`)}</button>` : "") : `<button class="btn alt" data-act="cards-all">${tx("整副重來", "Restart the deck")}</button>`}
         <button class="btn alt" data-act="home">${tx("回首頁", "Home")}</button>
       </div>
     </section>`;
@@ -1958,7 +2103,8 @@ $app.addEventListener("click", e => {
   switch (t.dataset.act){
     case "start": startQuiz(t.dataset.mode); break;
     case "cards": startCards(); break;
-    case "mywords": if (savedKeys().length) startCards(myCards(), true); else goHome(); break;
+    case "mywords": { const due = dueKeys(); if (savedKeys().length) startCards(myCards(due.length ? due : null), true); else goHome(); break; }
+    case "mywords-all": if (savedKeys().length) startCards(myCards(), true); else goHome(); break;
     case "home": goHome(); break;
     case "pick": select(+t.dataset.i, "pick"); break;
     case "skip": select(null, "skip"); break;
@@ -1970,7 +2116,12 @@ $app.addEventListener("click", e => {
     case "flip": deck.flipped = !deck.flipped; renderCards(); break;
     case "say": sayWord(deck.cards[deck.i][0]); break;
     case "know": knowCard(); break;
-    case "again": deck.again.push(deck.cards[deck.i]); advanceCard(); break;
+    case "again": againCard(); break;
+    case "rate":
+      store.rate = t.dataset.v === "slow" ? "slow" : "normal"; save();
+      document.querySelectorAll('[data-act="rate"]').forEach(b => b.setAttribute("aria-pressed", b.dataset.v === store.rate));
+      if (view === "quiz" && quiz && quiz.items[quiz.idx].part === 2) playItem(quiz.items[quiz.idx]);
+      break;
     case "cards-again": startCards(shuffle(deck.again), deck.mine); break;
     case "cards-all": startCards(); break;
     case "lang":
@@ -2041,7 +2192,7 @@ document.addEventListener("keydown", e => {
       const fc = document.querySelector(".fcard"); if (fc) fc.focus();
     }
     else if (e.key === "ArrowRight") knowCard();
-    else if (e.key === "ArrowLeft"){ deck.again.push(deck.cards[deck.i]); advanceCard(); }
+    else if (e.key === "ArrowLeft") againCard();
   }
 });
 
