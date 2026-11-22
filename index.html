@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>多益考前複習</title>
+<script>/* Apply the saved theme and language before the first paint */try{var s=JSON.parse(localStorage.getItem("toeic-review-v1"))||{};if(s.theme==="light"||s.theme==="dark")document.documentElement.setAttribute("data-theme",s.theme);if(s.lang==="en"){document.documentElement.lang="en";document.title="TOEIC Review";}}catch(e){}</script>
 <meta name="description" content="多益 TOEIC L&R 考前練習：Part 2 應答、Part 5–7 閱讀、高頻單字卡和錯題本，每題附中文解析。自編練習題，非 ETS 官方試題。">
 <meta name="theme-color" content="#f2f3f1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#131518" media="(prefers-color-scheme: dark)">
@@ -15,7 +16,7 @@
 <meta property="og:title" content="多益考前複習">
 <meta property="og:description" content="Part 2 應答、Part 5–7 閱讀、高頻單字卡和錯題本，每題附中文解析，手機就能練。自編練習題，非官方試題。">
 <meta property="og:url" content="https://kungmengchien.uk/toeic-review/">
-<meta property="og:image" content="https://kungmengchien.uk/toeic-review/og.png?v=20261122c">
+<meta property="og:image" content="https://kungmengchien.uk/toeic-review/og.png?v=20261122d">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -70,6 +71,26 @@ button{font:inherit;color:inherit}
 .foot{max-width:680px;margin:0 auto;padding:8px 16px 48px;color:var(--muted);font-size:13px;line-height:1.6;text-align:center}
 .foot p{margin:0}
 .home-main,.home-side{display:flex;flex-direction:column;gap:16px;min-width:0}
+
+/* Language and appearance switches, top right of every view */
+.prefs{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.seg{display:inline-flex;padding:2px;border:1px solid var(--line);border-radius:999px;background:var(--sheet)}
+.seg button{border:0;background:none;border-radius:999px;min-height:30px;padding:4px 12px;font:600 13px/1.2 var(--f-ui);color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--lead);color:var(--lead-ink)}
+.seg button[aria-pressed="false"]:hover{color:var(--ink)}
+
+/* Exam countdown (the date stays in this browser) */
+.exam-form{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;padding:12px 16px 14px}
+.exam-form label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+.exam-form input{font:500 16px/1.2 var(--f-num);color:var(--ink);background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-height:44px}
+.exam-btns{display:flex;gap:8px;flex-wrap:wrap}
+.exam-form .btn{padding:11px 20px}
+.exam-now{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap;padding:12px 16px 14px}
+.exam-big{display:flex;align-items:baseline;gap:4px;color:var(--print);font-weight:600}
+.exam-big b{font:700 46px/1 var(--f-form);letter-spacing:.02em}
+.exam-big span{font-size:15px}
+.exam-now p{margin:0;flex:1;min-width:150px;font-size:15px;line-height:1.5}
+.exam-now .exam-btns{margin-left:auto}
 .kbd{display:none;margin:0;font-size:13px;color:var(--muted)}
 .kbd kbd{font:600 12px/1 var(--f-num);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:2px 6px;margin:0 2px;background:var(--sheet);color:var(--ink)}
 .qnav + .kbd{text-align:right;margin-top:-6px}
@@ -297,6 +318,7 @@ div.opt{cursor:default}
 /* Desktop and landscape tablet: home in two columns; Part 6/7 like the test book, passage left and answers right */
 @media (min-width:1024px){
   .wrap[data-view="home"]{max-width:1120px;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+  .wrap[data-view="home"] .prefs{grid-column:1 / -1;margin-bottom:-8px}
   .wrap[data-view="home"] .home-side{display:flex;position:sticky;top:24px}
   .wrap[data-view="quiz-p"]{max-width:1180px}
   .qcard.has-p{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px;align-items:start;overflow:visible;padding:24px}
@@ -318,7 +340,7 @@ div.opt{cursor:default}
 <body>
 <main class="wrap" id="app"></main>
 <footer class="foot">
-  <p>本站題目為自編練習題，非 ETS 官方試題。TOEIC 為 ETS 的註冊商標，本站與 ETS 無關。</p>
+  <p id="foot-note">本站題目為自編練習題，非 ETS 官方試題。TOEIC 為 ETS 的註冊商標，本站與 ETS 無關。</p>
 </footer>
 
 <script>
@@ -1231,7 +1253,37 @@ P7.forEach(p => p.qs.forEach((q,k) => P7I.push({...q, id:`${p.id}-${k+1}`, part:
 const KEY = "toeic-review-v1";
 function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){} }
-const store = Object.assign({wrong:[], answered:0, correct:0, checks:{}, timed:false, mywords:{}}, load());
+const store = Object.assign({wrong:[], answered:0, correct:0, checks:{}, timed:false, mywords:{}, exam:""}, load());
+
+/* ---------------- Interface language and appearance ----------------
+   Only the interface switches language; explanations, translations and word meanings stay in Chinese. */
+let lang = store.lang === "en" ? "en" : "zh";
+const tx = (zh, en) => lang === "en" ? en : zh;
+const darkMQ = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : {matches:false};
+function currentTheme(){ return store.theme === "light" || store.theme === "dark" ? store.theme : (darkMQ.matches ? "dark" : "light"); }
+function applyTheme(){
+  const t = store.theme === "light" || store.theme === "dark" ? store.theme : "";
+  if (t) document.documentElement.setAttribute("data-theme", t); else document.documentElement.removeAttribute("data-theme");
+  document.querySelectorAll('meta[name="theme-color"]').forEach(m => {
+    if (!m.dataset.orig) m.dataset.orig = m.content;
+    m.content = t ? (t === "dark" ? "#131518" : "#f2f3f1") : m.dataset.orig;
+  });
+}
+function applyLang(){
+  document.documentElement.lang = lang === "en" ? "en" : "zh-Hant";
+  document.title = tx("多益考前複習", "TOEIC Review");
+  const f = document.getElementById("foot-note");
+  if (f) f.textContent = tx("本站題目為自編練習題，非 ETS 官方試題。TOEIC 為 ETS 的註冊商標，本站與 ETS 無關。",
+    "All questions are original practice items, not official ETS questions. TOEIC is a registered trademark of ETS; this site is not affiliated with ETS.");
+}
+function prefsHTML(){
+  const th = currentTheme();
+  const b = (act, v, on, label) => `<button type="button" data-act="${act}" data-v="${v}" aria-pressed="${on}">${label}</button>`;
+  return `<div class="prefs">
+    <div class="seg" role="group" aria-label="${tx("介面語言", "Language")}">${b("lang", "zh", lang === "zh", "中文")}${b("lang", "en", lang === "en", "EN")}</div>
+    <div class="seg" role="group" aria-label="${tx("外觀", "Appearance")}">${b("theme", "light", th === "light", tx("淺色", "Light"))}${b("theme", "dark", th === "dark", tx("深色", "Dark"))}</div>
+  </div>`;
+}
 
 /* ---------------- Helpers ---------------- */
 const $app = document.getElementById("app");
@@ -1253,7 +1305,7 @@ function voicePair(){
   return [pool[0] || null, other[0] || pool[1] || pool[0] || null];
 }
 let speakToken = 0;
-function setSpeaking(on){ const b = document.getElementById("playbtn"); if (b){ b.classList.toggle("on", on); b.innerHTML = ICON_PLAY + (on ? " 播放中…點我重播" : " 播放題目"); } }
+function setSpeaking(on){ const b = document.getElementById("playbtn"); if (b){ b.classList.toggle("on", on); b.innerHTML = ICON_PLAY + " " + (on ? tx("播放中…點我重播", "Playing… tap to replay") : tx("播放題目", "Play")); } }
 function speakSeq(parts){
   if (!tts.ok) return;
   try { speechSynthesis.cancel(); } catch(e){}
@@ -1286,7 +1338,11 @@ function playItem(it){
 
 /* ---------------- Word lookup: wrap words, show the explanation ---------------- */
 const POS_ZH = {"n.":"名詞","v.":"動詞","adj.":"形容詞","adv.":"副詞","prep.":"介系詞","conj.":"連接詞","pron.":"代名詞","det.":"限定詞","aux.":"助動詞","art.":"冠詞","num.":"數詞","int.":"感嘆詞","phr.":"片語","abbr.":"縮寫"};
-function posLabel(p){ return p ? p.split("/").map(x => POS_ZH[x] || x).join("／") + "　" + p : "縮寫"; }
+const POS_EN = {"n.":"noun","v.":"verb","adj.":"adjective","adv.":"adverb","prep.":"preposition","conj.":"conjunction","pron.":"pronoun","det.":"determiner","aux.":"auxiliary","art.":"article","num.":"number","int.":"interjection","phr.":"phrase","abbr.":"abbreviation"};
+function posLabel(p){
+  if (!p) return tx("縮寫", "contraction");
+  return lang === "en" ? p.split("/").map(x => POS_EN[x] || x).join(" / ") : p.split("/").map(x => POS_ZH[x] || x).join("／") + "　" + p;
+}
 function entryOf(k){ return (k && (PHRASES[k] || DICT[k])) || null; }
 function shownWord(k){ const e = DICT[k]; return (e && e[3]) || k; }
 function isSaved(k){ return !!k && Object.prototype.hasOwnProperty.call(store.mywords, k); }
@@ -1385,19 +1441,19 @@ function openWord(el){
     pop = document.createElement("div");
     pop.className = "wpop";
     pop.setAttribute("role", "dialog");
-    pop.setAttribute("aria-label", "單字說明");
     document.body.appendChild(pop);
     pop.addEventListener("click", onPopClick);
   }
-  pop.innerHTML = `<div class="wp-band"><span>${e ? esc(posLabel(e[0])) : "查單字"}</span><button class="wp-x" data-wp="close" aria-label="關閉">✕</button></div>
+  pop.setAttribute("aria-label", tx("單字說明", "Word details"));
+  pop.innerHTML = `<div class="wp-band"><span>${e ? esc(posLabel(e[0])) : tx("查單字", "Look up")}</span><button class="wp-x" data-wp="close" aria-label="${tx("關閉", "Close")}">✕</button></div>
     <div class="wp-body">
-      <div class="wp-head"><b class="wp-word" lang="en">${esc(head)}</b>${tts.ok ? `<button class="wp-say" data-wp="say" aria-label="唸出 ${esc(head)}">${ICON_SPEAK}</button>` : ""}</div>
-      ${e && norm(surface) !== norm(head) ? `<div class="wp-form">文中是 <span lang="en">${esc(surface)}</span></div>` : ""}
-      ${e ? `<div class="wp-zh">${esc(e[1])}</div>${e[2] ? `<p class="wp-note">${esc(e[2])}</p>` : ""}` : `<p class="wp-note">這個字還沒收進詞庫，可以到 Yahoo 字典查。</p>`}
-      ${sub ? `<p class="wp-sub"><b lang="en">${esc(shownWord(word.dataset.k))}</b>${esc(sub[1])}</p>` : ""}
+      <div class="wp-head"><b class="wp-word" lang="en">${esc(head)}</b>${tts.ok ? `<button class="wp-say" data-wp="say" aria-label="${tx("唸出", "Say")} ${esc(head)}">${ICON_SPEAK}</button>` : ""}</div>
+      ${e && norm(surface) !== norm(head) ? `<div class="wp-form">${tx("文中是", "In the text:")} <span lang="en">${esc(surface)}</span></div>` : ""}
+      ${e ? `<div class="wp-zh" lang="zh-Hant">${esc(e[1])}</div>${e[2] ? `<p class="wp-note" lang="zh-Hant">${esc(e[2])}</p>` : ""}` : `<p class="wp-note">${tx("這個字還沒收進詞庫，可以到 Yahoo 字典查。", "This word isn't in the word list yet. Try Yahoo Dictionary.")}</p>`}
+      ${sub ? `<p class="wp-sub"><b lang="en">${esc(shownWord(word.dataset.k))}</b><span lang="zh-Hant">${esc(sub[1])}</span></p>` : ""}
       <div class="wp-act">
-        ${e ? `<button class="wp-save" data-wp="save" aria-pressed="${saved}"><i aria-hidden="true"></i><span>${saved ? "已在生字本" : "加入生字本"}</span></button>` : ""}
-        <a class="wp-more" href="${dictURL(head)}" target="_blank" rel="noopener">Yahoo 字典查更多</a>
+        ${e ? `<button class="wp-save" data-wp="save" aria-pressed="${saved}"><i aria-hidden="true"></i><span>${saved ? tx("已在生字本", "In My words") : tx("加入生字本", "Save to My words")}</span></button>` : ""}
+        <a class="wp-more" href="${dictURL(head)}" target="_blank" rel="noopener">${tx("Yahoo 字典查更多", "More on Yahoo Dictionary")}</a>
       </div>
     </div>`;
   document.querySelectorAll(".w.on, .ph.on").forEach(x => x.classList.remove("on"));
@@ -1446,7 +1502,7 @@ function onPopClick(ev){
     const on = isSaved(k);
     b.setAttribute("aria-pressed", on);
     b.classList.toggle("anim", on);
-    b.querySelector("span").textContent = on ? "已在生字本" : "加入生字本";
+    b.querySelector("span").textContent = on ? tx("已在生字本", "In My words") : tx("加入生字本", "Save to My words");
     $app.querySelectorAll(".w, .ph").forEach(x => { if (x.dataset.k === k) x.classList.toggle("saved", on); });
   }
 }
@@ -1467,7 +1523,23 @@ let quiz = null;
 let deck = null;
 let tick = null;
 
-const TITLES = {mock:"迷你模考", p2:"PART 2 應答問題", p5:"PART 5 句子填空", p6:"PART 6 段落填空", p7:"PART 7 閱讀理解", wrong:"錯題本", retry:"重練錯題"};
+let examEditing = false;
+
+function titleOf(mode){
+  const t = {
+    mock: tx("迷你模考", "Mini mock test"),
+    p2: tx("PART 2 應答問題", "PART 2 Question–Response"),
+    p5: tx("PART 5 句子填空", "PART 5 Incomplete Sentences"),
+    p6: tx("PART 6 段落填空", "PART 6 Text Completion"),
+    p7: tx("PART 7 閱讀理解", "PART 7 Reading Comprehension"),
+    wrong: tx("錯題本", "Mistakes"),
+    retry: tx("重練錯題", "Retry mistakes")
+  };
+  return t[mode] || tx("練習", "Practice");
+}
+/* Passage titles are written in Chinese in the bank; these are their English names */
+const PTITLE_EN = {"p6-1":"E-mail · North parking lot closure", "p6-2":"Letter · Item out of stock", "p7-1":"Text message chain", "p7-2":"Notice · Library workshops", "p7-3":"E-mail · Scheduling a meeting"};
+function ptitle(p){ return lang === "en" && PTITLE_EN[p.id] ? PTITLE_EN[p.id] : p.title; }
 
 function build(mode){
   switch(mode){
@@ -1488,7 +1560,7 @@ function startQuiz(mode, items){
   items = items || build(mode);
   if (!items.length) return;
   stopTimer(); stopSpeech();
-  quiz = {mode, title:TITLES[mode] || "練習", items, idx:0, answers:{}, showScript:!tts.ok, deadline:0};
+  quiz = {mode, items, idx:0, answers:{}, showScript:!tts.ok, deadline:0};
   view = "quiz";
   renderQuiz(false);
   window.scrollTo(0,0);
@@ -1550,6 +1622,50 @@ function next(){
 
 function goHome(){ stopTimer(); stopSpeech(); view = "home"; renderHome(); window.scrollTo(0,0); }
 
+/* ---------------- Exam countdown ---------------- */
+function examDate(){
+  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/.exec(store.exam || "");
+  return m ? new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]) : null;
+}
+function hhmm(d){ return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); }
+function fmtExam(d){
+  return lang === "en"
+    ? `${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getDay()]}, ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.getMonth()]} ${d.getDate()}, ${hhmm(d)}`
+    : `${d.getMonth()+1}/${d.getDate()}（${"日一二三四五六"[d.getDay()]}）${hhmm(d)}`;
+}
+function examHTML(){
+  const d = examDate();
+  let body;
+  if (!d || examEditing){
+    const v = store.exam || "";
+    body = `<form class="exam-form" id="exam-form">
+      <label><span>${tx("考試日期", "Test date")}</span><input type="date" id="exam-date" required value="${esc(v.slice(0, 10))}"></label>
+      <label><span>${tx("開考時間", "Start time")}</span><input type="time" id="exam-time" required value="${esc(v.slice(11, 16) || "09:30")}"></label>
+      <div class="exam-btns"><button class="btn" type="submit">${tx("開始倒數", "Start countdown")}</button>${d ? `<button class="btn alt" type="button" data-act="exam-cancel">${tx("取消", "Cancel")}</button>` : ""}</div>
+    </form>`;
+  } else {
+    const now = new Date();
+    const days = Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 864e5);
+    let big, note;
+    if (days >= 2){
+      big = tx(`<span>還有</span><b>${days}</b><span>天</span>`, `<b>${days}</b><span>days to go</span>`);
+      note = tx(`${fmtExam(d)} 開考`, `Test starts ${fmtExam(d)}`);
+    } else if (days === 1){
+      big = `<b>${tx("明天", "Tomorrow")}</b>`;
+      note = tx(`${hhmm(d)} 開考，今晚早點睡。`, `Starts at ${hhmm(d)}. Get some sleep tonight.`);
+    } else if (days === 0 && now < d){
+      big = `<b>${tx("今天", "Today")}</b>`;
+      note = tx(`${hhmm(d)} 開考，加油！`, `Starts at ${hhmm(d)}. Good luck!`);
+    } else {
+      big = `<b>${tx("考完了", "Done")}</b>`;
+      note = tx("辛苦了！還有下一場的話，改成新的日期。", "Well done! If you have another test, set its date.");
+    }
+    body = `<div class="exam-now"><div class="exam-big">${big}</div><p>${note}</p>
+      <div class="exam-btns"><button class="btn-ghost" data-act="exam-edit">${tx("改日期", "Change date")}</button><button class="btn-ghost" data-act="exam-clear">${tx("清除", "Clear")}</button></div></div>`;
+  }
+  return `<section class="sheet exam" aria-labelledby="h-exam"><div class="sec-head" id="h-exam">${tx("考試倒數", "Exam countdown")}<small>${tx("日期只存在這台裝置", "The date stays on this device")}</small></div>${body}</section>`;
+}
+
 /* ---------------- Render: home ---------------- */
 function renderHome(){
   const acc = store.answered ? Math.round(store.correct/store.answered*100) + "%" : "—";
@@ -1557,70 +1673,81 @@ function renderHome(){
   const nS = savedKeys().length;
   closeWord();
   const rows = [
-    {act:"start", mode:"mock", tag:"MINI", sub:"模考", t:"迷你模考", d:"聽力加閱讀混合 17 題，每個 Part 都練到", primary:true},
-    {act:"start", mode:"p2", tag:"PART 2", sub:"聽力", t:"應答問題", d:"語音朗讀題目與 3 個回應 · 每回 10 題"},
-    {act:"start", mode:"p5", tag:"PART 5", sub:"閱讀", t:"句子填空", d:`文法與字彙 · 每回 10 題（題庫 ${P5.length} 題）`},
-    {act:"start", mode:"p6", tag:"PART 6", sub:"閱讀", t:"段落填空", d:`${P6.length} 篇 ${P6I.length} 題，含句子插入題`},
-    {act:"start", mode:"p7", tag:"PART 7", sub:"閱讀", t:"閱讀理解", d:`簡訊、公告、Email · ${P7.length} 篇 ${P7I.length} 題`},
-    {act:"cards", tag:"VOCAB", sub:"單字", t:"高頻單字卡", d:`${VOCAB.length} 個商務常見字${tts.ok ? "，可以聽發音" : ""}`},
-    {act:"start", mode:"wrong", tag:"REVIEW", sub:"複習", t:"錯題本", d: nW ? `${nW} 題待複習，答對就會移出` : "目前沒有錯題，做錯的題目會自動收進來", off: !nW},
-    {act:"mywords", tag:"WORDS", sub:"收藏", t:"生字本", d: nS ? `${nS} 個字，卡片按「記住了」就會移出` : "練習時點不會的單字，按「加入生字本」收進來", off: !nS}
+    {act:"start", mode:"mock", tag:"MINI", sub:tx("模考", "Mock"), t:tx("迷你模考", "Mini mock test"), d:tx("聽力加閱讀混合 17 題，每個 Part 都練到", "17 listening and reading questions covering every part"), primary:true},
+    {act:"start", mode:"p2", tag:"PART 2", sub:tx("聽力", "Listening"), t:tx("應答問題", "Question–Response"), d:tx("語音朗讀題目與 3 個回應 · 每回 10 題", "Question and 3 responses read aloud · 10 per round")},
+    {act:"start", mode:"p5", tag:"PART 5", sub:tx("閱讀", "Reading"), t:tx("句子填空", "Incomplete Sentences"), d:tx(`文法與字彙 · 每回 10 題（題庫 ${P5.length} 題）`, `Grammar and vocabulary · 10 per round (${P5.length} in the bank)`)},
+    {act:"start", mode:"p6", tag:"PART 6", sub:tx("閱讀", "Reading"), t:tx("段落填空", "Text Completion"), d:tx(`${P6.length} 篇 ${P6I.length} 題，含句子插入題`, `${P6.length} passages, ${P6I.length} questions, with sentence insertion`)},
+    {act:"start", mode:"p7", tag:"PART 7", sub:tx("閱讀", "Reading"), t:tx("閱讀理解", "Reading Comprehension"), d:tx(`簡訊、公告、Email · ${P7.length} 篇 ${P7I.length} 題`, `Texts, notices and e-mails · ${P7.length} passages, ${P7I.length} questions`)},
+    {act:"cards", tag:"VOCAB", sub:tx("單字", "Words"), t:tx("高頻單字卡", "Key vocabulary cards"), d:tx(`${VOCAB.length} 個商務常見字${tts.ok ? "，可以聽發音" : ""}`, `${VOCAB.length} common business words${tts.ok ? ", with audio" : ""}`)},
+    {act:"start", mode:"wrong", tag:"REVIEW", sub:tx("複習", "Review"), t:tx("錯題本", "Mistakes"), d: nW ? tx(`${nW} 題待複習，答對就會移出`, `${nW} to review; answer correctly to clear one`) : tx("目前沒有錯題，做錯的題目會自動收進來", "No mistakes yet. Questions you miss are added here."), off: !nW},
+    {act:"mywords", tag:"WORDS", sub:tx("收藏", "Saved"), t:tx("生字本", "My words"), d: nS ? tx(`${nS} 個字，卡片按「記住了」就會移出`, `${nS} words; “Got it” on a card removes the word`) : tx("練習時點不會的單字，按「加入生字本」收進來", "Tap a word you don't know while practicing, then choose “Save to My words”."), off: !nS}
   ];
   const checks = [
-    ["id","證件正本（以應試通知的規定為準）"],
-    ["pencil","2B 鉛筆，多帶一支"],
-    ["eraser","橡皮擦"],
-    ["place","再看一次考場地址和報到時間"],
-    ["alarm","設好兩個鬧鐘"],
-    ["sleep","早點睡"]
+    ["id", tx("證件正本（以應試通知的規定為準）", "Original photo ID (as your test notice requires)")],
+    ["pencil", tx("2B 鉛筆，多帶一支", "2B pencils, plus a spare")],
+    ["eraser", tx("橡皮擦", "Eraser")],
+    ["place", tx("再看一次考場地址和報到時間", "Check the test center address and check-in time")],
+    ["alarm", tx("設好兩個鬧鐘", "Set two alarms")],
+    ["sleep", tx("早點睡", "Go to bed early")]
+  ];
+  const tips = lang === "en" ? [
+    "<b>Part 2</b> Neither the questions nor the responses are printed. If you're unsure, guess and get ready for the next one.",
+    "<b>Parts 3 and 4</b> Read the questions and choices while the directions play, so you know what to listen for.",
+    "<b>Reading, 75 minutes</b> Suggested split: about 10 minutes for Part 5, 8 for Part 6, and 55 or more for Part 7.",
+    "<b>Part 7</b> Read the questions first, then look for key words in the text. The answer is often a paraphrase.",
+    "<b>No penalty for wrong answers</b>. When time runs short, mark every question rather than leaving any blank."
+  ] : [
+    "<b>Part 2</b> 題目和選項都不會印出來。沒把握就先猜一個，馬上準備聽下一題。",
+    "<b>Part 3、4</b> 趁播放說明的空檔先讀題目和選項，聽的時候就知道要抓什麼。",
+    "<b>閱讀 75 分鐘</b>參考分配：Part 5 約 10 分鐘、Part 6 約 8 分鐘，Part 7 留 55 分鐘以上。",
+    "<b>Part 7</b> 先看題目再回文章找關鍵字，正解常常是原文的換句話說。",
+    "<b>答錯不倒扣</b>，時間快到時每題都要畫到，不要留空。"
   ];
   $app.dataset.view = "home";
-  $app.innerHTML = `
+  $app.innerHTML = `${prefsHTML()}
   <div class="home-main">
   <header class="sheet mast">
-    <div class="mast-band"><span>TOEIC L&amp;R</span><span>自編練習題</span></div>
+    <div class="mast-band"><span>TOEIC L&amp;R</span><span>${tx("自編練習題", "Original practice set")}</span></div>
     <div class="mast-body">
       <div class="deco" aria-hidden="true"><i>A</i><i>B</i><i class="on">C</i><i>D</i></div>
-      <h1>多益考前複習</h1>
-      <p>聽力 Part 2、閱讀 Part 5–7 和高頻單字。每題都有中文解析，題目裡不會的單字點一下就看得到中文。</p>
+      <h1>${tx("多益考前複習", "TOEIC Review")}</h1>
+      <p>${tx("聽力 Part 2、閱讀 Part 5–7 和高頻單字。每題都有中文解析，題目裡不會的單字點一下就看得到中文。", "Listening Part 2, Reading Parts 5–7 and key vocabulary. Every question has a Chinese explanation, and tapping any English word shows its Chinese meaning.")}</p>
     </div>
     <div class="stats">
-      <div class="stat"><span>已作答</span><b>${store.answered}</b></div>
-      <div class="stat"><span>正確率</span><b>${acc}</b></div>
-      <div class="stat"><span>錯題本</span><b>${nW}</b></div>
+      <div class="stat"><span>${tx("已作答", "Answered")}</span><b>${store.answered}</b></div>
+      <div class="stat"><span>${tx("正確率", "Accuracy")}</span><b>${acc}</b></div>
+      <div class="stat"><span>${tx("錯題本", "Mistakes")}</span><b>${nW}</b></div>
     </div>
   </header>
 
+  ${examHTML()}
+
   <section class="sheet" aria-labelledby="h-modes">
-    <div class="sec-head" id="h-modes">選擇練習<small>點一下就開始</small></div>
+    <div class="sec-head" id="h-modes">${tx("選擇練習", "Practice")}<small>${tx("點一下就開始", "Tap to start")}</small></div>
     <div class="modes">${rows.map(r => `<button class="mode${r.primary ? " primary" : ""}" data-act="${r.act}"${r.mode ? ` data-mode="${r.mode}"` : ""}${r.off ? " disabled" : ""}>
       <span class="tag">${r.tag}<small>${r.sub}</small></span>
       <span><b>${r.t}</b><span class="desc">${r.d}</span></span>
-      <span class="go">開始 →</span>
+      <span class="go">${tx("開始 →", "Start →")}</span>
     </button>`).join("")}</div>
     <div class="opt-row">
-      <p><strong>限時模式</strong>Part 5 每題 30 秒、Part 6 40 秒、Part 7 60 秒，模擬正式考試節奏</p>
-      <label class="switch"><input type="checkbox" id="timed" ${store.timed ? "checked" : ""} aria-label="限時模式"><span class="track"></span></label>
+      <p><strong>${tx("限時模式", "Timed mode")}</strong>${tx("Part 5 每題 30 秒、Part 6 40 秒、Part 7 60 秒，模擬正式考試節奏", "30 seconds per question in Part 5, 40 in Part 6 and 60 in Part 7, close to the real test pace")}</p>
+      <label class="switch"><input type="checkbox" id="timed" ${store.timed ? "checked" : ""} aria-label="${tx("限時模式", "Timed mode")}"><span class="track"></span></label>
     </div>
   </section>
   </div>
 
   <aside class="home-side">
   <section class="sheet" aria-labelledby="h-check">
-    <div class="sec-head" id="h-check">出門前檢查<small>勾選會記在這台裝置</small></div>
+    <div class="sec-head" id="h-check">${tx("出門前檢查", "Before you leave")}<small>${tx("勾選會記在這台裝置", "Saved on this device")}</small></div>
     <ul class="check">
       ${checks.map(([k,t]) => `<li><label><input type="checkbox" id="chk-${k}" data-check="${k}" ${store.checks[k] ? "checked" : ""}><span>${t}</span></label></li>`).join("")}
     </ul>
   </section>
 
   <section class="sheet" aria-labelledby="h-tips">
-    <div class="sec-head" id="h-tips">作答策略</div>
+    <div class="sec-head" id="h-tips">${tx("作答策略", "Test strategy")}</div>
     <ol class="tips">
-      <li><b>Part 2</b> 題目和選項都不會印出來。沒把握就先猜一個，馬上準備聽下一題。</li>
-      <li><b>Part 3、4</b> 趁播放說明的空檔先讀題目和選項，聽的時候就知道要抓什麼。</li>
-      <li><b>閱讀 75 分鐘</b>參考分配：Part 5 約 10 分鐘、Part 6 約 8 分鐘，Part 7 留 55 分鐘以上。</li>
-      <li><b>Part 7</b> 先看題目再回文章找關鍵字，正解常常是原文的換句話說。</li>
-      <li><b>答錯不倒扣</b>，時間快到時每題都要畫到，不要留空。</li>
+      ${tips.map(x => `<li>${x}</li>`).join("")}
     </ol>
   </section>
   </aside>`;
@@ -1628,12 +1755,12 @@ function renderHome(){
 
 /* ---------------- Render: quiz ---------------- */
 function promptHTML(it, rev){
-  if (it.part === 2) return `<span class="inst">聽題目和三個回應，選出最適當的回答。</span>`;
+  if (it.part === 2) return `<span class="inst">${tx("聽題目和三個回應，選出最適當的回答。", "Listen to the question and three responses, then choose the best response.")}</span>`;
   if (it.part === 5){
-    const fill = rev ? `<span class="blank done">${esc(it.o[it.a])}</span>` : `<span class="blank" aria-label="空格">&nbsp;</span>`;
+    const fill = rev ? `<span class="blank done">${esc(it.o[it.a])}</span>` : `<span class="blank" aria-label="${tx("空格", "blank")}">&nbsp;</span>`;
     return esc(it.q).replace(/-{3,}/, fill);
   }
-  if (it.part === 6) return it.insert ? `哪一個句子最適合放進 [${it.blank}]？` : `[${it.blank}] 應該填入哪一個？`;
+  if (it.part === 6) return it.insert ? tx(`哪一個句子最適合放進 [${it.blank}]？`, `Which sentence best fits in [${it.blank}]?`) : tx(`[${it.blank}] 應該填入哪一個？`, `Which choice best completes [${it.blank}]?`);
   return esc(it.q);
 }
 
@@ -1649,26 +1776,26 @@ function passageHTML(it){
       return `<span class="pb${it.blank === k ? " cur" : ""}">[${k}]</span>`;
     });
   }
-  const extra = it.part === 7 ? ` · 第 ${it.qi}/${p.qs.length} 題` : "";
-  return `<details class="passage" open><summary>${esc(p.title)}${extra}</summary><div class="ptext">${p.head ? `<div class="phead">${p.head}</div>` : ""}${body}</div></details>`;
+  const extra = it.part === 7 ? tx(` · 第 ${it.qi}/${p.qs.length} 題`, ` · Question ${it.qi} of ${p.qs.length}`) : "";
+  return `<details class="passage" open><summary>${esc(ptitle(p))}${extra}</summary><div class="ptext">${p.head ? `<div class="phead">${p.head}</div>` : ""}${body}</div></details>`;
 }
 
 function audioHTML(it, rev){
   let h = `<div class="audio">`;
-  if (tts.ok) h += `<button class="play" data-act="play" id="playbtn">${ICON_PLAY} 播放題目</button>`;
-  if (!rev) h += `<button class="btn-ghost" data-act="script">${quiz.showScript ? "隱藏文字稿" : "看文字稿"}</button>`;
+  if (tts.ok) h += `<button class="play" data-act="play" id="playbtn">${ICON_PLAY} ${tx("播放題目", "Play")}</button>`;
+  if (!rev) h += `<button class="btn-ghost" data-act="script">${quiz.showScript ? tx("隱藏文字稿", "Hide script") : tx("看文字稿", "Show script")}</button>`;
   h += `</div>`;
-  if (!tts.ok) h += `<p class="note">這個瀏覽器不支援語音朗讀，先用文字稿練習題型。</p>`;
+  if (!tts.ok) h += `<p class="note">${tx("這個瀏覽器不支援語音朗讀，先用文字稿練習題型。", "This browser can't read text aloud, so practice with the script for now.")}</p>`;
   if (quiz.showScript || rev) h += `<div class="transcript"><b>Q:</b> ${esc(it.q)}</div>`;
   return h;
 }
 
 function explainHTML(it, ans){
-  const verdict = ans.why === "time" ? "時間到" : ans.why === "skip" ? "已略過" : ans.ok ? "✓ 答對了" : "✗ 答錯了";
+  const verdict = ans.why === "time" ? tx("時間到", "Time's up") : ans.why === "skip" ? tx("已略過", "Skipped") : ans.ok ? tx("✓ 答對了", "✓ Correct") : tx("✗ 答錯了", "✗ Incorrect");
   return `<div class="explain" id="explain">
-    <div class="verdict ${ans.ok ? "ok" : "ng"}">${verdict}<span class="ans">正解 (${L[it.a]})</span></div>
-    <p>${it.ex}</p>
-    ${it.zh ? `<p class="zh">中譯：${it.zh}</p>` : ""}
+    <div class="verdict ${ans.ok ? "ok" : "ng"}">${verdict}<span class="ans">${tx("正解", "Answer")} (${L[it.a]})</span></div>
+    <p lang="zh-Hant">${it.ex}</p>
+    ${it.zh ? `<p class="zh">${tx("中譯：", "Translation: ")}<span lang="zh-Hant">${it.zh}</span></p>` : ""}
   </div>`;
 }
 
@@ -1680,17 +1807,17 @@ function renderQuiz(anim){
   const showText = it.part !== 2 || rev || quiz.showScript;
   closeWord();
   $app.dataset.view = it.passage ? "quiz-p" : "quiz";
-  let h =`<div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">${esc(quiz.title)}</span><span class="qcount"><span class="tl" id="tleft"></span>${quiz.idx+1}/${quiz.items.length}</span></div>`;
-  h += `<div class="strip" role="list" aria-label="作答進度">` + quiz.items.map((x,i) => {
+  let h = prefsHTML() + `<div class="qtop"><button class="btn-ghost" data-act="home">${tx("← 首頁", "← Home")}</button><span class="qtitle">${esc(titleOf(quiz.mode))}</span><span class="qcount"><span class="tl" id="tleft"></span>${quiz.idx+1}/${quiz.items.length}</span></div>`;
+  h += `<div class="strip" role="list" aria-label="${tx("作答進度", "Progress")}">` + quiz.items.map((x,i) => {
     const a = quiz.answers[x.id];
     const cls = a ? (a.ok ? "ok" : "ng") : (i === quiz.idx ? "cur" : "");
-    const lab = `第 ${i+1} 題` + (a ? (a.ok ? "，答對" : "，答錯") : (i === quiz.idx ? "，作答中" : ""));
+    const lab = tx(`第 ${i+1} 題`, `Question ${i+1}`) + (a ? (a.ok ? tx("，答對", ", correct") : tx("，答錯", ", incorrect")) : (i === quiz.idx ? tx("，作答中", ", current") : ""));
     return `<i role="listitem" class="${cls}" aria-label="${lab}">${a ? (a.ok ? "✓" : "✗") : i+1}</i>`;
   }).join("") + `</div>`;
   if (secs && !rev) h += `<div class="timer" aria-hidden="true"><i id="tbar"></i></div>`;
   h += `<article class="sheet qcard${it.passage ? " has-p" : ""}">`;
   if (it.part === 6 || it.part === 7) h += passageHTML(it);
-  h += `<div class="qbody"><div class="qnum"><span>No. ${quiz.idx+1}</span><span class="ptag">PART ${it.part}</span>${showText ? `<span class="qhint">點英文單字看中文</span>` : ""}</div>`;
+  h += `<div class="qbody"><div class="qnum"><span>No. ${quiz.idx+1}</span><span class="ptag">PART ${it.part}</span>${showText ? `<span class="qhint">${tx("點英文單字看中文", "Tap a word for its Chinese meaning")}</span>` : ""}</div>`;
   if (it.part === 2) h += audioHTML(it, rev);
   h += `<p class="prompt">${promptHTML(it, rev)}</p>`;
   h += `<div class="opts">` + it.o.map((o,i) => {
@@ -1698,20 +1825,20 @@ function renderQuiz(anim){
     const right = rev && i === it.a;
     const wrong = picked && !right;
     const cls = ["opt", picked ? "picked" : "", picked && anim ? "anim" : "", right ? "right" : "", wrong ? "wrong" : ""].filter(Boolean).join(" ");
-    const text = showText ? esc(o) : `<span class="hid">選項 ${L[i]}</span>`;
-    const mk = right ? "✓ 正解" : wrong ? "✗ 你的答案" : "";
+    const text = showText ? esc(o) : `<span class="hid">${tx("選項", "Option")} ${L[i]}</span>`;
+    const mk = right ? tx("✓ 正解", "✓ Answer") : wrong ? tx("✗ 你的答案", "✗ Your answer") : "";
     // After answering, options become plain text so their words can be looked up
     if (rev) return `<div class="${cls}"><span class="bub">${L[i]}</span><span class="otext">${text}</span><span class="mk">${mk}</span></div>`;
-    return `<button class="${cls}" data-act="pick" data-i="${i}" aria-label="選項 ${L[i]}${showText ? "：" + esc(o) : ""}"><span class="bub" aria-hidden="true">${L[i]}</span><span class="otext">${text}</span><span class="mk"></span></button>`;
+    return `<button class="${cls}" data-act="pick" data-i="${i}" aria-label="${tx("選項", "Option")} ${L[i]}${showText ? tx("：", ": ") + esc(o) : ""}"><span class="bub" aria-hidden="true">${L[i]}</span><span class="otext">${text}</span><span class="mk"></span></button>`;
   }).join("") + `</div>`;
   if (rev) h += explainHTML(it, ans);
   h += `</div></article>`;
   h += `<div class="qnav">` + (rev
-    ? `<button class="btn" data-act="next" id="nextbtn">${quiz.idx+1 < quiz.items.length ? "下一題 →" : "看成績 →"}</button>`
-    : `<button class="btn alt" data-act="skip">不會，看解答</button>`) + `</div>`;
+    ? `<button class="btn" data-act="next" id="nextbtn">${quiz.idx+1 < quiz.items.length ? tx("下一題 →", "Next →") : tx("看成績 →", "See results →")}</button>`
+    : `<button class="btn alt" data-act="skip">${tx("不會，看解答", "Show the answer")}</button>`) + `</div>`;
   h += `<p class="kbd">${rev
-    ? `按 <kbd>Enter</kbd> 或 <kbd>→</kbd> 到下一題`
-    : `按 <kbd>A</kbd>–<kbd>${L[it.o.length-1]}</kbd> 或 <kbd>1</kbd>–<kbd>${it.o.length}</kbd> 作答`}</p>`;
+    ? tx(`按 <kbd>Enter</kbd> 或 <kbd>→</kbd> 到下一題`, `Press <kbd>Enter</kbd> or <kbd>→</kbd> for the next question`)
+    : tx(`按 <kbd>A</kbd>–<kbd>${L[it.o.length-1]}</kbd> 或 <kbd>1</kbd>–<kbd>${it.o.length}</kbd> 作答`, `Press <kbd>A</kbd>–<kbd>${L[it.o.length-1]}</kbd> or <kbd>1</kbd>–<kbd>${it.o.length}</kbd> to answer`)}</p>`;
   $app.innerHTML = h;
   wordify($app.querySelectorAll(".prompt, .ptext, .transcript, div.opt .otext"));
   if (secs && !rev) runTimer(secs);
@@ -1720,7 +1847,7 @@ function renderQuiz(anim){
 /* ---------------- Render: result ---------------- */
 function snippet(it){
   if (it.part === 5) return esc(it.q.replace(/-{3,}/, "_____"));
-  if (it.part === 6) return `${esc(it.passage.title)} [${it.blank}]`;
+  if (it.part === 6) return `${esc(ptitle(it.passage))} [${it.blank}]`;
   return esc(it.q);
 }
 function isRight(x){ return !!(quiz.answers[x.id] && quiz.answers[x.id].ok); }
@@ -1730,29 +1857,32 @@ function renderResult(){
   const items = quiz.items, n = items.length;
   const c = items.filter(isRight).length;
   const pct = Math.round(c/n*100);
-  const msg = pct >= 90 ? "很穩！考試照這個節奏就好。" : pct >= 70 ? "不錯！把錯的解析看過一遍。" : pct >= 50 ? "看懂解析比多做題重要，挑錯題再練一次。" : "別緊張，先把錯題的解析看完，再練一輪。";
+  const msg = pct >= 90 ? tx("很穩！考試照這個節奏就好。", "Solid! Keep this pace on test day.")
+    : pct >= 70 ? tx("不錯！把錯的解析看過一遍。", "Nice! Read the explanations for the ones you missed.")
+    : pct >= 50 ? tx("看懂解析比多做題重要，挑錯題再練一次。", "Understanding the explanations matters more than doing more questions. Retry the ones you missed.")
+    : tx("別緊張，先把錯題的解析看完，再練一輪。", "Don't worry. Read the explanations for your mistakes, then try another round.");
   const wrongItems = items.filter(x => !isRight(x));
   const parts = [...new Set(items.map(x => x.part))].sort();
   const partTally = parts.map(p => { const xs = items.filter(x => x.part === p); return `<span>PART ${p} · ${xs.filter(isRight).length}/${xs.length}</span>`; }).join("");
-  const againLabel = quiz.mode === "wrong" ? (store.wrong.length ? "再練錯題本" : null) : quiz.mode === "retry" ? null : "再來一回";
-  $app.innerHTML = `
-  <div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">${esc(quiz.title)} · 成績</span></div>
+  const againLabel = quiz.mode === "wrong" ? (store.wrong.length ? tx("再練錯題本", "Practice mistakes again") : null) : quiz.mode === "retry" ? null : tx("再來一回", "Another round");
+  $app.innerHTML = `${prefsHTML()}
+  <div class="qtop"><button class="btn-ghost" data-act="home">${tx("← 首頁", "← Home")}</button><span class="qtitle">${esc(titleOf(quiz.mode))} · ${tx("成績", "Results")}</span></div>
   <section class="sheet">
-    <div class="score"><div class="big">${c}<small>/${n}</small></div><div class="msg2"><b>${msg}</b><span>正確率 ${pct}%。${wrongItems.length ? "錯的題目已收進錯題本，點下面任一題看解析。" : "全部答對！"}</span></div></div>
+    <div class="score"><div class="big">${c}<small>/${n}</small></div><div class="msg2"><b>${msg}</b><span>${tx(`正確率 ${pct}%。`, `Accuracy ${pct}%. `)}${wrongItems.length ? tx("錯的題目已收進錯題本，點下面任一題看解析。", "Missed questions are saved to Mistakes. Tap any question below to see its explanation.") : tx("全部答對！", "All correct!")}</span></div></div>
     ${parts.length > 1 ? `<div class="parts">${partTally}</div>` : ""}
     <div class="rlist">
       ${items.map((it,i) => {
         const a = quiz.answers[it.id] || {pick:null, ok:false};
         const yours = a.pick === null ? "—" : L[a.pick];
-        return `<details><summary><span class="g ${a.ok ? "ok" : "ng"}" aria-label="${a.ok ? "答對" : "答錯"}">${a.ok ? "✓" : "✗"}</span><span class="s"><em>${i+1} · P${it.part}</em>${snippet(it)}</span><span class="r">你 ${yours}<br>正解 ${L[it.a]}</span></summary>
-          <div class="rx"><p><b>(${L[it.a]}) ${esc(it.o[it.a])}</b></p><p>${it.ex}</p>${it.zh ? `<p class="zh">中譯：${it.zh}</p>` : ""}</div></details>`;
+        return `<details><summary><span class="g ${a.ok ? "ok" : "ng"}" aria-label="${a.ok ? tx("答對", "correct") : tx("答錯", "incorrect")}">${a.ok ? "✓" : "✗"}</span><span class="s"><em>${i+1} · P${it.part}</em>${snippet(it)}</span><span class="r">${tx("你", "You")} ${yours}<br>${tx("正解", "Answer")} ${L[it.a]}</span></summary>
+          <div class="rx"><p><b>(${L[it.a]}) ${esc(it.o[it.a])}</b></p><p lang="zh-Hant">${it.ex}</p>${it.zh ? `<p class="zh">${tx("中譯：", "Translation: ")}<span lang="zh-Hant">${it.zh}</span></p>` : ""}</div></details>`;
       }).join("")}
     </div>
   </section>
   <div class="qnav">
-    ${wrongItems.length ? `<button class="btn" data-act="retry">重練這 ${wrongItems.length} 題</button>` : ""}
+    ${wrongItems.length ? `<button class="btn" data-act="retry">${tx(`重練這 ${wrongItems.length} 題`, `Retry these ${wrongItems.length}`)}</button>` : ""}
     ${againLabel ? `<button class="btn alt" data-act="again-quiz">${againLabel}</button>` : ""}
-    <button class="btn alt" data-act="home">回首頁</button>
+    <button class="btn alt" data-act="home">${tx("回首頁", "Home")}</button>
   </div>`;
 }
 
@@ -1777,34 +1907,36 @@ function renderCards(){
   closeWord();
   $app.dataset.view = "cards";
   const total = deck.cards.length;
-  const title = deck.mine ? "生字本" : "高頻單字卡";
+  const title = deck.mine ? tx("生字本", "My words") : tx("高頻單字卡", "Key vocabulary cards");
+  const home = `<button class="btn-ghost" data-act="home">${tx("← 首頁", "← Home")}</button>`;
   if (deck.i >= total){
     const left = deck.mine ? savedKeys().length : 0;
-    $app.innerHTML = `
-    <div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">${title}</span></div>
+    const k = deck.known, a = deck.again.length;
+    $app.innerHTML = `${prefsHTML()}
+    <div class="qtop">${home}<span class="qtitle">${title}</span></div>
     <section class="sheet done-card">
-      <div class="big">${deck.known}<small>/${total}</small></div>
-      <p>記住 ${deck.known} 個${deck.mine && deck.known ? "，已移出生字本" : ""}；還不熟 ${deck.again.length} 個。</p>
+      <div class="big">${k}<small>/${total}</small></div>
+      <p>${tx(`記住 ${k} 個${deck.mine && k ? "，已移出生字本" : ""}；還不熟 ${a} 個。`, `Got ${k}${deck.mine && k ? " (removed from My words)" : ""}; ${a} still to learn.`)}</p>
       <div class="row">
-        ${deck.again.length ? `<button class="btn" data-act="cards-again">複習不熟的 ${deck.again.length} 個</button>` : ""}
-        ${deck.mine ? (left > deck.again.length ? `<button class="btn alt" data-act="mywords">生字本全部 ${left} 個</button>` : "") : `<button class="btn alt" data-act="cards-all">整副重來</button>`}
-        <button class="btn alt" data-act="home">回首頁</button>
+        ${a ? `<button class="btn" data-act="cards-again">${tx(`複習不熟的 ${a} 個`, `Review the ${a} still to learn`)}</button>` : ""}
+        ${deck.mine ? (left > a ? `<button class="btn alt" data-act="mywords">${tx(`生字本全部 ${left} 個`, `All ${left} in My words`)}</button>` : "") : `<button class="btn alt" data-act="cards-all">${tx("整副重來", "Restart the deck")}</button>`}
+        <button class="btn alt" data-act="home">${tx("回首頁", "Home")}</button>
       </div>
     </section>`;
     return;
   }
   const [w, pos, zh, ex] = deck.cards[deck.i];
-  $app.innerHTML = `
-  <div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">${title}</span><span class="qcount">${deck.i+1}/${total}</span></div>
+  $app.innerHTML = `${prefsHTML()}
+  <div class="qtop">${home}<span class="qtitle">${title}</span><span class="qcount">${deck.i+1}/${total}</span></div>
   <div class="bar" aria-hidden="true"><i style="width:${deck.i/total*100}%"></i></div>
-  <div class="sheet fcard" data-act="flip" role="button" tabindex="0" aria-label="${deck.flipped ? "翻回正面" : "翻面看中文"}">
-    ${tts.ok ? `<button class="say" data-act="say" aria-label="唸出 ${esc(w)}">${ICON_SPEAK}</button>` : ""}
+  <div class="sheet fcard" data-act="flip" role="button" tabindex="0" aria-label="${deck.flipped ? tx("翻回正面", "Flip back") : tx("翻面看中文", "Flip to see the Chinese")}">
+    ${tts.ok ? `<button class="say" data-act="say" aria-label="${tx("唸出", "Say")} ${esc(w)}">${ICON_SPEAK}</button>` : ""}
     <span class="fpos">${esc(pos)}</span>
     <div class="fword">${esc(w)}</div>
-    ${deck.flipped ? `<div class="fzh">${esc(zh)}</div>${ex ? `<div class="fex">${esc(ex)}</div>` : ""}` : `<div class="hint">${deck.mine ? "點卡片看中文和你遇到它的句子" : "點卡片看中文和例句"}</div>`}
+    ${deck.flipped ? `<div class="fzh" lang="zh-Hant">${esc(zh)}</div>${ex ? `<div class="fex">${esc(ex)}</div>` : ""}` : `<div class="hint">${deck.mine ? tx("點卡片看中文和你遇到它的句子", "Tap the card for the Chinese and the sentence you found it in") : tx("點卡片看中文和例句", "Tap the card for the Chinese and an example")}</div>`}
   </div>
-  <div class="cbtns"><button class="btn alt" data-act="again">還不熟</button><button class="btn" data-act="know">記住了</button></div>
-  <p class="kbd kbd-c">按 <kbd>Space</kbd> 翻面，<kbd>←</kbd> 還不熟，<kbd>→</kbd> 記住了</p>`;
+  <div class="cbtns"><button class="btn alt" data-act="again">${tx("還不熟", "Still learning")}</button><button class="btn" data-act="know">${tx("記住了", "Got it")}</button></div>
+  <p class="kbd kbd-c">${tx("按 <kbd>Space</kbd> 翻面，<kbd>←</kbd> 還不熟，<kbd>→</kbd> 記住了", "<kbd>Space</kbd> flips the card, <kbd>←</kbd> still learning, <kbd>→</kbd> got it")}</p>`;
   if (deck.flipped) wordify($app.querySelectorAll(".fex"));
 }
 
@@ -1830,7 +1962,34 @@ $app.addEventListener("click", e => {
     case "again": deck.again.push(deck.cards[deck.i]); advanceCard(); break;
     case "cards-again": startCards(shuffle(deck.again), deck.mine); break;
     case "cards-all": startCards(); break;
+    case "lang":
+      if (lang !== t.dataset.v){ lang = store.lang = t.dataset.v; save(); applyLang(); rerender(); }
+      break;
+    case "theme":
+      store.theme = t.dataset.v; save(); applyTheme();
+      document.querySelectorAll('[data-act="theme"]').forEach(b => b.setAttribute("aria-pressed", b.dataset.v === currentTheme()));
+      break;
+    case "exam-edit": examEditing = true; renderHome(); { const d = document.getElementById("exam-date"); if (d) d.focus(); } break;
+    case "exam-cancel": examEditing = false; renderHome(); break;
+    case "exam-clear": store.exam = ""; examEditing = false; save(); renderHome(); break;
   }
+});
+$app.addEventListener("submit", e => {
+  if (e.target.id !== "exam-form") return;
+  e.preventDefault();
+  const d = document.getElementById("exam-date").value, tm = document.getElementById("exam-time").value || "09:30";
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(d) || !/^\d{2}:\d{2}$/.test(tm)) return;
+  store.exam = `${d}T${tm}`; examEditing = false; save(); renderHome();
+});
+/* Redraw the current screen after a language switch; quiz answers and timers are kept */
+function rerender(){
+  if (view === "quiz" && quiz) renderQuiz(false);
+  else if (view === "result" && quiz) renderResult();
+  else if (view === "cards" && deck) renderCards();
+  else renderHome();
+}
+if (darkMQ.addEventListener) darkMQ.addEventListener("change", () => {
+  document.querySelectorAll('[data-act="theme"]').forEach(b => b.setAttribute("aria-pressed", b.dataset.v === currentTheme()));
 });
 $app.addEventListener("change", e => {
   const el = e.target;
@@ -1875,6 +2034,8 @@ document.addEventListener("keydown", e => {
   }
 });
 
+applyTheme();
+applyLang();
 renderHome();
 </script>
 </body>
