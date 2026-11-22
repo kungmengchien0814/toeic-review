@@ -15,7 +15,7 @@
 <meta property="og:title" content="多益考前複習">
 <meta property="og:description" content="Part 2 應答、Part 5–7 閱讀、高頻單字卡和錯題本，每題附中文解析，手機就能練。自編練習題，非官方試題。">
 <meta property="og:url" content="https://kungmengchien.uk/toeic-review/">
-<meta property="og:image" content="https://kungmengchien.uk/toeic-review/og.png?v=20261122a">
+<meta property="og:image" content="https://kungmengchien.uk/toeic-review/og.png?v=20261122b">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -69,6 +69,11 @@ button{font:inherit;color:inherit}
 .wrap{max-width:680px;margin:0 auto;padding:20px 16px 24px;display:flex;flex-direction:column;gap:16px}
 .foot{max-width:680px;margin:0 auto;padding:8px 16px 48px;color:var(--muted);font-size:13px;line-height:1.6;text-align:center}
 .foot p{margin:0}
+.home-main,.home-side{display:flex;flex-direction:column;gap:16px;min-width:0}
+.kbd{display:none;margin:0;font-size:13px;color:var(--muted)}
+.kbd kbd{font:600 12px/1 var(--f-num);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:2px 6px;margin:0 2px;background:var(--sheet);color:var(--ink)}
+.qnav + .kbd{text-align:right;margin-top:-6px}
+.kbd-c{text-align:center}
 .sheet{background:var(--sheet);border:1px solid var(--line);border-radius:6px;overflow:hidden}
 .sec-head{font-family:var(--f-form);font-weight:600;letter-spacing:.08em;font-size:15px;color:var(--print);padding:10px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:12px;text-transform:uppercase}
 .sec-head small{font-family:var(--f-ui);font-weight:400;letter-spacing:0;color:var(--muted);font-size:13px;text-transform:none}
@@ -232,6 +237,36 @@ button{font:inherit;color:inherit}
 .done-card{padding:28px 16px;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
 .done-card p{margin:0}
 .done-card .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+/* Keyboard hints only where there is a keyboard and mouse */
+@media (hover:hover) and (pointer:fine){
+  .kbd{display:block}
+}
+
+/* Tablet: wider sheet, practice modes in two columns */
+@media (min-width:640px){
+  .wrap{max-width:760px;padding:28px 24px 32px;gap:20px}
+  .home-main,.home-side{gap:20px}
+  .modes{display:grid;grid-template-columns:1fr 1fr}
+  .modes .mode.primary{grid-column:1 / -1}
+  .modes .mode:not(.primary):nth-child(even){border-right:1px solid var(--line)}
+  .modes .mode:not(.primary) .go{display:none}
+  .home-side{display:grid;grid-template-columns:1fr 1fr}
+  .qcard{padding:20px 24px}
+  .prompt{font-size:20px}
+  .fcard{min-height:360px}
+  .wrap[data-view="result"]{max-width:860px}
+}
+
+/* Desktop and landscape tablet: home in two columns; Part 6/7 like the test book, passage left and answers right */
+@media (min-width:1024px){
+  .wrap[data-view="home"]{max-width:1120px;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+  .wrap[data-view="home"] .home-side{display:flex;position:sticky;top:24px}
+  .wrap[data-view="quiz-p"]{max-width:1180px}
+  .qcard.has-p{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px;align-items:start;overflow:visible;padding:24px}
+  .qcard.has-p .passage{position:sticky;top:20px;max-height:calc(100vh - 40px);overflow:auto;margin:0}
+  .qcard.has-p .ptext{font-size:17px}
+}
 
 @media (max-width:400px){
   .mode{grid-template-columns:60px 1fr}
@@ -590,7 +625,9 @@ function renderHome(){
     ["alarm","設好兩個鬧鐘"],
     ["sleep","早點睡"]
   ];
+  $app.dataset.view = "home";
   $app.innerHTML = `
+  <div class="home-main">
   <header class="sheet mast">
     <div class="mast-band"><span>TOEIC L&amp;R</span><span>自編練習題</span></div>
     <div class="mast-body">
@@ -606,18 +643,20 @@ function renderHome(){
   </header>
 
   <section class="sheet" aria-labelledby="h-modes">
-    <div class="sec-head" id="h-modes">選擇練習<small>點一列就開始</small></div>
-    ${rows.map(r => `<button class="mode${r.primary ? " primary" : ""}" data-act="${r.act}"${r.mode ? ` data-mode="${r.mode}"` : ""}${r.off ? " disabled" : ""}>
+    <div class="sec-head" id="h-modes">選擇練習<small>點一下就開始</small></div>
+    <div class="modes">${rows.map(r => `<button class="mode${r.primary ? " primary" : ""}" data-act="${r.act}"${r.mode ? ` data-mode="${r.mode}"` : ""}${r.off ? " disabled" : ""}>
       <span class="tag">${r.tag}<small>${r.sub}</small></span>
       <span><b>${r.t}</b><span class="desc">${r.d}</span></span>
       <span class="go">開始 →</span>
-    </button>`).join("")}
+    </button>`).join("")}</div>
     <div class="opt-row">
       <p><strong>限時模式</strong>Part 5 每題 30 秒、Part 6 40 秒、Part 7 60 秒，模擬正式考試節奏</p>
       <label class="switch"><input type="checkbox" id="timed" ${store.timed ? "checked" : ""} aria-label="限時模式"><span class="track"></span></label>
     </div>
   </section>
+  </div>
 
+  <aside class="home-side">
   <section class="sheet" aria-labelledby="h-check">
     <div class="sec-head" id="h-check">出門前檢查<small>勾選會記在這台裝置</small></div>
     <ul class="check">
@@ -634,7 +673,8 @@ function renderHome(){
       <li><b>Part 7</b> 先看題目再回文章找關鍵字，正解常常是原文的換句話說。</li>
       <li><b>答錯不倒扣</b>，時間快到時每題都要畫到，不要留空。</li>
     </ol>
-  </section>`;
+  </section>
+  </aside>`;
 }
 
 /* ---------------- Render: quiz ---------------- */
@@ -689,7 +729,8 @@ function renderQuiz(anim){
   const rev = !!ans;
   const secs = timedFor(it);
   const showText = it.part !== 2 || rev || quiz.showScript;
-  let h = `<div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">${esc(quiz.title)}</span><span class="qcount"><span class="tl" id="tleft"></span>${quiz.idx+1}/${quiz.items.length}</span></div>`;
+  $app.dataset.view = it.passage ? "quiz-p" : "quiz";
+  let h =`<div class="qtop"><button class="btn-ghost" data-act="home">← 首頁</button><span class="qtitle">${esc(quiz.title)}</span><span class="qcount"><span class="tl" id="tleft"></span>${quiz.idx+1}/${quiz.items.length}</span></div>`;
   h += `<div class="strip" role="list" aria-label="作答進度">` + quiz.items.map((x,i) => {
     const a = quiz.answers[x.id];
     const cls = a ? (a.ok ? "ok" : "ng") : (i === quiz.idx ? "cur" : "");
@@ -697,9 +738,9 @@ function renderQuiz(anim){
     return `<i role="listitem" class="${cls}" aria-label="${lab}">${a ? (a.ok ? "✓" : "✗") : i+1}</i>`;
   }).join("") + `</div>`;
   if (secs && !rev) h += `<div class="timer" aria-hidden="true"><i id="tbar"></i></div>`;
-  h += `<article class="sheet qcard">`;
+  h += `<article class="sheet qcard${it.passage ? " has-p" : ""}">`;
   if (it.part === 6 || it.part === 7) h += passageHTML(it);
-  h += `<div class="qnum"><span>No. ${quiz.idx+1}</span><span class="ptag">PART ${it.part}</span></div>`;
+  h += `<div class="qbody"><div class="qnum"><span>No. ${quiz.idx+1}</span><span class="ptag">PART ${it.part}</span></div>`;
   if (it.part === 2) h += audioHTML(it, rev);
   h += `<p class="prompt">${promptHTML(it, rev)}</p>`;
   h += `<div class="opts">` + it.o.map((o,i) => {
@@ -712,10 +753,13 @@ function renderQuiz(anim){
     return `<button class="${cls}" data-act="pick" data-i="${i}"${rev ? " disabled" : ""} aria-label="選項 ${L[i]}${showText ? "：" + esc(o) : ""}${mk ? "，" + mk : ""}"><span class="bub" aria-hidden="true">${L[i]}</span><span class="otext">${text}</span><span class="mk">${mk}</span></button>`;
   }).join("") + `</div>`;
   if (rev) h += explainHTML(it, ans);
-  h += `</article>`;
+  h += `</div></article>`;
   h += `<div class="qnav">` + (rev
     ? `<button class="btn" data-act="next" id="nextbtn">${quiz.idx+1 < quiz.items.length ? "下一題 →" : "看成績 →"}</button>`
     : `<button class="btn alt" data-act="skip">不會，看解答</button>`) + `</div>`;
+  h += `<p class="kbd">${rev
+    ? `按 <kbd>Enter</kbd> 或 <kbd>→</kbd> 到下一題`
+    : `按 <kbd>A</kbd>–<kbd>${L[it.o.length-1]}</kbd> 或 <kbd>1</kbd>–<kbd>${it.o.length}</kbd> 作答`}</p>`;
   $app.innerHTML = h;
   if (secs && !rev) runTimer(secs);
 }
@@ -728,6 +772,7 @@ function snippet(it){
 }
 function isRight(x){ return !!(quiz.answers[x.id] && quiz.answers[x.id].ok); }
 function renderResult(){
+  $app.dataset.view = "result";
   const items = quiz.items, n = items.length;
   const c = items.filter(isRight).length;
   const pct = Math.round(c/n*100);
@@ -767,6 +812,7 @@ function startCards(order){
 }
 function advanceCard(){ deck.i++; deck.flipped = false; renderCards(); }
 function renderCards(){
+  $app.dataset.view = "cards";
   const total = deck.order.length;
   if (deck.i >= total){
     $app.innerHTML = `
@@ -792,7 +838,8 @@ function renderCards(){
     <div class="fword">${esc(w)}</div>
     ${deck.flipped ? `<div class="fzh">${zh}</div><div class="fex">${esc(ex)}</div>` : `<div class="hint">點卡片看中文和例句</div>`}
   </div>
-  <div class="cbtns"><button class="btn alt" data-act="again">還不熟</button><button class="btn" data-act="know">記住了</button></div>`;
+  <div class="cbtns"><button class="btn alt" data-act="again">還不熟</button><button class="btn" data-act="know">記住了</button></div>
+  <p class="kbd kbd-c">按 <kbd>Space</kbd> 翻面，<kbd>←</kbd> 還不熟，<kbd>→</kbd> 記住了</p>`;
 }
 
 /* ---------------- Events ---------------- */
